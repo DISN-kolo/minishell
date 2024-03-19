@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 16:15:48 by akozin            #+#    #+#             */
-/*   Updated: 2024/03/19 16:51:04 by akozin           ###   ########.fr       */
+/*   Updated: 2024/03/19 16:58:20 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ static void	double_array_free(char ***a)
 	free(*a);
 }
 
-static void	exit_handler(t_data *data)
+static void	data_cleaner(t_data *data)
 {
 	int	i;
 
@@ -38,9 +38,17 @@ static void	exit_handler(t_data *data)
 		i++;
 	}
 	free(data->coms);
+}
+
+static void	exit_handler(t_data *data)
+{
+	data_cleaner(data);
 	printf("exit\n");
 }
 
+/*
+ * expand etc is concerned with splitting and quote removal as well
+ */
 void	shell_loop(t_data *data)
 {
 	char	*s;
@@ -54,6 +62,7 @@ void	shell_loop(t_data *data)
 		parse_line(data);
 		expand_etc(data);
 		redir_exec(data);
+		data_cleaner(data);
 		s = readline("totally-not-bash $ ");
 	}
 	if (s == 0)
