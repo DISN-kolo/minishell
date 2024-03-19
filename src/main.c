@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 12:06:29 by akozin            #+#    #+#             */
-/*   Updated: 2024/03/19 16:28:11 by akozin           ###   ########.fr       */
+/*   Updated: 2024/03/19 16:35:21 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 int	main(void)
 {
-	t_data	*data;
+	t_data	data;
 	
-	shell_loop(data);
+	shell_loop(&data);
 	return (0);
 }
