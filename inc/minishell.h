@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 16:20:41 by akozin            #+#    #+#             */
-/*   Updated: 2024/03/19 17:26:03 by akozin           ###   ########.fr       */
+/*   Updated: 2024/03/19 17:32:35 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ typedef struct s_data
 	char	**tokens;
 	t_com	*coms;
 	int		errored;
+	char	**env;
 }	t_data;
 
 void	shell_loop(t_data *data);
