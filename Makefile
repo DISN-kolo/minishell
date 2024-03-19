@@ -6,7 +6,7 @@
 #    By: akozin <akozin@student.42barcelona.com>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/18 16:38:42 by akozin            #+#    #+#              #
-#    Updated: 2024/03/19 12:55:59 by akozin           ###   ########.fr        #
+#    Updated: 2024/03/19 16:27:10 by akozin           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -49,7 +49,7 @@ $(RL):
 	tar -xf $(RL_FILE) && mv readline-master/ $(RL)
 	rm -rf $(RL_FILE)
 
-$(NAME):	$(OBJS) $(LIBFT_A)
+$(NAME):	$(OBJS) $(LIBFT_A) $(RL_A) $(RLHIST_A)
 	$(CC) $(CFLAGS) $(DEFS) $(OBJS) $(LIBFT_A) $(RL_A) $(RLHIST_A) -lreadline -ltermcap -o $(NAME)
 
 $(OBJS): %.o: %.c Makefile
