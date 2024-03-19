@@ -55,7 +55,7 @@ $(RL):
 	rm -rf $(RL_FILE)
 
 $(NAME):	$(OBJS) $(LIBFT_A) $(RL_A) $(RLHIST_A)
-	$(CC) $(CFLAGS) $(DEFS) $(OBJS) $(LIBFT_A) $(RL_A) $(RLHIST_A) -lreadline -ltermcap -o $(NAME)
+	$(CC) $(CFLAGS) $(DEFS) $(OBJS) $(LIBFT_A) $(RL_A) $(RLHIST_A) -L$(RL) -lreadline -ltermcap -o $(NAME)
 
 $(OBJS): %.o: %.c Makefile
 	$(CC) $(CFLAGS) $(DEFS) -MMD -c -o $@ $<
