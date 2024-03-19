@@ -6,7 +6,7 @@
 #    By: akozin <akozin@student.42barcelona.com>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/18 16:38:42 by akozin            #+#    #+#              #
-#    Updated: 2024/03/19 12:04:57 by akozin           ###   ########.fr        #
+#    Updated: 2024/03/19 12:32:33 by akozin           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,7 +25,9 @@ MAKE = make
 
 CC = cc
 CFLAGS = -Wall -Wextra -Werror
-SRCNAMES = 
+DEFS = -DREADLINE_LIBRARY
+
+SRCNAMES = main.c
 
 SRCS = $(addprefix src/, $(SRCNAMES))
 OBJS = $(SRCS:.c=.o)
@@ -48,19 +50,21 @@ $(RL):
 	rm -rf $(RL_FILE)
 
 $(NAME):	$(OBJS) $(LIBFT_A)
-	$(CC) $(OBJS) -L$(LIBFT) -lft -o $(NAME)
+	$(CC) $(CFLAGS) $(DEFS) $(OBJS) -L$(LIBFT) -lft -L$(RL) -I$(RL) -lreadline -lhistory -o $(NAME)
 
 $(OBJS): %.o: %.c Makefile
-	$(CC) $(CFLAGS) -MMD -MP -c -o $@ $<
+	$(CC) $(CFLAGS) $(DEFS) -I$(RL) -MMD -MP -c -o $@ $<
 
 -include $(DFILES)
 
 clean:
 	$(MAKE) clean -C $(LIBFT)
+	$(MAKE) clean -C $(RL)
 	$(RM) $(OBJS) $(DFILES)
 
 fclean:	
 	$(MAKE) fclean -C $(LIBFT)
+	$(MAKE) clean -C $(RL)
 	$(RM) $(OBJS) $(DFILES) $(NAME)
 
 re:			fclean all
