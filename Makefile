@@ -6,7 +6,7 @@
 #    By: akozin <akozin@student.42barcelona.com>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/18 16:38:42 by akozin            #+#    #+#              #
-#    Updated: 2024/03/19 12:32:33 by akozin           ###   ########.fr        #
+#    Updated: 2024/03/19 12:55:59 by akozin           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -50,10 +50,10 @@ $(RL):
 	rm -rf $(RL_FILE)
 
 $(NAME):	$(OBJS) $(LIBFT_A)
-	$(CC) $(CFLAGS) $(DEFS) $(OBJS) -L$(LIBFT) -lft -L$(RL) -I$(RL) -lreadline -lhistory -o $(NAME)
+	$(CC) $(CFLAGS) $(DEFS) $(OBJS) $(LIBFT_A) $(RL_A) $(RLHIST_A) -lreadline -ltermcap -o $(NAME)
 
 $(OBJS): %.o: %.c Makefile
-	$(CC) $(CFLAGS) $(DEFS) -I$(RL) -MMD -MP -c -o $@ $<
+	$(CC) $(CFLAGS) $(DEFS) -MMD -c -o $@ $<
 
 -include $(DFILES)
 
