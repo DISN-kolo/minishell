@@ -6,7 +6,7 @@
 #    By: akozin <akozin@student.42barcelona.com>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/18 16:38:42 by akozin            #+#    #+#              #
-#    Updated: 2024/03/19 12:01:19 by akozin           ###   ########.fr        #
+#    Updated: 2024/03/19 12:04:57 by akozin           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -37,7 +37,7 @@ all:		make_libs $(NAME)
 
 make_libs: $(RL)
 	if [ ! -f $(RL)config.status ] ; then \
-		cd $(RL) && ./configure ;
+		cd $(RL) && ./configure ; \
 	fi
 	$(MAKE) -C $(RL)
 	$(MAKE) -C $(LIBFT)
@@ -61,8 +61,7 @@ clean:
 
 fclean:	
 	$(MAKE) fclean -C $(LIBFT)
-	$(RM) $(OBJS) $(DFILES)
-	$(RM) $(NAME)
+	$(RM) $(OBJS) $(DFILES) $(NAME)
 
 re:			fclean all
 
