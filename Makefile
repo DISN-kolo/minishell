@@ -6,7 +6,7 @@
 #    By: akozin <akozin@student.42barcelona.com>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/18 16:38:42 by akozin            #+#    #+#              #
-#    Updated: 2024/03/18 16:40:26 by akozin           ###   ########.fr        #
+#    Updated: 2024/03/19 11:27:38 by akozin           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -32,7 +32,7 @@ all:		make_libs $(NAME)
 make_libs:
 	$(MAKE) -C $(LIBFT)
 
-$(NAME):	$(OBJS) $(LIBFT_A) $(MLX_A) $(GNL_A) $(FTPRINTF_A)
+$(NAME):	$(OBJS) $(LIBFT_A)
 	$(CC) $(OBJS) -L$(LIBFT) -lft -o $(NAME)
 
 $(OBJS): %.o: %.c Makefile
