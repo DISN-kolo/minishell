@@ -6,21 +6,23 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 16:15:48 by akozin            #+#    #+#             */
-/*   Updated: 2024/03/19 16:58:20 by akozin           ###   ########.fr       */
+/*   Updated: 2024/03/19 17:28:29 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <stdio.h>
+#include <stdlib.h>
 #include "../readline/readline.h"
 #include "../readline/history.h"
 #include "../inc/minishell.h"
-#include <stdio.h>
-#include <stdlib.h>
 
 static void	double_array_free(char ***a)
 {
 	int	i;
 
 	i = 0;
+	if (*a)
+		return ;
 	while (*a[i])
 		free(*a[i++]);
 	free(*a);
@@ -30,14 +32,19 @@ static void	data_cleaner(t_data *data)
 {
 	int	i;
 
-	double_array_free(&data->tokens);
+	if (data->tokens)
+		double_array_free(&data->tokens);
 	i = 0;
-	while (data->coms[i].type != END)
+	if (data->coms)
 	{
-		dobule_array_free(&(data->coms[i].com));
-		i++;
+		while (data->coms[i].type != END)
+		{
+			double_array_free(&(data->coms[i].com));
+			i++;
+		}
+		free(data->coms);
 	}
-	free(data->coms);
+	data->errored = 0;
 }
 
 static void	exit_handler(t_data *data)

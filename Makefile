@@ -6,7 +6,7 @@
 #    By: akozin <akozin@student.42barcelona.com>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/18 16:38:42 by akozin            #+#    #+#              #
-#    Updated: 2024/03/19 16:27:10 by akozin           ###   ########.fr        #
+#    Updated: 2024/03/19 17:27:15 by akozin           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,10 +24,15 @@ NAME = minishell
 MAKE = make
 
 CC = cc
-CFLAGS = -Wall -Wextra -Werror
+CFLAGS = -Wall -Wextra -Werror -g
 DEFS = -DREADLINE_LIBRARY
 
-SRCNAMES = main.c
+SRCNAMES = expander.c \
+		   main.c \
+		   parse_line.c \
+		   redir_exec.c \
+		   shell_loop.c \
+		   tokenize.c
 
 SRCS = $(addprefix src/, $(SRCNAMES))
 OBJS = $(SRCS:.c=.o)
