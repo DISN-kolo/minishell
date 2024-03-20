@@ -6,13 +6,17 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 16:20:41 by akozin            #+#    #+#             */
-/*   Updated: 2024/03/19 17:32:35 by akozin           ###   ########.fr       */
+/*   Updated: 2024/03/20 12:34:40 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
+/*
+ * operators are -- &&, ||, |
+ * redirs are >, <, >>, <<
+ */
 typedef enum e_wtype
 {
 	COMMAND,
