@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 17:16:20 by akozin            #+#    #+#             */
-/*   Updated: 2024/03/20 18:08:03 by akozin           ###   ########.fr       */
+/*   Updated: 2024/03/20 18:29:33 by molasz-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,6 +133,7 @@ char	**t_split(char *str)
 					wlen = strchars(str, " \t\f\v<>|") - str;
 			}
 			ret[i++] = ft_substr(str, 0, wlen);
+			//TODO malloc protection
 			str += wlen;
 		}
 	}
