@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 17:16:20 by akozin            #+#    #+#             */
-/*   Updated: 2024/03/20 15:26:57 by akozin           ###   ########.fr       */
+/*   Updated: 2024/03/20 16:01:04 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,6 +117,8 @@ void	tokenize_line(char *s, t_data *data)
 	printf("n of 'tokens' is %3d\n", token_c(s, " \t\f\v"));
 	data->tokens = t_split(s);
 	printf("%p\n", data->tokens);
+	if (!data->tokens)
+		return ;
 	for (int i = 0; data->tokens[i]; i++)
 		printf("'token' number   %3d: %s\n", i, data->tokens[i]);
 }
