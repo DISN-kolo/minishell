@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 17:16:20 by akozin            #+#    #+#             */
-/*   Updated: 2024/03/20 17:53:54 by akozin           ###   ########.fr       */
+/*   Updated: 2024/03/20 18:08:03 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,13 +24,27 @@ int	token_c_internal(char *s, char *sep, int *in_q, int i)
 			*in_q = 0;
 		else if (!*in_q && (s[i] == '\'' || s[i] == '"'))
 			*in_q = (s[i] == '"') + 1;
-		if (!*in_q && ft_strchr("|&<>", s[i]) && valid_operator(s, &i))
+		if (!*in_q && (ft_strchr("|<>", s[i]) || (s[i] == '&'
+				&& s[i + 1] == '&')) && valid_operator(s, &i))
 			count++;
 		else
 		{
-			if (!*in_q && !ft_strchr(sep, s[i])
-				&& (ft_strchr(sep, s[i - 1]) || ft_strchr("|&<>", s[i - 1])))
-				count++;
+			if (!*in_q && !ft_strchr(sep, s[i]))
+			{
+				if (i >= 2)
+				{
+					if (ft_strchr(sep, s[i - 1])
+						|| (ft_strchr("|<>", s[i - 1]) || (s[i - 2] == '&'
+						&& s[i - 1] == '&')))
+						count++;
+				}
+				else
+				{
+					if (ft_strchr(sep, s[i - 1])
+						|| ft_strchr("|<>", s[i - 1]))
+						count++;
+				}
+			}
 			i++;
 		}
 	}
