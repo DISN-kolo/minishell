@@ -6,14 +6,12 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 17:16:20 by akozin            #+#    #+#             */
-/*   Updated: 2024/03/20 16:01:04 by akozin           ###   ########.fr       */
+/*   Updated: 2024/03/20 16:59:42 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
 #include "../libft/libft.h"
-#include <stdio.h>
-#include <stdlib.h>
 
 int	token_c_internal(char *s, char *sep, int *in_q, int i)
 {
@@ -26,9 +24,14 @@ int	token_c_internal(char *s, char *sep, int *in_q, int i)
 			*in_q = 0;
 		else if (!*in_q && (s[i] == '\'' || s[i] == '"'))
 			*in_q = (s[i] == '"') + 1;
-		if (!*in_q && !ft_strchr(sep, s[i]) && ft_strchr(sep, s[i - 1]))
+		if (!*in_q && ft_strchr("|&<>", s[i]) && valid_operator(s, &i))
 			count++;
-		i++;
+		else
+		{
+			if (!*in_q && !ft_strchr(sep, s[i]) && ft_strchr(sep, s[i - 1]))
+				count++;
+			i++;
+		}
 	}
 	return (count);
 }
@@ -56,7 +59,9 @@ static int	token_c(char *s, char *sep)
 		in_q = 1;
 	else if (s[i] == '"')
 		in_q = 2;
-	if (!ft_strchr(sep, s[i++]))
+	else if (ft_strchr("|&<>", s[i]) && valid_operator(s, &i))
+		count++;
+	else if (!ft_strchr(sep, s[i++]))
 		count++;
 	count += token_c_internal(s, sep, &in_q, i);
 	if (!in_q)

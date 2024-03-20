@@ -6,7 +6,7 @@
 #    By: akozin <akozin@student.42barcelona.com>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/18 16:38:42 by akozin            #+#    #+#              #
-#    Updated: 2024/03/19 17:27:15 by akozin           ###   ########.fr        #
+#    Updated: 2024/03/20 16:51:11 by akozin           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -32,7 +32,8 @@ SRCNAMES = expander.c \
 		   parse_line.c \
 		   redir_exec.c \
 		   shell_loop.c \
-		   tokenize.c
+		   tokenize.c \
+		   tokenize_utils.c
 
 SRCS = $(addprefix src/, $(SRCNAMES))
 OBJS = $(SRCS:.c=.o)

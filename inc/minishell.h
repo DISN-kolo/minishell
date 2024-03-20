@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 16:20:41 by akozin            #+#    #+#             */
-/*   Updated: 2024/03/20 15:39:44 by molasz-a         ###   ########.fr       */
+/*   Updated: 2024/03/20 16:52:15 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 # include <stdlib.h>
 
 /*
- * operators are -- &&, ||, |
+ * operators are &&, ||, |
  * redirs are >, <, >>, <<
  */
 typedef enum e_wtype
@@ -43,9 +43,14 @@ typedef struct s_data
 }	t_data;
 
 void	shell_loop(t_data *data);
+
 void	tokenize_line(char *s, t_data *data);
+int		valid_operator(char *s, int *i);
+
 void	parse_line(t_data *data);
+
 void	expand_etc(t_data *data);
+
 void	redir_exec(t_data *data);
 
 #endif
