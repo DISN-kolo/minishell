@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 17:16:20 by akozin            #+#    #+#             */
-/*   Updated: 2024/03/20 15:20:51 by akozin           ###   ########.fr       */
+/*   Updated: 2024/03/20 15:26:57 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,24 @@
 #include "../libft/libft.h"
 #include <stdio.h>
 #include <stdlib.h>
+
+int	token_c_internal(char *s, char *sep, int *in_q, int i)
+{
+	int	count;
+
+	count = 0;
+	while (s[i])
+	{
+		if ((*in_q == 1 && s[i] == '\'') || (*in_q == 2 && s[i] == '"'))
+			*in_q = 0;
+		else if (!*in_q && (s[i] == '\'' || s[i] == '"'))
+			*in_q = (s[i] == '"') + 1;
+		if (!*in_q && !ft_strchr(sep, s[i]) && ft_strchr(sep, s[i - 1]))
+			count++;
+		i++;
+	}
+	return (count);
+}
 
 /*
  * in_q = 0 == not in quotes
@@ -40,16 +58,7 @@ static int	token_c(char *s, char *sep)
 		in_q = 2;
 	if (!ft_strchr(sep, s[i++]))
 		count++;
-	while (s[i])
-	{
-		if ((in_q == 1 && s[i] == '\'') || (in_q == 2 && s[i] == '"'))
-			in_q = 0;
-		else if (!in_q && (s[i] == '\'' || s[i] == '"'))
-			in_q = (s[i] == '"') + 1;
-		if (!in_q && !ft_strchr(sep, s[i]) && ft_strchr(sep, s[i - 1]))
-			count++;
-		i++;
-	}
+	count += token_c_internal(s, sep, &in_q, i);
 	if (!in_q)
 		return (count);
 	return (-2);
