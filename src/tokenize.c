@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 17:16:20 by akozin            #+#    #+#             */
-/*   Updated: 2024/03/20 13:25:34 by akozin           ###   ########.fr       */
+/*   Updated: 2024/03/20 13:37:45 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,23 +53,21 @@ char	**t_split(char *str)
 	char	**ret;
 	size_t	wlen;
 	int		i;
-	char	*sep;
 
-	sep = " \t\f\v";
 	i = 0;
-	ret = (char **)malloc(sizeof (char *) * (token_c(str, sep) + 1));
+	ret = (char **)malloc(sizeof (char *) * (token_c(str, " \t\f\v") + 1));
 	if (!ret)
 		return (0);
 	while (*str)
 	{
-		while (ft_strchr(sep, *str) && *str)
+		while (ft_strchr(" \t\f\v", *str) && *str)
 			str++;
 		if (*str)
 		{
-			if (!strchars(str, sep))
+			if (!strchars(str, " \t\f\v"))
 				wlen = ft_strlen(str);
 			else
-				wlen = strchars(str, sep) - str;
+				wlen = strchars(str, " \t\f\v") - str;
 			ret[i++] = ft_substr(str, 0, wlen);
 			str += wlen;
 		}
