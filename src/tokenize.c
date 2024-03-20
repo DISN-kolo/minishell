@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 17:16:20 by akozin            #+#    #+#             */
-/*   Updated: 2024/03/20 13:37:45 by akozin           ###   ########.fr       */
+/*   Updated: 2024/03/20 14:03:55 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,24 +15,39 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+/*
+ * in_q = 0 == not in quotes
+ *      = 1 == in ' '
+ *      = 2 == in " "
+ *
+ * ascii (dec) for " is 34
+ * ascii (dec) for ' is 39
+ */
 static int	token_c(char *s, char *sep)
 {
 	int		i;
-	int		in_quotes;
+	int		in_q;
 	int		count;
 
-	i = 0;
-	in_quotes = 0;
+	i = -1;
+	in_q = 0;
 	count = 0;
-	if (!s[i])
+	if (!s[i + 1])
 		return (0);
-	if (!ft_strchr(sep, s[i++]))
+	if (s[i + 1] == '\'' || s[i + 1] == '"')
+		in_q = (s[i + 1] == '"') + 1;
+	if (!ft_strchr(sep, s[i++ + 1]))
 		count++;
-	while (s[i])
+	while (s[i++])
 	{
-		if (!ft_strchr(sep, s[i]) && ft_strchr(sep, s[i - 1]))
+		if (in_q && s[i] == ('"' + 5 * (in_q == 1)))
+			in_q = 0;
+		else if (!in_q && !ft_strchr(sep, s[i]) && ft_strchr(sep, s[i - 1]))
+		{
 			count++;
-		i++;
+			if (s[i] == '\'' || s[i] == '"')
+				in_q = (s[i] == '"') + 1;
+		}
 	}
 	return (count);
 }
@@ -78,9 +93,10 @@ char	**t_split(char *str)
 
 void	tokenize_line(char *s, t_data *data)
 {
-	data->tokens = t_split(s);
-	for (int i = 0; data->tokens[i]; i++)
-		printf("'token' number %3d: %s\n", i, data->tokens[i]);
+	printf("n of 'tokens' is %3d\n", token_c(s, " \t\f\v"));
+//	data->tokens = t_split(s);
+//	for (int i = 0; data->tokens[i]; i++)
+//		printf("'token' number   %3d: %s\n", i, data->tokens[i]);
 	if (data->errored)
 		return ;
 }
