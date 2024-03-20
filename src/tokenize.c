@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 17:16:20 by akozin            #+#    #+#             */
-/*   Updated: 2024/03/20 14:03:55 by akozin           ###   ########.fr       */
+/*   Updated: 2024/03/20 15:20:51 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,34 +29,44 @@ static int	token_c(char *s, char *sep)
 	int		in_q;
 	int		count;
 
-	i = -1;
+	i = 0;
 	in_q = 0;
 	count = 0;
-	if (!s[i + 1])
+	if (!s[i])
 		return (0);
-	if (s[i + 1] == '\'' || s[i + 1] == '"')
-		in_q = (s[i + 1] == '"') + 1;
-	if (!ft_strchr(sep, s[i++ + 1]))
+	if (s[i] == '\'')
+		in_q = 1;
+	else if (s[i] == '"')
+		in_q = 2;
+	if (!ft_strchr(sep, s[i++]))
 		count++;
-	while (s[i++])
+	while (s[i])
 	{
-		if (in_q && s[i] == ('"' + 5 * (in_q == 1)))
+		if ((in_q == 1 && s[i] == '\'') || (in_q == 2 && s[i] == '"'))
 			in_q = 0;
-		else if (!in_q && !ft_strchr(sep, s[i]) && ft_strchr(sep, s[i - 1]))
-		{
+		else if (!in_q && (s[i] == '\'' || s[i] == '"'))
+			in_q = (s[i] == '"') + 1;
+		if (!in_q && !ft_strchr(sep, s[i]) && ft_strchr(sep, s[i - 1]))
 			count++;
-			if (s[i] == '\'' || s[i] == '"')
-				in_q = (s[i] == '"') + 1;
-		}
+		i++;
 	}
-	return (count);
+	if (!in_q)
+		return (count);
+	return (-2);
 }
 
 char	*strchars(char *s, char *sep)
 {
+	int		in_q;
+
+	in_q = 0;
 	while (*s)
 	{
-		if (ft_strchr(sep, *s))
+		if ((in_q == 1 && *s == '\'') || (in_q == 2 && *s == '"'))
+			in_q = 0;
+		else if (!in_q && (*s == '\'' || *s == '"'))
+			in_q = (*s == '"') + 1;
+		if (!in_q && ft_strchr(sep, *s))
 			return (s);
 		s++;
 	}
@@ -93,10 +103,11 @@ char	**t_split(char *str)
 
 void	tokenize_line(char *s, t_data *data)
 {
-	printf("n of 'tokens' is %3d\n", token_c(s, " \t\f\v"));
-//	data->tokens = t_split(s);
-//	for (int i = 0; data->tokens[i]; i++)
-//		printf("'token' number   %3d: %s\n", i, data->tokens[i]);
 	if (data->errored)
 		return ;
+	printf("n of 'tokens' is %3d\n", token_c(s, " \t\f\v"));
+	data->tokens = t_split(s);
+	printf("%p\n", data->tokens);
+	for (int i = 0; data->tokens[i]; i++)
+		printf("'token' number   %3d: %s\n", i, data->tokens[i]);
 }
