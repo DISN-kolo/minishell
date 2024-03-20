@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 17:16:20 by akozin            #+#    #+#             */
-/*   Updated: 2024/03/20 17:38:29 by akozin           ###   ########.fr       */
+/*   Updated: 2024/03/20 17:53:54 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ char	*strchars(char *s, char *sep)
 			in_q = 0;
 		else if (!in_q && (*s == '\'' || *s == '"'))
 			in_q = (*s == '"') + 1;
-		if (!in_q && ft_strchr(sep, *s))
+		if (!in_q && (ft_strchr(sep, *s) || (*s == '&' && *(s + 1) == '&')))
 			return (s);
 		s++;
 	}
@@ -113,10 +113,10 @@ char	**t_split(char *str)
 			}
 			else 
 			{
-				if (!strchars(str, " \t\f\v<>&|"))
+				if (!strchars(str, " \t\f\v<>|"))
 					wlen = ft_strlen(str);
 				else
-					wlen = strchars(str, " \t\f\v<>&|") - str;
+					wlen = strchars(str, " \t\f\v<>|") - str;
 			}
 			ret[i++] = ft_substr(str, 0, wlen);
 			str += wlen;
