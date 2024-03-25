@@ -6,11 +6,15 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/25 15:50:11 by akozin            #+#    #+#             */
-/*   Updated: 2024/03/25 16:44:58 by akozin           ###   ########.fr       */
+/*   Updated: 2024/03/25 16:55:34 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
+int	tokenize_error(char *s, int i)
+{
+	perror("Incorrect token placement of "s" at position")
+}
 
 int	t_err_probe(char **tokens)
 {
