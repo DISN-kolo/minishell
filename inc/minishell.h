@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 16:20:41 by akozin            #+#    #+#             */
-/*   Updated: 2024/03/25 13:02:22 by molasz-a         ###   ########.fr       */
+/*   Updated: 2024/03/25 14:18:28 by molasz-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,5 +54,9 @@ void	parse_line(t_data *data);
 void	expand_etc(t_data *data);
 
 void	redir_exec(t_data *data);
+
+char	*env_read(t_data *data, char *prop);
+int		env_export(t_data *data, char *ex);
+int		env_unset(t_data *data, char *key);
 
 #endif
