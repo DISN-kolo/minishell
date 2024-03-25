@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 15:24:06 by akozin            #+#    #+#             */
-/*   Updated: 2024/03/25 12:51:09 by akozin           ###   ########.fr       */
+/*   Updated: 2024/03/25 17:55:57 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,4 +32,53 @@ int	valid_operator(char *s, int *i)
 	if (s[*i] == remember_me)
 		(*i)++;
 	return (1);
+}
+
+void	t_split_internal(char **str, char ***ret, int *i)
+{
+	size_t	wlen;
+
+	if (ft_strchr("<>|", **str) || (**str == '&' && *(*str + 1) == '&'))
+	{
+		if (**str == *(*str + 1))
+			wlen = 2;
+		else
+			wlen = 1;
+	}
+	else
+	{
+		if (!strchars(*str, " \t\f\v<>|"))
+			wlen = ft_strlen(*str);
+		else
+			wlen = strchars(*str, " \t\f\v<>|") - *str;
+	}
+	(*ret)[(*i)++] = ft_substr(*str, 0, wlen);
+	//TODO malloc protection
+	*str += wlen;
+}
+
+int	t_c_internal_else(char *s, char *sep, int *in_q, int i)
+{
+	int	count;
+
+	count = 0;
+	if ((!*in_q && !ft_strchr(sep, s[i]) && s[i] != '\''
+			&& s[i] != '"') || (*in_q == 1 && s[i] == '\'')
+		|| (*in_q == 2 && s[i] == '"'))
+	{
+		if (i >= 2)
+		{
+			if (ft_strchr(sep, s[i - 1])
+				|| (ft_strchr("|<>", s[i - 1]) || (s[i - 2] == '&'
+						&& s[i - 1] == '&')))
+				count++;
+		}
+		else
+		{
+			if (ft_strchr(sep, s[i - 1])
+				|| ft_strchr("|<>", s[i - 1]))
+				count++;
+		}
+	}
+	return (count);
 }

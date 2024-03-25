@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 16:20:41 by akozin            #+#    #+#             */
-/*   Updated: 2024/03/25 17:27:41 by akozin           ###   ########.fr       */
+/*   Updated: 2024/03/25 17:56:24 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,10 @@ typedef struct s_data
 void	shell_loop(t_data *data);
 
 void	tokenize_line(char *s, t_data *data);
+int		t_c_internal_else(char *s, char *sep, int *in_q, int i);
+char	*strchars(char *s, char *sep);
 int		valid_operator(char *s, int *i);
+void	t_split_internal(char **str, char ***ret, int *i);
 int		t_err_probe(char **tokens);
 int		tokenize_error(char *s, int i);
 

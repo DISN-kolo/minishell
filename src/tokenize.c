@@ -6,12 +6,11 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 17:16:20 by akozin            #+#    #+#             */
-/*   Updated: 2024/03/25 17:04:45 by akozin           ###   ########.fr       */
+/*   Updated: 2024/03/25 17:55:55 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
-#include "../libft/libft.h"
 
 int	token_c_internal(char *s, char *sep, int *in_q, int i)
 {
@@ -25,28 +24,11 @@ int	token_c_internal(char *s, char *sep, int *in_q, int i)
 		else if (!*in_q && (s[i] == '\'' || s[i] == '"'))
 			*in_q = (s[i] == '"') + 1;
 		if (!*in_q && (ft_strchr("|<>", s[i]) || (s[i] == '&'
-				&& s[i + 1] == '&')) && valid_operator(s, &i))
+					&& s[i + 1] == '&')) && valid_operator(s, &i))
 			count++;
 		else
 		{
-			if ((!*in_q && !ft_strchr(sep, s[i]) && s[i] != '\''
-						&& s[i] != '"') || (*in_q == 1 && s[i] == '\'')
-						|| (*in_q == 2 && s[i] == '"'))
-			{
-				if (i >= 2)
-				{
-					if (ft_strchr(sep, s[i - 1])
-						|| (ft_strchr("|<>", s[i - 1]) || (s[i - 2] == '&'
-						&& s[i - 1] == '&')))
-						count++;
-				}
-				else
-				{
-					if (ft_strchr(sep, s[i - 1])
-						|| ft_strchr("|<>", s[i - 1]))
-						count++;
-				}
-			}
+			count += t_c_internal_else(s, sep, in_q, i);
 			i++;
 		}
 	}
@@ -72,17 +54,11 @@ static int	token_c(char *s, char *sep)
 	count = 0;
 	if (!s[i])
 		return (0);
-	if (s[i] == '\'')
+	if (s[i] == '\'' || s[i] == '"')
 	{
 		i++;
 		count++;
-		in_q = 1;
-	}
-	else if (s[i] == '"')
-	{
-		i++;
-		count++;
-		in_q = 2;
+		in_q = 1 + (s[i] == '"');
 	}
 	else if (ft_strchr("|&<>", s[i]) && valid_operator(s, &i))
 		count++;
@@ -115,7 +91,6 @@ char	*strchars(char *s, char *sep)
 char	**t_split(char *str)
 {
 	char	**ret;
-	size_t	wlen;
 	int		i;
 
 	i = 0;
@@ -127,25 +102,7 @@ char	**t_split(char *str)
 		while (ft_strchr(" \t\f\v", *str) && *str)
 			str++;
 		if (*str)
-		{
-			if (ft_strchr("<>|", *str) || (*str == '&' && *(str + 1) == '&'))
-			{
-				if (*str == *(str + 1))
-					wlen = 2;
-				else
-					wlen = 1;
-			}
-			else 
-			{
-				if (!strchars(str, " \t\f\v<>|"))
-					wlen = ft_strlen(str);
-				else
-					wlen = strchars(str, " \t\f\v<>|") - str;
-			}
-			ret[i++] = ft_substr(str, 0, wlen);
-			//TODO malloc protection
-			str += wlen;
-		}
+			t_split_internal(&str, &ret, &i);
 	}
 	ret[i] = 0;
 	return (ret);
