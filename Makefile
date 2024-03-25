@@ -6,7 +6,7 @@
 #    By: akozin <akozin@student.42barcelona.com>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/18 16:38:42 by akozin            #+#    #+#              #
-#    Updated: 2024/03/25 14:27:57 by molasz-a         ###   ########.fr        #
+#    Updated: 2024/03/25 17:23:19 by akozin           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,13 +27,15 @@ CC = cc
 CFLAGS = -Wall -Wextra -Werror -g
 DEFS = -DREADLINE_LIBRARY
 
-SRCNAMES = expander.c \
-			main.c \
-			parse_line.c \
-			redir_exec.c \
+SRCNAMES = main.c \
 			shell_loop.c \
 			tokenize.c \
 			tokenize_utils.c \
+			token_error_probe.c \
+			token_error_probe_utils.c \
+			parse_line.c \
+			expander.c \
+			redir_exec.c \
 			env_utils.c
 
 SRCS = $(SRCNAMES)

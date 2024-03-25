@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 16:20:41 by akozin            #+#    #+#             */
-/*   Updated: 2024/03/25 16:56:36 by akozin           ###   ########.fr       */
+/*   Updated: 2024/03/25 17:27:41 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 # include <stdio.h>
 # include <stdlib.h>
+# include <errno.h>
 
 # include "../libft/libft.h"
 
@@ -49,6 +50,7 @@ void	shell_loop(t_data *data);
 void	tokenize_line(char *s, t_data *data);
 int		valid_operator(char *s, int *i);
 int		t_err_probe(char **tokens);
+int		tokenize_error(char *s, int i);
 
 void	parse_line(t_data *data);
 
