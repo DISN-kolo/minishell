@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 12:06:29 by akozin            #+#    #+#             */
-/*   Updated: 2024/03/25 13:10:19 by molasz-a         ###   ########.fr       */
+/*   Updated: 2024/03/25 16:43:34 by molasz-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,18 @@ static t_list	*env_alloc(char **envp)
 	return (lst_env);
 }
 
+static void	env_print(t_data *data)
+{
+	t_list	*lst;
+
+	lst = data->env;
+	while (lst)
+	{
+		printf("%s\n", lst->content);
+		lst = lst->next;
+	}
+}
+
 int	main(int argc, char **argv, char **envp)
 {
 	t_data	data;
@@ -49,6 +61,14 @@ int	main(int argc, char **argv, char **envp)
 	data.env = env_alloc(envp);
 	if (!data.env)
 		return (1);
+	env_print(&data);
+	printf("\n");
+	env_export(&data, "MARTI=hola");
+	printf("\n");
+	env_print(&data);
+	env_unset(&data, "MARTI");
+	printf("\n");
+	env_print(&data);
 	shell_loop(&data);
 	return (0);
 }
