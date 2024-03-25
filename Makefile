@@ -6,7 +6,7 @@
 #    By: akozin <akozin@student.42barcelona.com>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/18 16:38:42 by akozin            #+#    #+#              #
-#    Updated: 2024/03/25 13:17:49 by molasz-a         ###   ########.fr        #
+#    Updated: 2024/03/25 13:22:20 by molasz-a         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -39,7 +39,7 @@ SRCS = $(SRCNAMES)
 OBJS = $(addprefix obj/, $(SRCS:.c=.o))
 DEPS = $(addprefix obj/, $(SRCS:.c=.d))
 
-RM = rm -f
+RM = rm -rf
 
 all:		make_libs $(NAME)
 
@@ -67,12 +67,12 @@ obj/%.o:	src/%.c Makefile
 clean:
 	$(MAKE) clean -C $(LIBFT)
 	$(MAKE) clean -C $(RL)
-	$(RM) $(OBJS) $(DEPS)
+	$(RM) obj
 
 fclean:	
 	$(MAKE) fclean -C $(LIBFT)
 	$(MAKE) clean -C $(RL)
-	$(RM) $(OBJS) $(DEPS) $(NAME)
+	$(RM) obj $(NAME)
 
 re:			fclean all
 
