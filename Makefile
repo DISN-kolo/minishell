@@ -6,7 +6,7 @@
 #    By: akozin <akozin@student.42barcelona.com>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/18 16:38:42 by akozin            #+#    #+#              #
-#    Updated: 2024/03/20 18:29:57 by molasz-a         ###   ########.fr        #
+#    Updated: 2024/03/25 13:17:49 by molasz-a         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -35,15 +35,16 @@ SRCNAMES = expander.c \
 			tokenize.c \
 			tokenize_utils.c
 
-SRCS = $(addprefix src/, $(SRCNAMES))
-OBJS = $(SRCS:.c=.o)
-DFILES = $(SRCS:.c=.d)
+SRCS = $(SRCNAMES)
+OBJS = $(addprefix obj/, $(SRCS:.c=.o))
+DEPS = $(addprefix obj/, $(SRCS:.c=.d))
 
 RM = rm -f
 
 all:		make_libs $(NAME)
 
 make_libs: $(RL)
+	mkdir -p obj
 	if [ ! -f $(RL)config.status ] ; then \
 		cd $(RL) && ./configure ; \
 	fi
@@ -58,20 +59,20 @@ $(RL):
 $(NAME):	$(OBJS) $(LIBFT_A) $(RL_A) $(RLHIST_A)
 	$(CC) $(CFLAGS) $(DEFS) $(OBJS) $(LIBFT_A) $(RL_A) $(RLHIST_A) -L$(RL) -lreadline -ltermcap -o $(NAME)
 
-$(OBJS): %.o: %.c Makefile
-	$(CC) $(CFLAGS) $(DEFS) -MMD -c -o $@ $<
+obj/%.o:	src/%.c Makefile
+	$(CC) $(CFLAGS) $(DEFS) -c $< -MMD -o $@
 
--include $(DFILES)
+-include $(DEPS)
 
 clean:
 	$(MAKE) clean -C $(LIBFT)
 	$(MAKE) clean -C $(RL)
-	$(RM) $(OBJS) $(DFILES)
+	$(RM) $(OBJS) $(DEPS)
 
 fclean:	
 	$(MAKE) fclean -C $(LIBFT)
 	$(MAKE) clean -C $(RL)
-	$(RM) $(OBJS) $(DFILES) $(NAME)
+	$(RM) $(OBJS) $(DEPS) $(NAME)
 
 re:			fclean all
 

@@ -6,11 +6,10 @@
 /*   By: akozin <akozin@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/04 13:11:30 by akozin            #+#    #+#             */
-/*   Updated: 2024/02/23 13:54:04 by akozin           ###   ########.fr       */
+/*   Updated: 2024/03/25 12:54:40 by molasz-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdlib.h>
 #include "libft.h"
 
 /*

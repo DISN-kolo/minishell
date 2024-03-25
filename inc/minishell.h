@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 16:20:41 by akozin            #+#    #+#             */
-/*   Updated: 2024/03/20 16:52:15 by akozin           ###   ########.fr       */
+/*   Updated: 2024/03/25 13:02:22 by molasz-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,8 @@
 
 # include <stdio.h>
 # include <stdlib.h>
+
+# include "../libft/libft.h"
 
 /*
  * operators are &&, ||, |
@@ -39,7 +41,7 @@ typedef struct s_data
 	char	**tokens;
 	t_com	*coms;
 	int		errored;
-	char	**env;
+	t_list	*env;
 }	t_data;
 
 void	shell_loop(t_data *data);
