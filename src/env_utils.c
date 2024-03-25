@@ -6,7 +6,7 @@
 /*   By: molasz-a <molasz-a@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/25 13:23:31 by molasz-a          #+#    #+#             */
-/*   Updated: 2024/03/25 16:48:00 by molasz-a         ###   ########.fr       */
+/*   Updated: 2024/03/25 20:11:51 by molasz-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,12 +38,15 @@ char	*env_read(t_data *data, char *prop)
 static int	env_add(t_data *data, char *export)
 {
 	t_list	*lst;
+	char	*str;
 
-	lst = ft_lstnew(export);
-	if (!lst)
+	str = ft_substr(export, 0, ft_strlen(export));
+	if (!str)
 		return (1);
-	ft_lstadd_back(&data->env, lst);
-	return (0);
+	lst = ft_lstnew(str);
+	if (!lst)
+		return (free(str), 1);
+	return (ft_lstadd_back(&data->env, lst), 0);
 }
 
 int	env_export(t_data *data, char *export)
@@ -80,7 +83,7 @@ static void	env_remove(t_data *data, t_list *lst, int i)
 	t_list	*tmp;
 
 	tmp = lst->next;
-	//free(lst->content); //TODO see leaks
+	free(lst->content);
 	free(lst);
 	if (i)
 	{

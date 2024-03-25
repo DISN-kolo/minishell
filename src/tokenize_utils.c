@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 15:24:06 by akozin            #+#    #+#             */
-/*   Updated: 2024/03/25 17:55:57 by akozin           ###   ########.fr       */
+/*   Updated: 2024/03/25 19:54:39 by molasz-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,18 @@ int	valid_operator(char *s, int *i)
 	return (1);
 }
 
-void	t_split_internal(char **str, char ***ret, int *i)
+static int	free_ret(char ***ret)
+{
+	int	i;
+
+	i = 0;
+	while ((*ret)[i])
+		free((*ret)[i++]);
+	free(*ret);
+	return (1);
+}
+
+int	t_split_internal(char **str, char ***ret, int *i)
 {
 	size_t	wlen;
 
@@ -52,9 +63,12 @@ void	t_split_internal(char **str, char ***ret, int *i)
 		else
 			wlen = strchars(*str, " \t\f\v<>|") - *str;
 	}
-	(*ret)[(*i)++] = ft_substr(*str, 0, wlen);
-	//TODO malloc protection
+	(*ret)[*i] = ft_substr(*str, 0, wlen);
+	if (!(*ret)[*i])
+		return (free_ret(ret));
+	(*i)++;
 	*str += wlen;
+	return (0);
 }
 
 int	t_c_internal_else(char *s, char *sep, int *in_q, int i)

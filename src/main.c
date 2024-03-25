@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 12:06:29 by akozin            #+#    #+#             */
-/*   Updated: 2024/03/25 17:58:43 by akozin           ###   ########.fr       */
+/*   Updated: 2024/03/25 20:12:32 by molasz-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ static t_list	*env_alloc(char **envp)
 	int		i;
 
 	i = 0;
+	lst_env = NULL;
 	while (envp[i])
 	{
 		tmp = ft_substr(envp[i], 0, ft_strlen(envp[i]));

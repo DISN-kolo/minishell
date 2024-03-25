@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 16:15:48 by akozin            #+#    #+#             */
-/*   Updated: 2024/03/25 12:14:52 by akozin           ###   ########.fr       */
+/*   Updated: 2024/03/25 19:42:23 by molasz-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,8 @@ static void	data_cleaner(t_data *data)
 {
 	int	i;
 
+	if (data->env)
+		ft_lstclear(&data->env, free);
 	if (data->tokens)
 		double_array_free(&data->tokens);
 	i = 0;

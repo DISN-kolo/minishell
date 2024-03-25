@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 17:16:20 by akozin            #+#    #+#             */
-/*   Updated: 2024/03/25 17:55:55 by akozin           ###   ########.fr       */
+/*   Updated: 2024/03/25 19:57:51 by molasz-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,7 +102,10 @@ char	**t_split(char *str)
 		while (ft_strchr(" \t\f\v", *str) && *str)
 			str++;
 		if (*str)
-			t_split_internal(&str, &ret, &i);
+		{
+			if (t_split_internal(&str, &ret, &i))
+				return (NULL);
+		}
 	}
 	ret[i] = 0;
 	return (ret);
