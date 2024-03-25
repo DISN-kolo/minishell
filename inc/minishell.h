@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 16:20:41 by akozin            #+#    #+#             */
-/*   Updated: 2024/03/25 13:02:22 by molasz-a         ###   ########.fr       */
+/*   Updated: 2024/03/25 16:01:00 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ void	shell_loop(t_data *data);
 
 void	tokenize_line(char *s, t_data *data);
 int		valid_operator(char *s, int *i);
+int		t_err_probe(char **tokens);
 
 void	parse_line(t_data *data);
 
