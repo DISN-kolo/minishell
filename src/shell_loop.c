@@ -6,15 +6,13 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 16:15:48 by akozin            #+#    #+#             */
-/*   Updated: 2024/03/20 15:40:53 by molasz-a         ###   ########.fr       */
+/*   Updated: 2024/03/25 12:14:52 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
-#include <stdlib.h>
+#include "../inc/minishell.h"
 #include "../readline/readline.h"
 #include "../readline/history.h"
-#include "../inc/minishell.h"
 
 static void	double_array_free(char ***a)
 {
@@ -54,6 +52,15 @@ static void	exit_handler(t_data *data)
 }
 
 /*
+ * tokenize line packs stuff neatly into tokens like
+ *
+ * asd
+ * -l
+ * "asjsaudhiuoouaisdul"
+ * qwe
+ * 'asdj hds   jds jf    l a sd  " asdjasd "" '
+ *
+ *
  * expand etc is concerned with splitting and quote removal as well
  */
 void	shell_loop(t_data *data)
