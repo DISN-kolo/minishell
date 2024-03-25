@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 17:16:20 by akozin            #+#    #+#             */
-/*   Updated: 2024/03/25 13:12:55 by akozin           ###   ########.fr       */
+/*   Updated: 2024/03/25 13:16:44 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,8 @@ int	token_c_internal(char *s, char *sep, int *in_q, int i)
 		else
 		{
 			if ((!*in_q && !ft_strchr(sep, s[i]) && s[i] != '\''
-						&& s[i] != '"') || (*in_q && (s[i] == '\''
-						|| s[i] == '"')))
+						&& s[i] != '"') || (*in_q == 1 && s[i] == '\'')
+						|| (*in_q == 2 && s[i] == '"'))
 			{
 				if (i >= 2)
 				{
