@@ -1,2 +1,5 @@
-echo $0
-echo >
+v="asd"
+c='echo | < > echo $v'
+$c
+c="echo | < > echo $v"
+$c
