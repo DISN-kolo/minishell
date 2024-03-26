@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 16:15:48 by akozin            #+#    #+#             */
-/*   Updated: 2024/03/25 19:42:23 by molasz-a         ###   ########.fr       */
+/*   Updated: 2024/03/26 13:32:13 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,10 @@ static void	double_array_free(char ***a)
 	int	i;
 
 	i = 0;
-	if (*a)
+	if (!(*a))
 		return ;
-	while (*a[i])
-		free(*a[i++]);
+	while ((*a)[i])
+		free((*a)[i++]);
 	free(*a);
 }
 
@@ -32,8 +32,10 @@ static void	data_cleaner(t_data *data)
 
 	if (data->env)
 		ft_lstclear(&data->env, free);
+	data->env = 0;
 	if (data->tokens)
 		double_array_free(&data->tokens);
+	data->tokens = 0;
 	i = 0;
 	if (data->coms)
 	{
@@ -44,6 +46,7 @@ static void	data_cleaner(t_data *data)
 		}
 		free(data->coms);
 	}
+	data->coms = 0;
 	data->errored = 0;
 }
 
