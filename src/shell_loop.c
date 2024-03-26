@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 16:15:48 by akozin            #+#    #+#             */
-/*   Updated: 2024/03/26 13:32:13 by akozin           ###   ########.fr       */
+/*   Updated: 2024/03/26 14:11:15 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,10 +76,16 @@ void	shell_loop(t_data *data)
 	while (s != 0)
 	{
 		add_history(s);
+		expand_etc(s, data); // TODO
+		/*
+		 * maybe like that:
+		 * 1. goes through the string, accounts for " ', calculates the final len
+		 * 2. allocates enough memory, starts filling it , switching to filling from $ when required
+		 * 3. frees the first string, makes it point to the new string
+		 */
 		tokenize_line(s, data);
 		free(s);
 		parse_line(data);
-		expand_etc(data);
 		redir_exec(data);
 		data_cleaner(data);
 		s = readline("totally-not-bash $ ");

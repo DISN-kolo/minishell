@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 17:19:46 by akozin            #+#    #+#             */
-/*   Updated: 2024/03/19 17:20:14 by akozin           ###   ########.fr       */
+/*   Updated: 2024/03/26 13:56:47 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,4 +16,5 @@ void	parse_line(t_data *data)
 {
 	if (data->errored)
 		return ;
+
 }
