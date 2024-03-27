@@ -6,7 +6,7 @@
 #    By: akozin <akozin@student.42barcelona.com>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/18 16:38:42 by akozin            #+#    #+#              #
-#    Updated: 2024/03/26 15:33:34 by akozin           ###   ########.fr        #
+#    Updated: 2024/03/27 18:19:37 by molasz-a         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -34,9 +34,10 @@ SRCNAMES = main.c \
 			tokenize_utils.c \
 			token_error_probe.c \
 			token_error_probe_utils.c \
-			parse_line.c \
 			redir_exec.c \
-			env_utils.c
+			enviroment/export.c \
+			enviroment/unset.c \
+			enviroment/env_utils.c \
 
 SRCS = $(SRCNAMES)
 OBJS = $(addprefix obj/, $(SRCS:.c=.o))
@@ -44,10 +45,14 @@ DEPS = $(addprefix obj/, $(SRCS:.c=.d))
 
 RM = rm -rf
 
-all:		make_libs $(NAME)
+all:		folders make_libs $(NAME)
+
+folders:
+	mkdir -p obj
+	mkdir -p obj/enviroment
+
 
 make_libs: $(RL)
-	mkdir -p obj
 	if [ ! -f $(RL)config.status ] ; then \
 		cd $(RL) && ./configure ; \
 	fi

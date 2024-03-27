@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 16:15:48 by akozin            #+#    #+#             */
-/*   Updated: 2024/03/27 13:34:49 by akozin           ###   ########.fr       */
+/*   Updated: 2024/03/27 16:50:07 by molasz-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ static void	data_cleaner(t_data *data)
 	i = 0;
 	if (data->coms)
 	{
-		while (data->coms[i].type != END)
+		while (data->coms[i].oper)
 		{
 			double_array_free(&(data->coms[i].com));
 			i++;

@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 16:20:41 by akozin            #+#    #+#             */
-/*   Updated: 2024/03/27 14:00:01 by akozin           ###   ########.fr       */
+/*   Updated: 2024/03/27 17:52:41 by molasz-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ typedef struct s_com
 	t_inout		*ins;
 	t_inout		*outs;
 	int			envi;
-	e_operator	oper;
+	t_operator	oper;
 	int			status;
 }	t_com;
 
@@ -52,7 +52,7 @@ typedef struct s_data
 	char	**tokens;
 	t_com	*coms;
 	int		errored;
-	t_list	**env;
+	char	***env;
 }	t_data;
 
 void	shell_loop(t_data *data);
@@ -65,13 +65,18 @@ int		t_c_internal_else(char *s, char *sep, int *in_q, int i);
 int		t_err_probe(char **tokens);
 int		tokenize_error(char *s, int i);
 
-void	parse_line(t_data *data);
+
+void	parse_exec(t_data *data);
 void	expand_vars(char *s, t_data *data);
 
 void	redir_exec(t_data *data);
 
-char	*env_read(t_data *data, char *prop);
-int		env_export(t_data *data, char *ex);
-int		env_unset(t_data *data, char *key);
+// ENVIROMENT
+char	***create_env(char **envp);
+int		dup_env(t_data *data);
+char	*read_env(t_data *data, char *prop, int envi);
+void	print_env(t_data *data, int envi);
+int		bexport(t_data *data, char **exports);
+int		bunset(t_data *data, char **keys);
 
 #endif
