@@ -6,13 +6,13 @@
 /*   By: molasz-a <molasz-a@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/25 13:23:31 by molasz-a          #+#    #+#             */
-/*   Updated: 2024/03/25 20:11:51 by molasz-a         ###   ########.fr       */
+/*   Updated: 2024/03/27 14:05:24 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
 
-char	*env_read(t_data *data, char *prop)
+char	*env_read(t_data *data, char *prop, int envi)
 {
 	t_list	*lst;
 	char	*value;

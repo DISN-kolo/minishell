@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 12:06:29 by akozin            #+#    #+#             */
-/*   Updated: 2024/03/25 20:12:32 by molasz-a         ###   ########.fr       */
+/*   Updated: 2024/03/27 14:04:01 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,15 @@
 
 static t_list	*env_alloc(char **envp)
 {
+	t_list	*env_list;
 	t_list	*lst_env;
 	t_list	*lst_new;
 	char	*tmp;
 	int		i;
 
-	i = 0;
+	i = -1;
 	lst_env = NULL;
-	while (envp[i])
+	while (envp[++i])
 	{
 		tmp = ft_substr(envp[i], 0, ft_strlen(envp[i]));
 		if (!tmp)
@@ -33,9 +34,11 @@ static t_list	*env_alloc(char **envp)
 			return (ft_lstclear(&lst_env, free), NULL);
 		}
 		ft_lstadd_back(&lst_env, lst_new);
-		i++;
 	}
-	return (lst_env);
+	env_list = ft_lstnew(lst_env);
+	if (!env_list)
+		return (ft_lstclear(&lst_env, free), NULL);
+	return (env_list);
 }
 
 int	main(int argc, char **argv, char **envp)

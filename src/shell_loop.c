@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 16:15:48 by akozin            #+#    #+#             */
-/*   Updated: 2024/03/27 12:01:02 by akozin           ###   ########.fr       */
+/*   Updated: 2024/03/27 13:34:49 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,8 +78,7 @@ void	shell_loop(t_data *data)
 		add_history(s);
 		tokenize_line(s, data);
 		free(s);
-		parse_line(data);
-		redir_exec(data);
+		parse_exec(data);
 		data_cleaner(data);
 		s = readline("totally-not-bash $ ");
 	}

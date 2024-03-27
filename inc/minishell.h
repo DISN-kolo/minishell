@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 16:20:41 by akozin            #+#    #+#             */
-/*   Updated: 2024/03/27 12:03:46 by akozin           ###   ########.fr       */
+/*   Updated: 2024/03/27 14:00:01 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,18 +23,28 @@
  * operators are &&, ||, |
  * redirs are >, <, >>, <<
  */
-typedef enum e_wtype
+
+typedef enum e_operator
 {
-	COMMAND,
-	OPERATOR,
-	REDIR,
-	END
-}	t_wtype;
+	AND,
+	OR,
+	PIPE
+}	t_operator;
+
+typedef struct s_inout
+{
+	int		dub;
+	char	*fname;
+}	t_inout;
 
 typedef struct s_com
 {
-	t_wtype	type;
-	char	**com;
+	char		**com;
+	t_inout		*ins;
+	t_inout		*outs;
+	int			envi;
+	e_operator	oper;
+	int			status;
 }	t_com;
 
 typedef struct s_data
@@ -42,7 +52,7 @@ typedef struct s_data
 	char	**tokens;
 	t_com	*coms;
 	int		errored;
-	t_list	*env;
+	t_list	**env;
 }	t_data;
 
 void	shell_loop(t_data *data);
