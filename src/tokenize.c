@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 17:16:20 by akozin            #+#    #+#             */
-/*   Updated: 2024/03/25 19:57:51 by molasz-a         ###   ########.fr       */
+/*   Updated: 2024/03/27 12:02:14 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ static int	token_c(char *s, char *sep)
 	{
 		i++;
 		count++;
-		in_q = 1 + (s[i] == '"');
+		in_q = 1 + (s[i - 1] == '"');
 	}
 	else if (ft_strchr("|&<>", s[i]) && valid_operator(s, &i))
 		count++;
