@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 17:16:20 by akozin            #+#    #+#             */
-/*   Updated: 2024/03/28 11:53:58 by akozin           ###   ########.fr       */
+/*   Updated: 2024/03/28 15:27:40 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,15 +88,15 @@ char	*strchars(char *s, char *sep)
 	return (0);
 }
 
-char	**t_split(char *str)
+t_token	*t_split(char *str)
 {
-	char	**ret;
+	t_token	*ret;
 	int		i;
 
 	i = 0;
-	ret = (char **)malloc(sizeof (char *) * (token_c(str, " \t\f\v") + 1));
+	ret = malloc(sizeof (t_token) * (token_c(str, " \t\f\v") + 1));
 	if (!ret)
-		return (0);
+		return (NULL);
 	while (*str)
 	{
 		while (ft_strchr(" \t\f\v", *str) && *str)
@@ -107,7 +107,7 @@ char	**t_split(char *str)
 				return (NULL);
 		}
 	}
-	ret[i] = 0;
+	ret[i] = NULL;
 	return (ret);
 }
 
@@ -123,6 +123,6 @@ void	tokenize_line(char *s, t_data *data)
 		data->errored = 1;
 		return ;
 	}
-	for (int i = 0; data->tokens[i]; i++)
-		printf("'token' number   %3d: %s\n", i, data->tokens[i]);
+	for (int i = 0; data->tokens[i].token; i++)
+		printf("'token' number   %3d: %s\n", i, data->tokens[i].token);
 }

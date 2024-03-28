@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 16:20:41 by akozin            #+#    #+#             */
-/*   Updated: 2024/03/27 17:52:41 by molasz-a         ###   ########.fr       */
+/*   Updated: 2024/03/28 15:35:55 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,9 +47,15 @@ typedef struct s_com
 	int			status;
 }	t_com;
 
+typedef struct s_token
+{
+	char	*token;
+	int		*literal;
+}	t_token;
+
 typedef struct s_data
 {
-	char	**tokens;
+	t_token	*tokens;
 	t_com	*coms;
 	int		errored;
 	char	***env;

@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 15:24:06 by akozin            #+#    #+#             */
-/*   Updated: 2024/03/25 19:54:39 by molasz-a         ###   ########.fr       */
+/*   Updated: 2024/03/28 15:26:27 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,18 +34,22 @@ int	valid_operator(char *s, int *i)
 	return (1);
 }
 
-static int	free_ret(char ***ret)
+static int	free_ret(t_token **ret)
 {
 	int	i;
 
 	i = 0;
 	while ((*ret)[i])
+	{
+		if ((*ret)[i].token)
+			free((*ret)[i].token);
 		free((*ret)[i++]);
+	}
 	free(*ret);
 	return (1);
 }
 
-int	t_split_internal(char **str, char ***ret, int *i)
+int	t_split_internal(char **str, t_token **ret, int *i)
 {
 	size_t	wlen;
 
@@ -63,8 +67,8 @@ int	t_split_internal(char **str, char ***ret, int *i)
 		else
 			wlen = strchars(*str, " \t\f\v<>|") - *str;
 	}
-	(*ret)[*i] = ft_substr(*str, 0, wlen);
-	if (!(*ret)[*i])
+	(*ret)[*i].token = ft_substr(*str, 0, wlen);
+	if (!(*ret)[*i].token)
 		return (free_ret(ret));
 	(*i)++;
 	*str += wlen;
