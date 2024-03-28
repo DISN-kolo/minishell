@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/25 15:50:11 by akozin            #+#    #+#             */
-/*   Updated: 2024/03/28 15:33:49 by akozin           ###   ########.fr       */
+/*   Updated: 2024/03/28 15:43:04 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,14 +56,14 @@ int	t_err_probe(t_token *tokens)
 	int	i;
 
 	i = 0;
-	if (!tokens[0])
+	if (!tokens[0].token)
 		return (0);
 	if (!ft_strncmp(tokens[0].token, "|", 2)
 		|| !ft_strncmp(tokens[0].token, "||", 3)
 		|| !ft_strncmp(tokens[0].token, "&&", 3))
 		return (tokenize_error(tokens[0], 0));
 	i++;
-	while (tokens[i])
+	while (tokens[i].token)
 	{
 		if (probe_all(tokens, i))
 		{

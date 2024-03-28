@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 16:20:41 by akozin            #+#    #+#             */
-/*   Updated: 2024/03/28 15:37:26 by akozin           ###   ########.fr       */
+/*   Updated: 2024/03/28 15:44:24 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,10 +67,10 @@ void	shell_loop(t_data *data);
 void	tokenize_line(char *s, t_data *data);
 char	*strchars(char *s, char *sep);
 int		valid_operator(char *s, int *i);
-int		t_split_internal(char **str, char ***ret, int *i);
+int		t_split_internal(char **str, t_token **ret, int *i);
 int		t_c_internal_else(char *s, char *sep, int *in_q, int i);
-int		t_err_probe(char **tokens);
-int		tokenize_error(char *s, int i);
+int		t_err_probe(t_token *tokens);
+int		tokenize_error(t_token token, int i);
 
 
 void	parse_exec(t_data *data);
@@ -88,6 +88,7 @@ int		bunset(t_data *data, char **keys);
 
 // FREE UTILS
 void	free_double(char **p);
+int		free_ret(t_token **ret);
 void	data_cleaner(t_data *data);
 
 #endif

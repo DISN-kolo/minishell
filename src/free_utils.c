@@ -6,7 +6,7 @@
 /*   By: molasz-a <molasz-a@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/28 13:10:50 by molasz-a          #+#    #+#             */
-/*   Updated: 2024/03/28 13:56:22 by molasz-a         ###   ########.fr       */
+/*   Updated: 2024/03/28 16:12:26 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,27 @@ void	free_double(char **p)
 	while (p[i])
 		free(p[i++]);
 	free(p);
+}
+
+int	free_ret(t_token **ret)
+{
+	int	i;
+
+	i = 0;
+	while ((*ret)[i].token)
+	{
+		free((*ret)[i].token);
+		// TODO
+//		if ((*ret)[i].literal)
+//		{
+//			free((*ret)[i].literal);
+//			(*ret)[i].literal = NULL;
+//		}
+		(*ret)[i].token = NULL;
+		i++;
+	}
+	free(*ret);
+	return (1);
 }
 
 static int	free_env(t_data *data)
@@ -50,7 +71,7 @@ void	data_cleaner(t_data *data)
 		free_env(data);
 	data->env = 0;
 	if (data->tokens)
-		free_double(data->tokens);
+		free_ret(&data->tokens);
 	data->tokens = 0;
 	i = 0;
 	if (data->coms)

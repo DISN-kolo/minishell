@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 15:24:06 by akozin            #+#    #+#             */
-/*   Updated: 2024/03/28 15:26:27 by akozin           ###   ########.fr       */
+/*   Updated: 2024/03/28 15:44:12 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,21 +31,6 @@ int	valid_operator(char *s, int *i)
 	(*i)++;
 	if (s[*i] == remember_me)
 		(*i)++;
-	return (1);
-}
-
-static int	free_ret(t_token **ret)
-{
-	int	i;
-
-	i = 0;
-	while ((*ret)[i])
-	{
-		if ((*ret)[i].token)
-			free((*ret)[i].token);
-		free((*ret)[i++]);
-	}
-	free(*ret);
 	return (1);
 }
 
