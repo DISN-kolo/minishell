@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 16:20:41 by akozin            #+#    #+#             */
-/*   Updated: 2024/03/28 12:42:24 by molasz-a         ###   ########.fr       */
+/*   Updated: 2024/03/28 13:18:17 by molasz-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,5 +79,9 @@ char	*read_env(t_data *data, char *prop, int envi);
 void	print_env(t_data *data, int envi);
 int		bexport(t_data *data, char **exports);
 int		bunset(t_data *data, char **keys);
+
+// FREE UTILS
+void	free_double(char **p);
+void	data_cleaner(t_data *data);
 
 #endif

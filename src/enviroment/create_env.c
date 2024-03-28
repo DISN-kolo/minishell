@@ -6,23 +6,11 @@
 /*   By: molasz-a <molasz-a@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 16:44:55 by molasz-a          #+#    #+#             */
-/*   Updated: 2024/03/28 12:42:33 by molasz-a         ###   ########.fr       */
+/*   Updated: 2024/03/28 13:13:32 by molasz-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
-
-static void	free_env(char **env) //TODO repeated funciton (create free_utils.c)
-{
-	int	i;
-
-	i = 0;
-	if (!env)
-		return ;
-	while (env[i])
-		free(env[i++]);
-	free(env);
-}
 
 static char	**alloc_env(char **envp)
 {
@@ -40,7 +28,7 @@ static char	**alloc_env(char **envp)
 	{
 		env[i] = ft_substr(envp[i], 0, ft_strlen(envp[i]));
 		if (!env[i])
-			return (free_env(env), NULL);
+			return (free_double(env), NULL);
 		i++;
 	}
 	return (env);
