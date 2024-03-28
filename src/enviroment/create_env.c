@@ -6,7 +6,7 @@
 /*   By: molasz-a <molasz-a@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 16:44:55 by molasz-a          #+#    #+#             */
-/*   Updated: 2024/03/27 17:23:47 by molasz-a         ###   ########.fr       */
+/*   Updated: 2024/03/28 12:42:33 by molasz-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,12 +50,13 @@ char	***create_env(char **envp)
 {
 	char	***env;
 
-	env = malloc(sizeof (char **));
+	env = malloc(sizeof (char **) * 2);
 	if (!env)
 		return (NULL);
 	env[0] = alloc_env(envp);
 	if (!env[0])
 		return (free(env), NULL);
+	env[1] = NULL;
 	return (env);
 }
 
@@ -75,11 +76,11 @@ int	dup_env(t_data *data)
 	new_env = alloc_env(data->env[len - 1]);
 	if (!new_env)
 		return (free(env), 1);
-	new_env[len + 1] = NULL;
 	i = -1;
 	while (++i < len)
 		env[i] = data->env[i];
 	env[i] = new_env;
+	env[i + 1] = NULL;
 	free(data->env);
 	data->env = env;
 	return (0);

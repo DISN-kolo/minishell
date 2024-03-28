@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 16:15:48 by akozin            #+#    #+#             */
-/*   Updated: 2024/03/27 16:50:07 by molasz-a         ###   ########.fr       */
+/*   Updated: 2024/03/28 12:14:10 by molasz-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,12 +26,30 @@ static void	double_array_free(char ***a)
 	free(*a);
 }
 
+static int	free_env(t_data *data)
+{
+	char	***env;
+	int		i;
+
+	env = malloc(sizeof(char **) * 2);
+	if (!env)
+		return (1);
+	env[1] = NULL;
+	i = 0;
+	while (data->env[i + 1])
+		double_array_free(&data->env[i++]);
+	env[0] = data->env[i];
+	free(data->env);
+	data->env = env;
+	return (0);
+}
+
 static void	data_cleaner(t_data *data)
 {
 	int	i;
 
 	if (data->env)
-		ft_lstclear(&data->env, free);
+		free_env(data);
 	data->env = 0;
 	if (data->tokens)
 		double_array_free(&data->tokens);
@@ -78,7 +96,7 @@ void	shell_loop(t_data *data)
 		add_history(s);
 		tokenize_line(s, data);
 		free(s);
-		parse_exec(data);
+		//parse_exec(data);
 		data_cleaner(data);
 		s = readline("totally-not-bash $ ");
 	}

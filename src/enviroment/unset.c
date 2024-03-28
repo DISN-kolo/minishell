@@ -6,51 +6,68 @@
 /*   By: molasz-a <molasz-a@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 14:13:41 by molasz-a          #+#    #+#             */
-/*   Updated: 2024/03/27 14:55:26 by molasz-a         ###   ########.fr       */
+/*   Updated: 2024/03/28 12:59:26 by molasz-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 
-static void	env_remove(t_data *data, t_list *lst, int i)
+static int	remove_env(t_data *data, char *prop, int envi)
 {
-	t_list	*tmp;
-
-	tmp = lst->next;
-	free(lst->content);
-	free(lst);
-	if (i)
-	{
-		lst = data->env;
-		while (i-- > 1)
-		{
-			lst = lst->next;
-		}
-		lst->next = tmp;
-	}
-	else
-		data->env = tmp;
-}
-
-int	env_unset(t_data *data, char *prop)
-{
-	t_list	*lst;
+	char	**env;
 	char	*key;
 	int		i;
+	int		j;
 
+	env = malloc(ft_strslen(data->env[envi]) * sizeof (char *));
+	if (!env)
+		return (1);
 	key = ft_strjoin(prop, "=");
 	if (!key)
-		return (1);
-	i = 0;
-	lst = update_env(data);
-	while (lst)
+		return (free(env), 1);
+	i = -1;
+	j = 0;
+	while (data->env[envi][++i])
 	{
-		if (!ft_strncmp(key, lst->content, ft_strlen(key)))
-			break ;
-		lst = lst->next;
+		if (ft_strncmp(key, data->env[envi][i], ft_strlen(key)))
+			env[j++] = data->env[envi][i];
+		else
+			free(data->env[envi][i]);
+	}
+	free(key);
+	free(data->env[envi]);
+	env[j] = NULL;
+	data->env[envi] = env;
+	return (0);
+}
+
+static int	unset_env(t_data *data, char *key, int envi)
+{
+	if (!(ft_isalpha(key[0]) || key[0] == '_') || ft_strchr(key, '='))
+		return (1);
+	if (read_env(data, key, envi))
+	{
+		if (remove_env(data, key, envi))
+			return (1);
+	}
+	return (0);
+}
+
+int	bunset(t_data *data, char **keys)
+{
+	int	envi;
+	int	i;
+
+	if (dup_env(data))
+		return (1);
+	envi = 0;
+	while (data->env[envi])
+		envi++;
+	i = 0;
+	while (keys[i])
+	{
+		unset_env(data, keys[i], envi - 1);
 		i++;
 	}
-	if (lst)
-		env_remove(data, lst, i);
 	return (0);
 }
