@@ -6,13 +6,14 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 16:20:41 by akozin            #+#    #+#             */
-/*   Updated: 2024/03/28 15:35:55 by akozin           ###   ########.fr       */
+/*   Updated: 2024/03/28 15:37:26 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
+# include <unistd.h>
 # include <stdio.h>
 # include <stdlib.h>
 # include <errno.h>
@@ -84,5 +85,9 @@ char	*read_env(t_data *data, char *prop, int envi);
 void	print_env(t_data *data, int envi);
 int		bexport(t_data *data, char **exports);
 int		bunset(t_data *data, char **keys);
+
+// FREE UTILS
+void	free_double(char **p);
+void	data_cleaner(t_data *data);
 
 #endif

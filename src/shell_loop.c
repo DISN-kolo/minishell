@@ -6,7 +6,11 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 16:15:48 by akozin            #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2024/03/28 15:35:29 by akozin           ###   ########.fr       */
+=======
+/*   Updated: 2024/03/28 13:37:57 by molasz-a         ###   ########.fr       */
+>>>>>>> 1e21c537792d8d973cfa0e1d4a23fa3403ba9766
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,74 +18,26 @@
 #include "../readline/readline.h"
 #include "../readline/history.h"
 
-static void	double_array_free(char ***a)
-{
-	int	i;
-
-	i = 0;
-	if (!(*a))
-		return ;
-	while ((*a)[i])
-		free((*a)[i++]);
-	free(*a);
-}
-
-static void	data_cleaner(t_data *data)
-{
-	int	i;
-
-	if (data->env)
-		ft_lstclear(&data->env, free);
-	data->env = 0;
-	if (data->tokens)
-		double_array_free(&data->tokens);
-	data->tokens = 0;
-	i = 0;
-	if (data->coms)
-	{
-		while (data->coms[i].oper)
-		{
-			double_array_free(&(data->coms[i].com));
-			i++;
-		}
-		free(data->coms);
-	}
-	data->coms = 0;
-	data->errored = 0;
-}
-
 static void	exit_handler(t_data *data)
 {
 	data_cleaner(data);
 	printf("exit\n");
 }
 
-/*
- * tokenize line packs stuff neatly into tokens like
- *
- * asd
- * -l
- * "asjsaudhiuoouaisdul"
- * qwe
- * 'asdj hds   jds jf    l a sd  " asdjasd "" '
- *
- *
- * expand etc is concerned with splitting and quote removal as well
- */
 void	shell_loop(t_data *data)
 {
 	char	*s;
 
-	s = readline("totally-not-bash $ ");
-	while (s != 0)
+	while (1)
 	{
+		s = readline("totally-not-bash $ ");
+		if (!s)
+			break ;
 		add_history(s);
 		tokenize_line(s, data);
 		free(s);
 //		parse_exec(data);
 		data_cleaner(data);
-		s = readline("totally-not-bash $ ");
 	}
-	if (s == 0)
-		exit_handler(data);
+	exit_handler(data);
 }

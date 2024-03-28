@@ -6,7 +6,7 @@
 /*   By: molasz-a <molasz-a@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 14:09:48 by molasz-a          #+#    #+#             */
-/*   Updated: 2024/03/27 18:11:44 by molasz-a         ###   ########.fr       */
+/*   Updated: 2024/03/28 12:43:20 by molasz-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ static int	update_env(t_data *data, char *export, char	*key, int envi)
 	while (data->env[envi][i])
 	{
 		if (!ft_strncmp(key, data->env[envi][i], ft_strlen(key)))
-			break;
+			break ;
 	}
 	free(data->env[envi][i]);
 	data->env[envi][i] = ft_substr(export, 0, ft_strlen(export));
@@ -44,7 +44,8 @@ static int	add_env(t_data *data, char *export, int envi)
 		env[i] = data->env[envi][i];
 	env[i] = ft_substr(export, 0, ft_strlen(export));
 	if (!env[i])
-		return (1);
+		return (free(env), 1); //TODO full free
+	env[i + 1] = NULL;
 	free(data->env[envi][i]);
 	data->env[envi] = env;
 	return (0);
@@ -60,7 +61,7 @@ static int	export_env(t_data *data, char *export, int envi)
 	key_len = 0;
 	while (export[key_len] && export[key_len] != '=')
 		key_len++;
-	key = ft_substr(export, 0, key_len + 1);
+	key = ft_substr(export, 0, key_len);
 	if (!key)
 		return (1);
 	if (read_env(data, key, envi))
@@ -90,7 +91,8 @@ int	bexport(t_data *data, char **exports)
 	i = 0;
 	while (exports[i])
 	{
-		export_env(data, exports[i], envi);
+		if (export_env(data, exports[i], envi - 1))
+			write(2, "Export params error\n", 20);
 		i++;
 	}
 	return (0);
