@@ -29,16 +29,16 @@ DEFS = -DREADLINE_LIBRARY
 
 SRCNAMES = main.c \
 			shell_loop.c \
+			tokenize/tokenize.c \
+			tokenize/tokenize_count.c \
+			tokenize/tokenize_split.c \
+			tokenize/tokenize_err_probe.c \
 			expand_vars.c \
-			tokenize.c \
-			tokenize_utils.c \
-			token_error_probe.c \
-			token_error_probe_utils.c \
 			redir_exec.c \
 			enviroment/create_env.c \
 			enviroment/export.c \
 			enviroment/unset.c \
-			enviroment/env_utils.c \
+			enviroment/utils_env.c \
 			free_utils.c
 
 SRCS = $(SRCNAMES)
@@ -50,8 +50,7 @@ RM = rm -rf
 all:		folders make_libs $(NAME)
 
 folders:
-	mkdir -p obj
-	mkdir -p obj/enviroment
+	mkdir -p obj/tokenize obj/enviroment
 
 
 make_libs: $(RL)
@@ -79,7 +78,7 @@ clean:
 	$(MAKE) clean -C $(RL)
 	$(RM) obj
 
-fclean:	
+fclean:
 	$(MAKE) fclean -C $(LIBFT)
 	$(MAKE) clean -C $(RL)
 	$(RM) obj $(NAME)

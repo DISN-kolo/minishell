@@ -44,7 +44,7 @@ static int	add_env(t_data *data, char *export, int envi)
 		env[i] = data->env[envi][i];
 	env[i] = ft_substr(export, 0, ft_strlen(export));
 	if (!env[i])
-		return (free(env), 1); //TODO full free
+		return (free_double(env), 1);
 	env[i + 1] = NULL;
 	free(data->env[envi][i]);
 	data->env[envi] = env;
