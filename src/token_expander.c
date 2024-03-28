@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 16:41:25 by akozin            #+#    #+#             */
-/*   Updated: 2024/03/28 15:22:06 by akozin           ###   ########.fr       */
+/*   Updated: 2024/03/28 16:54:40 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ static void	fill_var(char **f_me, char *t, t_data *data, int *j)
 /* ^^^ being re-made
  */
 
-static int	fill_expanded_token(char **f_me, t_data *data, char *t)
+static int	token_expander(char *f_me, chart_data *data, char *t)
 {
 	int		i;
 	int		j;
@@ -62,11 +62,11 @@ static int	fill_expanded_token(char **f_me, t_data *data, char *t)
 			i += var_end(&t[i + 1]) - &t[i + 1];
 		}
 		else
-			(*f_me)[j] = t[i];
+			f_me[j] = t[i];
 		i++;
 		j++;
 	}
-	(*f_me)[j] = 0;
+	f_me[j] = 0;
 }
 /* ^^^ being re-made
  */
@@ -109,19 +109,33 @@ static int	expansion_counter(t_data *data, char *t)
 	return (i + ret);
 }
 
-char **token_expander(t_data *data, char *t)
+t_token *token_expander(t_data *data, char *t, int envi)
 {
-	char	**new_tokens;
-	char	*expanded_token;
-	int		*expanded_literals;
+	int		i;
+	t_token	*new_tokens;
+	t_token	*local_n_t;
+	char	*exp_t;
+	int		*exp_l;
 
-	expanded_token = malloc(expansion_counter(data, t));
-	expanded_literals = malloc(sizeof (int) * expansion_counter(data, t));
-	if !(expanded_token)
-		return (NULL); // TODO ?
-	if (fill_expanded_token(&expanded_token, data, t))
-		return (NULL); // TODO errhandling
-	new_tokens = malloc(sizeof (char *) * (new_t_counter(data, t) + 1));
-	if !(add_argv)
-		return (NULL); // TODO ?
+	i = 0;
+	while (data->tokens[i].token) // TODO norm, returns
+	{
+		exp_t = malloc(expansion_counter(data, envi, t));
+		if !(expanded_token)
+			return (NULL);
+		exp_l = malloc(sizeof (int) * expansion_counter(data, envi, t));
+		if !(expanded_literals)
+			return (NULL);
+		token_expander(exp_t, exp_l, data, envi);
+		local_n_t = malloc(sizeof (t_token) * (new_t_c(exp_t, exp_l) + 1));
+		if (!local_n_t)
+			return (NULL);
+		local_n_t = new_t_split(exp_t, exp_l);
+		new_tokens = tokens_join_free(new_tokens, local_n_t);
+		if (!new_tokens)
+			return (NULL);
+		i++;
+	}
+	free(data->tokens); // TODO free_ret or something
+	return (new_tokens);
 }
