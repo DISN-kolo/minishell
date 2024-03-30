@@ -35,12 +35,19 @@ typedef struct s_token
 	int *literal;
 } t_token;
 
+typedef struct s_env
+{
+	char	*key;
+	char	*value;
+	int		exp;
+} t_env;
+
 typedef struct s_data
 {
 	t_token *tokens;
 	t_com *coms;
 	int errored;
-	char ***env;
+	t_env **env;
 } t_data;
 
 #endif

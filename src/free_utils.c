@@ -6,7 +6,7 @@
 /*   By: molasz-a <molasz-a@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/28 13:10:50 by molasz-a          #+#    #+#             */
-/*   Updated: 2024/03/28 16:12:26 by akozin           ###   ########.fr       */
+/*   Updated: 2024/03/30 13:59:56 by molasz-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,9 @@ void	free_double(char **p)
 {
 	int	i;
 
-	i = 0;
 	if (!p)
 		return ;
+	i = 0;
 	while (p[i])
 		free(p[i++]);
 	free(p);
@@ -45,18 +45,30 @@ int	free_ret(t_token **ret)
 	return (1);
 }
 
-static int	free_env(t_data *data)
+void	free_env(t_env *env)
 {
-	char	***env;
+	int	i;
+
+	if (!env)
+		return ;
+	i = -1;
+	while (env[++i].value)
+		free(env[i].value);
+	free(env);
+}
+
+static int	reset_env(t_data *data)
+{
+	t_env	**env;
 	int		i;
 
-	env = malloc(sizeof(char **) * 2);
+	env = malloc(sizeof(t_env *) * 2);
 	if (!env)
 		return (1);
 	env[1] = NULL;
 	i = 0;
 	while (data->env[i + 1])
-		free_double(data->env[i++]);
+		free_env(data->env[i++]);
 	env[0] = data->env[i];
 	free(data->env);
 	data->env = env;
@@ -68,7 +80,7 @@ void	data_cleaner(t_data *data)
 	int	i;
 
 	if (data->env)
-		free_env(data);
+		reset_env(data);
 	data->env = 0;
 	if (data->tokens)
 		free_ret(&data->tokens);

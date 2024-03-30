@@ -6,39 +6,45 @@
 /*   By: molasz-a <molasz-a@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 16:44:55 by molasz-a          #+#    #+#             */
-/*   Updated: 2024/03/28 13:13:32 by molasz-a         ###   ########.fr       */
+/*   Updated: 2024/03/30 15:11:09 by molasz-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 
-static char	**alloc_env(char **envp)
+static t_env	*alloc_env(char **envp)
 {
-	char	**env;
+	t_env	*env;
 	int		len;
 	int		i;
+	int		j;
 
 	len = ft_strslen(envp);
-	env = malloc((len + 1) * sizeof (char *));
+	env = malloc((len + 1) * sizeof (t_env));
 	if (!env)
 		return (NULL);
-	env[len] = NULL;
+	env[len].key = NULL;
 	i = 0;
 	while (i < len)
 	{
-		env[i] = ft_substr(envp[i], 0, ft_strlen(envp[i]));
-		if (!env[i])
-			return (free_double(env), NULL);
+		j = 0;
+		while (envp[i][j] != '=')
+			j++;
+		env[i].key = ft_substr(envp[i], 0, j);
+		env[i].value = ft_substr(envp[i], j + 1, ft_strlen(envp[i]));
+		if (!env[i].key || !env[i].value)
+			return (free_env(env), NULL);
+		env[i].exp = 1;
 		i++;
 	}
 	return (env);
 }
 
-char	***create_env(char **envp)
+t_env	**create_env(char **envp)
 {
-	char	***env;
+	t_env	**env;
 
-	env = malloc(sizeof (char **) * 2);
+	env = malloc(sizeof (t_env *) * 2);
 	if (!env)
 		return (NULL);
 	env[0] = alloc_env(envp);
@@ -48,20 +54,33 @@ char	***create_env(char **envp)
 	return (env);
 }
 
+static t_env	*create_dup_env(t_data *data, int len)
+{
+	t_env	*new_env;
+	char	**strs;
+
+	strs = format_env(data->env[len - 1]);
+	if (!strs)
+		return (NULL);
+	new_env = alloc_env(strs);
+	free(strs);
+	return (new_env);
+}
+
 int	dup_env(t_data *data)
 {
-	char	***env;
-	char	**new_env;
+	t_env	**env;
+	t_env	*new_env;
 	int		len;
 	int		i;
 
 	len = 0;
 	while (data->env[len])
 		len++;
-	env = malloc((len + 2) * sizeof (char ***));
+	env = malloc((len + 2) * sizeof (t_env *));
 	if (!env)
 		return (1);
-	new_env = alloc_env(data->env[len - 1]);
+	new_env = create_dup_env(data, len);
 	if (!new_env)
 		return (free(env), 1);
 	i = -1;

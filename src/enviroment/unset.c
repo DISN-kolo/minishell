@@ -6,37 +6,47 @@
 /*   By: molasz-a <molasz-a@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 14:13:41 by molasz-a          #+#    #+#             */
-/*   Updated: 2024/03/28 12:59:26 by molasz-a         ###   ########.fr       */
+/*   Updated: 2024/03/30 13:44:22 by molasz-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 
+static void	copy_remove_env(t_data *data, int envi, char *key, t_env *env)
+{
+	int	i;
+	int	j;
+
+	i = -1;
+	j = 0;
+	while (data->env[envi][++i].value)
+	{
+		if (ft_strncmp(key, data->env[envi][i].value, ft_strlen(key)))
+			env[j++].value = data->env[envi][i].value;
+		else
+			free(data->env[envi][i].value);
+	}
+	env[j].value = NULL;
+}
+
 static int	remove_env(t_data *data, char *prop, int envi)
 {
-	char	**env;
+	t_env	*env;
 	char	*key;
-	int		i;
-	int		j;
+	int		len;
 
-	env = malloc(ft_strslen(data->env[envi]) * sizeof (char *));
+	len = 0;
+	while (data->env[envi][len].value)
+		len++;
+	env = malloc((len + 1) * sizeof (t_env));
 	if (!env)
 		return (1);
 	key = ft_strjoin(prop, "=");
 	if (!key)
 		return (free(env), 1);
-	i = -1;
-	j = 0;
-	while (data->env[envi][++i])
-	{
-		if (ft_strncmp(key, data->env[envi][i], ft_strlen(key)))
-			env[j++] = data->env[envi][i];
-		else
-			free(data->env[envi][i]);
-	}
+	copy_remove_env(data, envi, key, env);
 	free(key);
 	free(data->env[envi]);
-	env[j] = NULL;
 	data->env[envi] = env;
 	return (0);
 }

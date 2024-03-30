@@ -6,7 +6,7 @@
 /*   By: molasz-a <molasz-a@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 14:09:48 by molasz-a          #+#    #+#             */
-/*   Updated: 2024/03/28 12:43:20 by molasz-a         ###   ########.fr       */
+/*   Updated: 2024/03/30 13:38:25 by molasz-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,36 +17,38 @@ static int	update_env(t_data *data, char *export, char	*key, int envi)
 	int	i;
 
 	i = 0;
-	while (data->env[envi][i])
+	while (data->env[envi][i].value)
 	{
-		if (!ft_strncmp(key, data->env[envi][i], ft_strlen(key)))
+		if (!ft_strncmp(key, data->env[envi][i].value, ft_strlen(key)))
 			break ;
 	}
-	free(data->env[envi][i]);
-	data->env[envi][i] = ft_substr(export, 0, ft_strlen(export));
-	if (!data->env[envi][i])
+	free(data->env[envi][i].value);
+	data->env[envi][i].value = ft_substr(export, 0, ft_strlen(export));
+	if (!data->env[envi][i].value)
 		return (1);
 	return (0);
 }
 
 static int	add_env(t_data *data, char *export, int envi)
 {
-	char	**env;
+	t_env	*env;
 	int		len;
 	int		i;
 
-	len = ft_strslen(data->env[envi]);
+	len = 0;
+	while (data->env[envi][len].value)
+		len++;
 	env = malloc((len + 2) * sizeof (char *));
 	if (!env)
 		return (1);
 	i = -1;
 	while (++i < len)
-		env[i] = data->env[envi][i];
-	env[i] = ft_substr(export, 0, ft_strlen(export));
-	if (!env[i])
-		return (free_double(env), 1);
-	env[i + 1] = NULL;
-	free(data->env[envi][i]);
+		env[i].value = data->env[envi][i].value;
+	env[i].value = ft_substr(export, 0, ft_strlen(export));
+	if (!env[i].value)
+		return (free_env(env), 1);
+	env[i + 1].value = NULL;
+	free(data->env[envi][i].value);
 	data->env[envi] = env;
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 16:20:41 by akozin            #+#    #+#             */
-/*   Updated: 2024/03/28 16:19:44 by molasz-a         ###   ########.fr       */
+/*   Updated: 2024/03/30 13:47:39 by molasz-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,15 +38,19 @@ void	expand_vars(char *s, t_data *data);
 void	redir_exec(t_data *data);
 
 // ENVIROMENT
-char	***create_env(char **envp);
-int		dup_env(t_data *data);
+t_env	**create_env(char **envp);
+char	**format_env(t_env *env);
 char	*read_env(t_data *data, char *prop, int envi);
-void	print_env(t_data *data, int envi);
+int		dup_env(t_data *data);
+
+// BUILDINS
 int		bexport(t_data *data, char **exports);
 int		bunset(t_data *data, char **keys);
+void	benv(t_data *data, int envi);
 
 // FREE UTILS
 void	free_double(char **p);
+void	free_env(t_env *env);
 int		free_ret(t_token **ret);
 void	data_cleaner(t_data *data);
 
