@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 16:41:25 by akozin            #+#    #+#             */
-/*   Updated: 2024/03/30 15:10:46 by akozin           ###   ########.fr       */
+/*   Updated: 2024/03/30 16:51:59 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
  * LITERALLY tokenizer count logic, but without the <>|& stuff
  * lol it's actually quite a lot more simple
  */
-static int fill_var(t_token *f_me, char *t, t_data *data, int *j)
+static int fill_token(t_token *f_me, char *t, t_data *data, int *j)
 {
 	char	*env_v_name;
 	char	*env_v_val;
@@ -47,6 +47,7 @@ static int	dollar_expander(t_token *f_me, t_data *data, int envi, char *t)
 	int		i;
 	int		j;
 	int		in_q;
+	int		k;
 
 	i = 0;
 	j = 0;
@@ -60,26 +61,25 @@ static int	dollar_expander(t_token *f_me, t_data *data, int envi, char *t)
 		if (in_q != 1 && t[i] == '$'
 				&& (t[i + 1] == '_' || ft_isalpha(t[i + 1])))
 		{
-			fill_var(f_me, &t[i + 1], data, &j);
+			k = fill_token(f_me, &t[i + 1], data, &j);
 			if (k != -1)
 			{
 				while (k--)
-					f_me.literal[j - k] = 
+					f_me->literal[j - k] = (in_q || (!in_q && ft_strchr(" \t\f\v", f_me->token[j - k])));
 			}
-				f_me
 			i += var_end(&t[i + 1]) - &t[i + 1];
 		}
 		else
-			f_me.token[j] = t[i];
+			f_me->token[j] = t[i];
 		if ((*in_q == 1 && t[i] == '\'') || (*in_q == 2 && t[i] == '"')
 				|| (!*in_q && ft_strchr(" \t\f\v'\"", t[i])))
-			f_me.literal[j] = 0;
+			f_me->literal[j] = 0;
 		else
-			f_me.literal[j] = 1;
+			f_me->literal[j] = 1;
 		i++;
 		j++;
 	}
-	f_me[j] = 0;
+	f_me->token[j] = 0;
 }
 /* ^^^ being re-made
  */
