@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 16:41:25 by akozin            #+#    #+#             */
-/*   Updated: 2024/03/30 14:36:04 by akozin           ###   ########.fr       */
+/*   Updated: 2024/03/30 15:10:46 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
  * LITERALLY tokenizer count logic, but without the <>|& stuff
  * lol it's actually quite a lot more simple
  */
-static void	fill_var(t_token *f_me, char *t, t_data *data, int *j)
+static int fill_var(t_token *f_me, char *t, t_data *data, int *j)
 {
 	char	*env_v_name;
 	char	*env_v_val;
@@ -24,20 +24,22 @@ static void	fill_var(t_token *f_me, char *t, t_data *data, int *j)
 
 	k = 0;
 	env_v_name = ft_substr(t, 0, var_end(t) - t);
-	env_v_val = read_env(data, env_v_name);
+	env_v_val = read_env(data, env_v_name); // TODO
 	if (!env_v_val)
-		return ;
+		return (-1);
 	while (env_v_val[k])
 	{
-		(*f_me)[*j] = env_v_val[k];
+		f_me->token[*j] = env_v_val[k];
 		k++;
 		(*j)++;
 	}
 	(*j)--;
 	free(env_v_name);
-	free(env_v_val);
+	free(env_v_val); // do we free it? can we free it?
+	return (k);
 }
 /* ^^^ being re-made
+ * use k to know how many ints to fill in the literals arr
  */
 
 static int	dollar_expander(t_token *f_me, t_data *data, int envi, char *t)
@@ -59,6 +61,12 @@ static int	dollar_expander(t_token *f_me, t_data *data, int envi, char *t)
 				&& (t[i + 1] == '_' || ft_isalpha(t[i + 1])))
 		{
 			fill_var(f_me, &t[i + 1], data, &j);
+			if (k != -1)
+			{
+				while (k--)
+					f_me.literal[j - k] = 
+			}
+				f_me
 			i += var_end(&t[i + 1]) - &t[i + 1];
 		}
 		else
