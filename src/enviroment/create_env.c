@@ -6,7 +6,7 @@
 /*   By: molasz-a <molasz-a@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 16:44:55 by molasz-a          #+#    #+#             */
-/*   Updated: 2024/03/30 15:11:09 by molasz-a         ###   ########.fr       */
+/*   Updated: 2024/03/30 16:57:54 by molasz-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,16 +54,31 @@ t_env	**create_env(char **envp)
 	return (env);
 }
 
-static t_env	*create_dup_env(t_data *data, int len)
+static t_env	*create_dup_env(t_data *data, int envi)
 {
 	t_env	*new_env;
-	char	**strs;
+	int		i;
 
-	strs = format_env(data->env[len - 1]);
-	if (!strs)
+	i = 0;
+	while (data->env[envi][i].key)
+		i++;
+	new_env = malloc((i + 1) * sizeof(t_env));
+	if (!new_env)
 		return (NULL);
-	new_env = alloc_env(strs);
-	free(strs);
+	i = -1;
+	while (data->env[envi][++i].key)
+	{
+		new_env[i].key = ft_substr(data->env[envi][i].key, 0,
+			ft_strlen(data->env[envi][i].key));
+		if (!new_env[i].key)
+			return (free(new_env), NULL);
+		new_env[i].value = ft_substr(data->env[envi][i].value, 0,
+			ft_strlen(data->env[envi][i].value));
+		if (!new_env[i].value)
+			return (free(new_env), free(new_env[i].key), NULL);
+		new_env[i].exp = data->env[envi][i].exp;
+	}
+	new_env[i].key = NULL;
 	return (new_env);
 }
 
@@ -80,7 +95,7 @@ int	dup_env(t_data *data)
 	env = malloc((len + 2) * sizeof (t_env *));
 	if (!env)
 		return (1);
-	new_env = create_dup_env(data, len);
+	new_env = create_dup_env(data, len - 1);
 	if (!new_env)
 		return (free(env), 1);
 	i = -1;

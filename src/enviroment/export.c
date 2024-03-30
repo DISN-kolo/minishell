@@ -6,7 +6,7 @@
 /*   By: molasz-a <molasz-a@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 14:09:48 by molasz-a          #+#    #+#             */
-/*   Updated: 2024/03/30 13:38:25 by molasz-a         ###   ########.fr       */
+/*   Updated: 2024/03/30 17:59:37 by molasz-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,13 +23,14 @@ static int	update_env(t_data *data, char *export, char	*key, int envi)
 			break ;
 	}
 	free(data->env[envi][i].value);
-	data->env[envi][i].value = ft_substr(export, 0, ft_strlen(export));
+	data->env[envi][i].value = ft_substr(export, ft_strlen(key) + 1,
+		ft_strlen(export));
 	if (!data->env[envi][i].value)
 		return (1);
 	return (0);
 }
 
-static int	add_env(t_data *data, char *export, int envi)
+static int	add_env(t_data *data, char *export, char *key, int envi)
 {
 	t_env	*env;
 	int		len;
@@ -38,17 +39,23 @@ static int	add_env(t_data *data, char *export, int envi)
 	len = 0;
 	while (data->env[envi][len].value)
 		len++;
-	env = malloc((len + 2) * sizeof (char *));
+	env = malloc((len + 2) * sizeof (t_env));
 	if (!env)
 		return (1);
 	i = -1;
 	while (++i < len)
+	{
+		env[i].key = data->env[envi][i].key;
 		env[i].value = data->env[envi][i].value;
-	env[i].value = ft_substr(export, 0, ft_strlen(export));
-	if (!env[i].value)
+		env[i].exp = data->env[envi][i].exp;
+	}
+	env[i].key = key;
+	env[i].value = ft_substr(export, ft_strlen(key) + 1, ft_strlen(export));
+	env[i].exp = 1;
+	if (!env[i].value || !env[i].key)
 		return (free_env(env), 1);
-	env[i + 1].value = NULL;
-	free(data->env[envi][i].value);
+	env[i + 1].key = NULL;
+	free(data->env[envi]);
 	data->env[envi] = env;
 	return (0);
 }
@@ -70,13 +77,13 @@ static int	export_env(t_data *data, char *export, int envi)
 	{
 		if (update_env(data, export, key, envi))
 			return (free(key), 1);
+		free(key);
 	}
 	else
 	{
-		if (add_env(data, export, envi))
+		if (add_env(data, export, key, envi))
 			return (free(key), 1);
 	}
-	free(key);
 	return (0);
 }
 

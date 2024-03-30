@@ -6,7 +6,7 @@
 /*   By: molasz-a <molasz-a@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 14:13:41 by molasz-a          #+#    #+#             */
-/*   Updated: 2024/03/30 13:44:22 by molasz-a         ###   ########.fr       */
+/*   Updated: 2024/03/30 18:28:09 by molasz-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,33 +19,35 @@ static void	copy_remove_env(t_data *data, int envi, char *key, t_env *env)
 
 	i = -1;
 	j = 0;
-	while (data->env[envi][++i].value)
+	while (data->env[envi][++i].key)
 	{
-		if (ft_strncmp(key, data->env[envi][i].value, ft_strlen(key)))
-			env[j++].value = data->env[envi][i].value;
+		if (ft_strncmp(key, data->env[envi][i].key, ft_strlen(key) + 1))
+		{
+			env[j].key = data->env[envi][i].key;
+			env[j].value = data->env[envi][i].value;
+			env[j++].exp = data->env[envi][i].exp;
+		}
 		else
+		{
+			free(data->env[envi][i].key);
 			free(data->env[envi][i].value);
+		}
 	}
-	env[j].value = NULL;
+	env[j].key = NULL;
 }
 
-static int	remove_env(t_data *data, char *prop, int envi)
+static int	remove_env(t_data *data, char *key, int envi)
 {
 	t_env	*env;
-	char	*key;
 	int		len;
 
 	len = 0;
-	while (data->env[envi][len].value)
+	while (data->env[envi][len].key)
 		len++;
-	env = malloc((len + 1) * sizeof (t_env));
+	env = malloc(len * sizeof (t_env));
 	if (!env)
 		return (1);
-	key = ft_strjoin(prop, "=");
-	if (!key)
-		return (free(env), 1);
 	copy_remove_env(data, envi, key, env);
-	free(key);
 	free(data->env[envi]);
 	data->env[envi] = env;
 	return (0);
@@ -76,7 +78,8 @@ int	bunset(t_data *data, char **keys)
 	i = 0;
 	while (keys[i])
 	{
-		unset_env(data, keys[i], envi - 1);
+		if (unset_env(data, keys[i], envi - 1))
+			write(2, "Unset params error\n", 19);
 		i++;
 	}
 	return (0);

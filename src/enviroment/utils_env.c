@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   env_utils.c                                        :+:      :+:    :+:   */
+/*   utils_env.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: molasz-a <molasz-a@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/25 13:23:31 by molasz-a          #+#    #+#             */
-/*   Updated: 2024/03/30 15:13:02 by molasz-a         ###   ########.fr       */
+/*   Updated: 2024/03/30 18:00:17 by molasz-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ char	*read_env(t_data *data, char *key, int envi)
 	i = 0;
 	while (data->env[envi][i].key)
 	{
-		if (!ft_strncmp(key, data->env[envi][i].key, ft_strlen(key)))
+		if (!ft_strncmp(key, data->env[envi][i].key, ft_strlen(key) + 1))
 			break ;
 		i++;
 	}
@@ -33,11 +33,11 @@ void	benv(t_data *data, int envi)
 	int	i;
 
 	i = 0;
-	while (data->env[envi][i].value)
+	while (data->env[envi][i].key)
 	{
 		if (data->env[envi][i].exp)
-			printf("%s=%s\n", data->env[envi][i].key,
-				data->env[envi][i].value);
+			printf("%s=%s\n",
+				data->env[envi][i].key, data->env[envi][i].value);
 		i++;
 	}
 }
