@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 16:41:25 by akozin            #+#    #+#             */
-/*   Updated: 2024/03/30 16:51:59 by akozin           ###   ########.fr       */
+/*   Updated: 2024/03/30 17:06:50 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,8 +38,7 @@ static int fill_token(t_token *f_me, char *t, t_data *data, int *j)
 	free(env_v_val); // do we free it? can we free it?
 	return (k);
 }
-/* ^^^ being re-made
- * use k to know how many ints to fill in the literals arr
+/* ^ use k to know how many ints to fill in the literals arr
  */
 
 static int	dollar_expander(t_token *f_me, t_data *data, int envi, char *t)
@@ -140,12 +139,12 @@ t_token *token_expander(t_data *data, int envi, char *t)
 		local_n_t = malloc(sizeof (t_token) * (new_t_c(exp_t) + 1));
 		if (!local_n_t)
 			return (NULL);
-		local_n_t = new_t_split(exp_t);
+		local_n_t = new_t_split(exp_t); // TODO like an ft_split, but has ", ' and literals in mind
 		new_tokens = tokens_join_free(new_tokens, local_n_t);
 		if (!new_tokens)
 			return (NULL);
 		i++;
 	}
-	free(data->tokens); // TODO free_ret or something
+	free(data->tokens); // TODO free_all or something
 	return (new_tokens);
 }
