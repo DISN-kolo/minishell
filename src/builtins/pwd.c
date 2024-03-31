@@ -1,25 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strslen.c                                       :+:      :+:    :+:   */
+/*   pwd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: molasz-a <molasz-a@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/03/27 17:07:31 by molasz-a          #+#    #+#             */
-/*   Updated: 2024/03/31 15:10:12 by molasz-a         ###   ########.fr       */
+/*   Created: 2024/03/31 15:04:34 by molasz-a          #+#    #+#             */
+/*   Updated: 2024/03/31 15:09:12 by molasz-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../../inc/minishell.h"
 
-size_t	ft_strslen(char **s)
+void bpwd(t_data *data, char **args, int envi)
 {
-	size_t	i;
-
-	if (!s)
-		return (0);
-	i = 0;
-	while (s[i])
-		i++;
-	return (i);
+	if (ft_strslen(args))
+		printf("pwd: too many arguments\n");
+	else
+		printf("%s\n", read_env(data, "PWD", envi));
 }
