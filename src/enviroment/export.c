@@ -6,7 +6,7 @@
 /*   By: molasz-a <molasz-a@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 14:09:48 by molasz-a          #+#    #+#             */
-/*   Updated: 2024/03/30 17:59:37 by molasz-a         ###   ########.fr       */
+/*   Updated: 2024/03/31 12:55:26 by molasz-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,20 +17,21 @@ static int	update_env(t_data *data, char *export, char	*key, int envi)
 	int	i;
 
 	i = 0;
-	while (data->env[envi][i].value)
+	while (data->env[envi][i].key)
 	{
-		if (!ft_strncmp(key, data->env[envi][i].value, ft_strlen(key)))
+		if (!ft_strncmp(key, data->env[envi][i].key, ft_strlen(key) + 1))
 			break ;
+		i++;
 	}
 	free(data->env[envi][i].value);
 	data->env[envi][i].value = ft_substr(export, ft_strlen(key) + 1,
-		ft_strlen(export));
+			ft_strlen(export));
 	if (!data->env[envi][i].value)
 		return (1);
 	return (0);
 }
 
-static int	add_env(t_data *data, char *export, char *key, int envi)
+static t_env	*add_env(t_data *data, char *export, char *key, int envi)
 {
 	t_env	*env;
 	int		len;
@@ -41,7 +42,7 @@ static int	add_env(t_data *data, char *export, char *key, int envi)
 		len++;
 	env = malloc((len + 2) * sizeof (t_env));
 	if (!env)
-		return (1);
+		return (free(key), NULL);
 	i = -1;
 	while (++i < len)
 	{
@@ -51,13 +52,11 @@ static int	add_env(t_data *data, char *export, char *key, int envi)
 	}
 	env[i].key = key;
 	env[i].value = ft_substr(export, ft_strlen(key) + 1, ft_strlen(export));
-	env[i].exp = 1;
-	if (!env[i].value || !env[i].key)
-		return (free_env(env), 1);
+	if (!env[i].value)
+		return (free_env(env), NULL);
+	env[i].exp = find_equal(export);
 	env[i + 1].key = NULL;
-	free(data->env[envi]);
-	data->env[envi] = env;
-	return (0);
+	return (free(data->env[envi]), env);
 }
 
 static int	export_env(t_data *data, char *export, int envi)
@@ -81,10 +80,27 @@ static int	export_env(t_data *data, char *export, int envi)
 	}
 	else
 	{
-		if (add_env(data, export, key, envi))
-			return (free(key), 1);
+		data->env[envi] = add_env(data, export, key, envi);
+		if (!data->env[envi])
+			return (1);
 	}
 	return (0);
+}
+
+static void	print_export(t_data *data, int envi)
+{
+	int	i;
+
+	i = 0;
+	while (data->env[envi][i].key)
+	{
+		if (data->env[envi][i].exp)
+			printf("declare -x %s=\"%s\"\n",
+					data->env[envi][i].key, data->env[envi][i].value);
+		else
+			printf("declare -x %s\n", data->env[envi][i].key);
+		i++;
+	}
 }
 
 int	bexport(t_data *data, char **exports)
@@ -97,6 +113,11 @@ int	bexport(t_data *data, char **exports)
 	envi = 0;
 	while (data->env[envi])
 		envi++;
+	if (!exports)
+	{
+		print_export(data, envi - 1);
+		return (0);
+	}
 	i = 0;
 	while (exports[i])
 	{

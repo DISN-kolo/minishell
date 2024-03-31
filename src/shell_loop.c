@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 16:15:48 by akozin            #+#    #+#             */
-/*   Updated: 2024/03/28 15:38:01 by akozin           ###   ########.fr       */
+/*   Updated: 2024/03/31 13:00:52 by molasz-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 static void	exit_handler(t_data *data)
 {
 	data_cleaner(data);
+	free_env(data->env[0]);
 	printf("exit\n");
 }
 

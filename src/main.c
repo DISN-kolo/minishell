@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 12:06:29 by akozin            #+#    #+#             */
-/*   Updated: 2024/03/30 18:01:05 by molasz-a         ###   ########.fr       */
+/*   Updated: 2024/03/31 12:58:51 by molasz-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,13 +24,6 @@ int	main(int argc, char **argv, char **envp)
 	data.env = create_env(envp);
 	if (!data.env)
 		return (1);
-	benv(&data, 0);
-	bexport(&data, ft_split("marti=A", ' '));
-	printf("\n\n\n");
-	benv(&data, 1);
-	bunset(&data, ft_split("marti", ' '));
-	printf("\n\n\n");
-	benv(&data, 2);
 	shell_loop(&data);
 	return (0);
 }

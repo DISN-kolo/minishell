@@ -6,7 +6,7 @@
 /*   By: molasz-a <molasz-a@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/25 13:23:31 by molasz-a          #+#    #+#             */
-/*   Updated: 2024/03/30 18:00:17 by molasz-a         ###   ########.fr       */
+/*   Updated: 2024/03/31 12:48:04 by molasz-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,4 +59,18 @@ char	**format_env(t_env *env)
 		new_env[i] = env[i].value;
 	new_env[i] = NULL;
 	return (new_env);
+}
+
+int	find_equal(char *s)
+{
+	int	i;
+
+	i = 0;
+	while (s[i])
+	{
+		if (s[i] == '=')
+			return (1);
+		i++;
+	}
+	return (0);
 }

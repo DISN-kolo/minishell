@@ -6,7 +6,7 @@
 /*   By: molasz-a <molasz-a@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 16:44:55 by molasz-a          #+#    #+#             */
-/*   Updated: 2024/03/30 16:57:54 by molasz-a         ###   ########.fr       */
+/*   Updated: 2024/03/31 12:35:56 by molasz-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,11 +69,11 @@ static t_env	*create_dup_env(t_data *data, int envi)
 	while (data->env[envi][++i].key)
 	{
 		new_env[i].key = ft_substr(data->env[envi][i].key, 0,
-			ft_strlen(data->env[envi][i].key));
+				ft_strlen(data->env[envi][i].key));
 		if (!new_env[i].key)
 			return (free(new_env), NULL);
 		new_env[i].value = ft_substr(data->env[envi][i].value, 0,
-			ft_strlen(data->env[envi][i].value));
+				ft_strlen(data->env[envi][i].value));
 		if (!new_env[i].value)
 			return (free(new_env), free(new_env[i].key), NULL);
 		new_env[i].exp = data->env[envi][i].exp;

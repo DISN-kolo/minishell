@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 16:20:41 by akozin            #+#    #+#             */
-/*   Updated: 2024/03/30 13:47:39 by molasz-a         ###   ########.fr       */
+/*   Updated: 2024/03/31 12:48:00 by molasz-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ t_env	**create_env(char **envp);
 char	**format_env(t_env *env);
 char	*read_env(t_data *data, char *prop, int envi);
 int		dup_env(t_data *data);
+int		find_equal(char *s);
 
 // BUILDINS
 int		bexport(t_data *data, char **exports);

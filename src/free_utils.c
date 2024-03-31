@@ -6,7 +6,7 @@
 /*   By: molasz-a <molasz-a@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/28 13:10:50 by molasz-a          #+#    #+#             */
-/*   Updated: 2024/03/30 13:59:56 by molasz-a         ###   ########.fr       */
+/*   Updated: 2024/03/31 12:57:51 by molasz-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,8 +52,11 @@ void	free_env(t_env *env)
 	if (!env)
 		return ;
 	i = -1;
-	while (env[++i].value)
+	while (env[++i].key)
+	{
+		free(env[i].key);
 		free(env[i].value);
+	}
 	free(env);
 }
 
