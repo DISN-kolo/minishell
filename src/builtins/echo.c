@@ -1,27 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   env.c                                              :+:      :+:    :+:   */
+/*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: molasz-a <molasz-a@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/03/31 13:43:45 by molasz-a          #+#    #+#             */
-/*   Updated: 2024/03/31 13:55:35 by molasz-a         ###   ########.fr       */
+/*   Created: 2024/03/31 13:44:48 by molasz-a          #+#    #+#             */
+/*   Updated: 2024/03/31 13:56:08 by molasz-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 
-void	benv(t_data *data, int envi)
+void	becho(char **args)
 {
 	int	i;
+	int	n;
 
-	i = 0;
-	while (data->env[envi][i].key)
+	if (!ft_strncmp(args[0], "-n", 3))
+		n = 1;
+	else
+		n = 0;
+	i = n;
+	while (args[i])
 	{
-		if (data->env[envi][i].exp)
-			printf("%s=%s\n",
-				data->env[envi][i].key, data->env[envi][i].value);
+		write(1, args[i], ft_strlen(args[i]));
+		write(1, " ", 1);
 		i++;
 	}
+	if (!n)
+		write(1, "\n", 1);
 }

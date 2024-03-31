@@ -6,7 +6,7 @@
 /*   By: molasz-a <molasz-a@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 14:13:41 by molasz-a          #+#    #+#             */
-/*   Updated: 2024/03/30 18:28:09 by molasz-a         ###   ########.fr       */
+/*   Updated: 2024/03/31 13:55:33 by molasz-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ static int	unset_env(t_data *data, char *key, int envi)
 	return (0);
 }
 
-int	unset(t_data *data, char **keys)
+int	bunset(t_data *data, char **keys)
 {
 	int	envi;
 	int	i;

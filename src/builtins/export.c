@@ -6,7 +6,7 @@
 /*   By: molasz-a <molasz-a@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 14:09:48 by molasz-a          #+#    #+#             */
-/*   Updated: 2024/03/31 13:44:16 by molasz-a         ###   ########.fr       */
+/*   Updated: 2024/03/31 13:55:33 by molasz-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,7 @@ static void	print_export(t_data *data, int envi)
 	}
 }
 
-int	export(t_data *data, char **exports)
+int	bexport(t_data *data, char **exports)
 {
 	int	envi;
 	int	i;

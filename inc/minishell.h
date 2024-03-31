@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 16:20:41 by akozin            #+#    #+#             */
-/*   Updated: 2024/03/31 12:48:00 by molasz-a         ###   ########.fr       */
+/*   Updated: 2024/03/31 13:55:17 by molasz-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,9 +45,10 @@ int		dup_env(t_data *data);
 int		find_equal(char *s);
 
 // BUILDINS
-int		export(t_data *data, char **exports);
-int		unset(t_data *data, char **keys);
-void	env(t_data *data, int envi);
+int		bexport(t_data *data, char **exports);
+int		bunset(t_data *data, char **keys);
+void	benv(t_data *data, int envi);
+void	becho(char **args);
 
 // FREE UTILS
 void	free_double(char **p);
