@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 16:20:41 by akozin            #+#    #+#             */
-/*   Updated: 2024/03/31 13:55:17 by molasz-a         ###   ########.fr       */
+/*   Updated: 2024/03/31 14:57:00 by molasz-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@ int		bexport(t_data *data, char **exports);
 int		bunset(t_data *data, char **keys);
 void	benv(t_data *data, int envi);
 void	becho(char **args);
+void	bexit(t_data *data, char **args);
 
 // FREE UTILS
 void	free_double(char **p);

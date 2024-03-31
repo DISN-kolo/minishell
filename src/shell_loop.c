@@ -6,20 +6,13 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 16:15:48 by akozin            #+#    #+#             */
-/*   Updated: 2024/03/31 13:00:52 by molasz-a         ###   ########.fr       */
+/*   Updated: 2024/03/31 14:57:12 by molasz-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
 #include "../readline/readline.h"
 #include "../readline/history.h"
-
-static void	exit_handler(t_data *data)
-{
-	data_cleaner(data);
-	free_env(data->env[0]);
-	printf("exit\n");
-}
 
 void	shell_loop(t_data *data)
 {
@@ -36,5 +29,5 @@ void	shell_loop(t_data *data)
 //		parse_exec(data);
 		data_cleaner(data);
 	}
-	exit_handler(data);
+	bexit(data, NULL);
 }

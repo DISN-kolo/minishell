@@ -6,7 +6,7 @@
 #    By: akozin <akozin@student.42barcelona.com>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/18 16:38:42 by akozin            #+#    #+#              #
-#    Updated: 2024/03/31 13:54:56 by molasz-a         ###   ########.fr        #
+#    Updated: 2024/03/31 14:57:35 by molasz-a         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -37,10 +37,11 @@ SRCNAMES = main.c \
 			redir_exec.c \
 			enviroment/create_env.c \
 			enviroment/utils_env.c \
+			builtins/echo.c \
 			builtins/export.c \
 			builtins/unset.c \
 			builtins/env.c \
-			builtins/echo.c \
+			builtins/exit.c \
 			free_utils.c
 
 SRCS = $(SRCNAMES)
