@@ -65,7 +65,7 @@ static int	unset_env(t_data *data, char *key, int envi)
 	return (0);
 }
 
-int	bunset(t_data *data, char **keys)
+int	unset(t_data *data, char **keys)
 {
 	int	envi;
 	int	i;

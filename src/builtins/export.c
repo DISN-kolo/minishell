@@ -103,7 +103,7 @@ static void	print_export(t_data *data, int envi)
 	}
 }
 
-int	bexport(t_data *data, char **exports)
+int	export(t_data *data, char **exports)
 {
 	int	envi;
 	int	i;

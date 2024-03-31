@@ -36,9 +36,10 @@ SRCNAMES = main.c \
 			expand_vars.c \
 			redir_exec.c \
 			enviroment/create_env.c \
-			enviroment/export.c \
-			enviroment/unset.c \
 			enviroment/utils_env.c \
+			builtins/export.c \
+			builtins/unset.c \
+			builtins/env.c \
 			free_utils.c
 
 SRCS = $(SRCNAMES)
@@ -50,7 +51,7 @@ RM = rm -rf
 all:		folders make_libs $(NAME)
 
 folders:
-	mkdir -p obj/tokenize obj/enviroment
+	mkdir -p obj/tokenize obj/enviroment obj/builtins
 
 
 make_libs: $(RL)

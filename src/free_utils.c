@@ -84,7 +84,6 @@ void	data_cleaner(t_data *data)
 
 	if (data->env)
 		reset_env(data);
-	data->env = 0;
 	if (data->tokens)
 		free_ret(&data->tokens);
 	data->tokens = 0;

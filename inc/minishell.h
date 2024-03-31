@@ -45,9 +45,9 @@ int		dup_env(t_data *data);
 int		find_equal(char *s);
 
 // BUILDINS
-int		bexport(t_data *data, char **exports);
-int		bunset(t_data *data, char **keys);
-void	benv(t_data *data, int envi);
+int		export(t_data *data, char **exports);
+int		unset(t_data *data, char **keys);
+void	env(t_data *data, int envi);
 
 // FREE UTILS
 void	free_double(char **p);
