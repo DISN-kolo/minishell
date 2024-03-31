@@ -6,7 +6,7 @@
 /*   By: molasz-a <molasz-a@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 14:09:48 by molasz-a          #+#    #+#             */
-/*   Updated: 2024/03/31 12:55:26 by molasz-a         ###   ########.fr       */
+/*   Updated: 2024/03/31 13:44:16 by molasz-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,7 @@ static void	print_export(t_data *data, int envi)
 	{
 		if (data->env[envi][i].exp)
 			printf("declare -x %s=\"%s\"\n",
-					data->env[envi][i].key, data->env[envi][i].value);
+				data->env[envi][i].key, data->env[envi][i].value);
 		else
 			printf("declare -x %s\n", data->env[envi][i].key);
 		i++;
