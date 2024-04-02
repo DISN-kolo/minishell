@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 12:30:35 by akozin            #+#    #+#             */
-/*   Updated: 2024/04/02 14:56:52 by akozin           ###   ########.fr       */
+/*   Updated: 2024/04/02 16:21:24 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void	fill_lit_expanded(int k, t_token *f_me, int in_q, int j)
 	}
 }
 
-int	new_t_c_internal(t_token t, char *sep, int *in_q, int i)
+static int	new_t_c_internal(t_token t, char *sep, int *in_q, int i)
 {
 	int	count;
 
@@ -55,7 +55,7 @@ int	new_t_c_internal(t_token t, char *sep, int *in_q, int i)
  * but since we had an expansion, we have to worry about t.literal
  * we only account for ", ' and spaces if t.literal == 0
  */
-int	new_t_c(t_token t)
+static int	new_t_c(t_token t)
 {
 	int		i;
 	int		in_q;
@@ -79,7 +79,7 @@ int	new_t_c(t_token t)
 	return (-2);
 }
 
-int	new_t_split_internal(t_token *t, int *k, t_token **ret, int *i)
+static int	new_t_split_internal(t_token *t, int *k, t_token **ret, int *i)
 {
 	size_t	wlen;
 

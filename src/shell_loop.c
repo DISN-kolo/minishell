@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 16:15:48 by akozin            #+#    #+#             */
-/*   Updated: 2024/03/28 15:38:01 by akozin           ###   ########.fr       */
+/*   Updated: 2024/04/02 16:15:50 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void	shell_loop(t_data *data)
 		add_history(s);
 		tokenize_line(s, data);
 		free(s);
-//		parse_exec(data);
+		token_expander(data, 0);
 		data_cleaner(data);
 	}
 	exit_handler(data);

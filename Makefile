@@ -6,7 +6,7 @@
 #    By: akozin <akozin@student.42barcelona.com>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/18 16:38:42 by akozin            #+#    #+#              #
-#    Updated: 2024/03/28 13:14:26 by molasz-a         ###   ########.fr        #
+#    Updated: 2024/04/02 16:16:32 by akozin           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -34,6 +34,10 @@ SRCNAMES = main.c \
 			tokenize_utils.c \
 			token_error_probe.c \
 			token_error_probe_utils.c \
+			token_expander.c \
+			token_expander_utils.c \
+			token_expander_utils_2.c \
+			token_expander_utils_3.c \
 			redir_exec.c \
 			enviroment/create_env.c \
 			enviroment/export.c \

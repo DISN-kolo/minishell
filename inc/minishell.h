@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 16:20:41 by akozin            #+#    #+#             */
-/*   Updated: 2024/03/28 15:44:24 by akozin           ###   ########.fr       */
+/*   Updated: 2024/04/02 16:21:43 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,13 @@ int		t_c_internal_else(char *s, char *sep, int *in_q, int i);
 int		t_err_probe(t_token *tokens);
 int		tokenize_error(t_token token, int i);
 
+void	token_expander(t_data *data, int envi);
+char	*var_end(char *s);
+void	determine_q(int *in_q, char c);
+void	fill_lit_expanded(int k, t_token *f_me, int in_q, int j);
+void	literal_filler(int in_q, char c, t_token *f_me, int j);
+t_token	*new_t_split(t_token t);
+t_token	*tokens_join_free(t_token *t1, t_token *t2);
 
 void	parse_exec(t_data *data);
 void	expand_vars(char *s, t_data *data);

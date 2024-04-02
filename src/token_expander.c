@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 16:41:25 by akozin            #+#    #+#             */
-/*   Updated: 2024/04/02 14:57:44 by akozin           ###   ########.fr       */
+/*   Updated: 2024/04/02 16:26:19 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ static int fill_token(t_token *f_me, char *t, t_data *data, int *j)
 
 	k = 0;
 	env_v_name = ft_substr(t, 0, var_end(t) - t);
-	env_v_val = read_env(data, env_v_name); // TODO
+	env_v_val = read_env(data, env_v_name, 0); // TODO NEED ENVI SOMEHOW HEREEEE
 	if (!env_v_val)
 		return (-1);
 	while (env_v_val[k])
@@ -37,7 +37,11 @@ static int fill_token(t_token *f_me, char *t, t_data *data, int *j)
 /* ^ use k to know how many ints to fill in the literals arr
  */
 
-static int	dollar_expander(t_token *f_me, t_data *data, int envi, char *t)
+/*
+ * envi here, to later send it to other funcs who need it or smthn
+ * MUST ADD, TODO
+ */
+static void	dollar_expander(t_token *f_me, t_data *data, char *t)
 {
 	int		i;
 	int		j;
@@ -73,7 +77,7 @@ static int	inside_dollar_counter(t_data *data, int envi, char *t, int i)
 	if (t[i + 1] != '_' && !ft_isalpha(t[i + 1]))
 		return (0);
 	env_v_name = ft_substr(&t[i + 1], 0, var_end(&t[i + 1]) - &t[i + 1]);
-	env_v_val = read_env(data, env_v_name); // TODO envi? madonn
+	env_v_val = read_env(data, env_v_name, envi); // TODO envi? madonn
 	ret = ft_strlen(env_v_val) - ft_strlen(env_v_name);
 	free(env_v_name);
 	free(env_v_val);
@@ -91,10 +95,10 @@ static int	expansion_counter(t_data *data, int envi, char *t)
 	in_q = 0;
 	while (t[i])
 	{
-		if ((*in_q == 1 && t[i] == '\'') || (*in_q == 2 && t[i] == '"'))
-			*in_q = 0;
-		else if (!*in_q && (t[i] == '\'' || t[i] == '"'))
-			*in_q = (t[i] == '"') + 1;
+		if ((in_q == 1 && t[i] == '\'') || (in_q == 2 && t[i] == '"'))
+			in_q = 0;
+		else if (!in_q && (t[i] == '\'' || t[i] == '"'))
+			in_q = (t[i] == '"') + 1;
 		if (in_q != 1 && t[i] == '$')
 			ret += inside_dollar_counter(data, envi, t, i) - 1;
 		i++;
@@ -102,7 +106,7 @@ static int	expansion_counter(t_data *data, int envi, char *t)
 	return (i + ret);
 }
 
-t_token *token_expander(t_data *data, int envi, char *t)
+void	token_expander(t_data *data, int envi)
 {
 	int		i;
 	t_token	*new_tokens;
@@ -115,16 +119,20 @@ t_token *token_expander(t_data *data, int envi, char *t)
 		exp_t.token = malloc(expansion_counter(data, envi, data->tokens[i].token)); // done
 		exp_t.literal = malloc(sizeof (int) * expansion_counter(data, envi, data->tokens[i].token));
 		if (!exp_t.token || !exp_t.literal)
-			return (NULL);
+			return ;
 		dollar_expander(&exp_t, data, envi); // done
 		local_n_t = new_t_split(exp_t); // done
 		if (!local_n_t)
-			return (NULL);
+			return ;
 		new_tokens = tokens_join_free(new_tokens, local_n_t); // done
 		if (!new_tokens)
-			return (NULL);
+			return ;
 		i++;
 	}
-	free(data->tokens); // TODO free_all or something?
-	return (new_tokens);
+	// free(data->tokens); // TODO free_all or something?
+	data->tokens = new_tokens;
+	for (int j = 0; data->tokens[j].token != NULL; j++)
+	{
+		printf("new token %3d: %s\n", j, data->tokens[j].token);
+	}
 }
