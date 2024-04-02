@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 12:30:35 by akozin            #+#    #+#             */
-/*   Updated: 2024/04/02 16:21:24 by akozin           ###   ########.fr       */
+/*   Updated: 2024/04/02 16:31:13 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ static int	new_t_c(t_token t)
 	if ((t.token[i] == '\'' || t.token[i] == '"') && !t.literal[i])
 	{
 		count++;
-		in_q = 1 + (s[i] == '"');
+		in_q = 1 + (t.token[i] == '"');
 	}
 	else if (t.literal[i])
 		count++;
@@ -103,7 +103,7 @@ t_token	*new_t_split(t_token t)
 
 	i = 0;
 	k = 0;
-	ret = malloc(sizeof (t_token) * (new_t_c(exp_t) + 1));
+	ret = malloc(sizeof (t_token) * (new_t_c(t) + 1));
 	if (!ret)
 		return (NULL);
 	while (t.token[k])

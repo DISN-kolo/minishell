@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 16:41:25 by akozin            #+#    #+#             */
-/*   Updated: 2024/04/02 16:26:19 by akozin           ###   ########.fr       */
+/*   Updated: 2024/04/02 16:27:32 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,7 +120,7 @@ void	token_expander(t_data *data, int envi)
 		exp_t.literal = malloc(sizeof (int) * expansion_counter(data, envi, data->tokens[i].token));
 		if (!exp_t.token || !exp_t.literal)
 			return ;
-		dollar_expander(&exp_t, data, envi); // done
+		dollar_expander(&exp_t, data, data->tokens[i].token); // done
 		local_n_t = new_t_split(exp_t); // done
 		if (!local_n_t)
 			return ;
