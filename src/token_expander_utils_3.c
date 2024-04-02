@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 14:13:29 by akozin            #+#    #+#             */
-/*   Updated: 2024/04/02 16:31:29 by akozin           ###   ########.fr       */
+/*   Updated: 2024/04/02 16:45:44 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ int	tokenslen(t_token *t)
 	int	ret;
 
 	ret = 0;
-	while (t->token)
+	while (t[ret].token)
 		ret++;
 	return (ret);
 }

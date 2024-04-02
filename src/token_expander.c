@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 16:41:25 by akozin            #+#    #+#             */
-/*   Updated: 2024/04/02 16:38:00 by akozin           ###   ########.fr       */
+/*   Updated: 2024/04/02 16:50:51 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -142,8 +142,11 @@ void	token_expander(t_data *data, int envi)
 	}
 	// free(data->tokens); // TODO free_all or something?
 	data->tokens = new_tokens;
-	for (int j = 0; data->tokens[j].token != NULL; j++)
+	if (data->tokens)
 	{
-		printf("new token %3d: %s\n", j, data->tokens[j].token);
+		for (int j = 0; data->tokens[j].token != NULL; j++)
+		{
+			printf("new token %3d: %s\n", j, data->tokens[j].token);
+		}
 	}
 }
