@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 16:41:25 by akozin            #+#    #+#             */
-/*   Updated: 2024/04/02 12:37:26 by akozin           ###   ########.fr       */
+/*   Updated: 2024/04/02 14:57:44 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,22 +110,21 @@ t_token *token_expander(t_data *data, int envi, char *t)
 	t_token	exp_t;
 
 	i = 0;
-	while (data->tokens[i].token) // TODO norm, error returns
+	while (data->tokens[i].token) // TODO norm, error returns, CHECK THE THING IF IT WORKS LOL
 	{
-		exp_t.token = malloc(expansion_counter(data, envi, data->tokens[i].token));
+		exp_t.token = malloc(expansion_counter(data, envi, data->tokens[i].token)); // done
 		exp_t.literal = malloc(sizeof (int) * expansion_counter(data, envi, data->tokens[i].token));
 		if (!exp_t.token || !exp_t.literal)
 			return (NULL);
-		dollar_expander(&exp_t, data, envi);
-		local_n_t = malloc(sizeof (t_token) * (new_t_c(exp_t) + 1));
+		dollar_expander(&exp_t, data, envi); // done
+		local_n_t = new_t_split(exp_t); // done
 		if (!local_n_t)
 			return (NULL);
-		local_n_t = new_t_split(exp_t); // TODO like an ft_split, but has ", ' and literals in mind
-		new_tokens = tokens_join_free(new_tokens, local_n_t);
+		new_tokens = tokens_join_free(new_tokens, local_n_t); // done
 		if (!new_tokens)
 			return (NULL);
 		i++;
 	}
-	free(data->tokens); // TODO free_all or something
+	free(data->tokens); // TODO free_all or something?
 	return (new_tokens);
 }
