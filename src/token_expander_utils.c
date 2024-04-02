@@ -6,9 +6,11 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/28 12:01:48 by akozin            #+#    #+#             */
-/*   Updated: 2024/03/30 13:26:16 by akozin           ###   ########.fr       */
+/*   Updated: 2024/04/02 12:36:36 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+#include "../inc/minishell.h"
 
 char	*var_end(char *s)
 {
@@ -59,7 +61,19 @@ t_token	*tokens_join_free(t_token *t1, t_token *t2)
 	return (ret);
 }
 
-/*
- * basically, an ft_split with "" in mind
- * like we have in tokenize, but isn't bothered by |<>& at all
- */
+void	literal_filler(int in_q, char c, t_token *f_me, int j)
+{
+	if ((in_q == 1 && c == '\'') || (in_q == 2 && c == '"')
+			|| (!in_q && ft_strchr(" \t\f\v'\"", c)))
+		f_me->literal[j] = 0;
+	else
+		f_me->literal[j] = 1;
+}
+
+void	determine_q(int *in_q, char c)
+{
+	if ((*in_q == 1 && c == '\'') || (*in_q == 2 && c == '"'))
+		*in_q = 0;
+	else if (!*in_q && (c == '\'' || c == '"'))
+		*in_q = (c == '"') + 1;
+}

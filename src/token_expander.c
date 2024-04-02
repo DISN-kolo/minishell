@@ -6,16 +6,12 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 16:41:25 by akozin            #+#    #+#             */
-/*   Updated: 2024/03/30 17:06:50 by akozin           ###   ########.fr       */
+/*   Updated: 2024/04/02 12:37:26 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
 
-/*
- * LITERALLY tokenizer count logic, but without the <>|& stuff
- * lol it's actually quite a lot more simple
- */
 static int fill_token(t_token *f_me, char *t, t_data *data, int *j)
 {
 	char	*env_v_name;
@@ -46,42 +42,27 @@ static int	dollar_expander(t_token *f_me, t_data *data, int envi, char *t)
 	int		i;
 	int		j;
 	int		in_q;
-	int		k;
 
 	i = 0;
 	j = 0;
 	in_q = 0;
 	while (t[i])
 	{
-		if ((*in_q == 1 && t[i] == '\'') || (*in_q == 2 && t[i] == '"'))
-			*in_q = 0;
-		else if (!*in_q && (t[i] == '\'' || t[i] == '"'))
-			*in_q = (t[i] == '"') + 1;
+		determine_q(&in_q, t[i]);
 		if (in_q != 1 && t[i] == '$'
 				&& (t[i + 1] == '_' || ft_isalpha(t[i + 1])))
 		{
-			k = fill_token(f_me, &t[i + 1], data, &j);
-			if (k != -1)
-			{
-				while (k--)
-					f_me->literal[j - k] = (in_q || (!in_q && ft_strchr(" \t\f\v", f_me->token[j - k])));
-			}
+			fill_lit_expanded(fill_token(f_me, &t[i + 1], data, &j), f_me, in_q, j);
 			i += var_end(&t[i + 1]) - &t[i + 1];
 		}
 		else
 			f_me->token[j] = t[i];
-		if ((*in_q == 1 && t[i] == '\'') || (*in_q == 2 && t[i] == '"')
-				|| (!*in_q && ft_strchr(" \t\f\v'\"", t[i])))
-			f_me->literal[j] = 0;
-		else
-			f_me->literal[j] = 1;
+		literal_filler(in_q, t[i], f_me, j);
 		i++;
 		j++;
 	}
 	f_me->token[j] = 0;
 }
-/* ^^^ being re-made
- */
 
 static int	inside_dollar_counter(t_data *data, int envi, char *t, int i)
 {
@@ -129,7 +110,7 @@ t_token *token_expander(t_data *data, int envi, char *t)
 	t_token	exp_t;
 
 	i = 0;
-	while (data->tokens[i].token) // TODO norm, returns
+	while (data->tokens[i].token) // TODO norm, error returns
 	{
 		exp_t.token = malloc(expansion_counter(data, envi, data->tokens[i].token));
 		exp_t.literal = malloc(sizeof (int) * expansion_counter(data, envi, data->tokens[i].token));
