@@ -6,7 +6,7 @@
 #    By: akozin <akozin@student.42barcelona.com>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/18 16:38:42 by akozin            #+#    #+#              #
-#    Updated: 2024/04/02 16:16:32 by akozin           ###   ########.fr        #
+#    Updated: 2024/04/02 18:25:22 by akozin           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,20 +29,24 @@ DEFS = -DREADLINE_LIBRARY
 
 SRCNAMES = main.c \
 			shell_loop.c \
+			tokenize/tokenize.c \
+			tokenize/tokenize_count.c \
+			tokenize/tokenize_split.c \
+			tokenize/tokenize_err_probe.c \
+			token_expander/token_expander.c \
+			token_expander/token_expander_utils.c \
+			token_expander/token_expander_utils_2.c \
+			token_expander/token_expander_utils_3.c \
 			expand_vars.c \
-			tokenize.c \
-			tokenize_utils.c \
-			token_error_probe.c \
-			token_error_probe_utils.c \
-			token_expander.c \
-			token_expander_utils.c \
-			token_expander_utils_2.c \
-			token_expander_utils_3.c \
 			redir_exec.c \
 			enviroment/create_env.c \
-			enviroment/export.c \
-			enviroment/unset.c \
-			enviroment/env_utils.c \
+			enviroment/utils_env.c \
+			builtins/echo.c \
+			builtins/pwd.c \
+			builtins/export.c \
+			builtins/unset.c \
+			builtins/env.c \
+			builtins/exit.c \
 			free_utils.c
 
 SRCS = $(SRCNAMES)
@@ -54,8 +58,7 @@ RM = rm -rf
 all:		folders make_libs $(NAME)
 
 folders:
-	mkdir -p obj
-	mkdir -p obj/enviroment
+	mkdir -p obj/tokenize obj/enviroment obj/builtins obj/token_expander
 
 
 make_libs: $(RL)
@@ -83,7 +86,7 @@ clean:
 	$(MAKE) clean -C $(RL)
 	$(RM) obj
 
-fclean:	
+fclean:
 	$(MAKE) fclean -C $(LIBFT)
 	$(MAKE) clean -C $(RL)
 	$(RM) obj $(NAME)

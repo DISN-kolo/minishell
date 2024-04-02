@@ -10,9 +10,9 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../inc/minishell.h"
+#include "../../inc/minishell.h"
 
-int	probe_all(t_token *tokens, int i)
+static int	probe_all(t_token *tokens, int i)
 {
 	if (!ft_strncmp(tokens[i].token, "|", 2)
 		|| !ft_strncmp(tokens[i].token, "||", 3)
@@ -25,7 +25,7 @@ int	probe_all(t_token *tokens, int i)
 	return (0);
 }
 
-int	probe_redirs(t_token *tokens, int i)
+static int	probe_redirs(t_token *tokens, int i)
 {
 	if (!ft_strncmp(tokens[i].token, "<", 2)
 		|| !ft_strncmp(tokens[i].token, "<<", 3)
@@ -35,7 +35,7 @@ int	probe_redirs(t_token *tokens, int i)
 	return (0);
 }
 
-int	probe_ops(t_token *tokens, int i)
+static int	probe_ops(t_token *tokens, int i)
 {
 	if (!ft_strncmp(tokens[i].token, "|", 2)
 		|| !ft_strncmp(tokens[i].token, "||", 3)
@@ -44,14 +44,17 @@ int	probe_ops(t_token *tokens, int i)
 	return (0);
 }
 
-int	last_probe(t_token *tokens, int i)
+static int	tokenize_error(t_token s, int i)
 {
-	if (probe_all(tokens, i - 1))
-		return (tokenize_error(tokens[i - 1], i - 1));
-	return (0);
+	ft_putstr_fd("incorrect token placement of ", 2);
+	ft_putstr_fd(s.token, 2);
+	ft_putstr_fd(" token at position ", 2);
+	ft_putnbr_fd(i, 2);
+	ft_putstr_fd("\n", 2);
+	return (1);
 }
 
-int	t_err_probe(t_token *tokens)
+int	tokenize_err_probe(t_token *tokens)
 {
 	int	i;
 
@@ -65,17 +68,12 @@ int	t_err_probe(t_token *tokens)
 	i++;
 	while (tokens[i].token)
 	{
-		if (probe_all(tokens, i))
-		{
-			if (probe_redirs(tokens, i - 1))
-				return (tokenize_error(tokens[i], i));
-		}
-		if (probe_ops(tokens, i))
-		{
-			if (probe_ops(tokens, i - 1))
-				return (tokenize_error(tokens[i], i));
-		}
+		if ((probe_all(tokens, i) && probe_redirs(tokens, i - 1))
+			|| (probe_ops(tokens, i) && probe_ops(tokens, i - 1)))
+			return (tokenize_error(tokens[i], i));
 		i++;
 	}
-	return (last_probe(tokens, i));
+	if (probe_all(tokens, i - 1))
+		return (tokenize_error(tokens[i - 1], i - 1));
+	return (0);
 }

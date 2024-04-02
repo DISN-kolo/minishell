@@ -6,11 +6,11 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 12:30:35 by akozin            #+#    #+#             */
-/*   Updated: 2024/04/02 16:31:13 by akozin           ###   ########.fr       */
+/*   Updated: 2024/04/02 18:25:57 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../inc/minishell.h"
+#include "../../inc/minishell.h"
 
 /*
  * k is basically var's value len.

@@ -6,11 +6,11 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 16:41:25 by akozin            #+#    #+#             */
-/*   Updated: 2024/04/02 16:50:51 by akozin           ###   ########.fr       */
+/*   Updated: 2024/04/02 18:25:45 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../inc/minishell.h"
+#include "../../inc/minishell.h"
 
 static int fill_token(t_token *f_me, char *t, t_data *data, int *j)
 {

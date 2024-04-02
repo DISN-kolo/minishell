@@ -6,11 +6,11 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/28 12:01:48 by akozin            #+#    #+#             */
-/*   Updated: 2024/04/02 17:35:12 by akozin           ###   ########.fr       */
+/*   Updated: 2024/04/02 18:25:52 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../inc/minishell.h"
+#include "../../inc/minishell.h"
 
 char	*var_end(char *s)
 {

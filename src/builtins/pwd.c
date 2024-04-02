@@ -1,23 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   token_error_probe_utils.c                          :+:      :+:    :+:   */
+/*   pwd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
+/*   By: molasz-a <molasz-a@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/03/25 17:22:53 by akozin            #+#    #+#             */
-/*   Updated: 2024/03/28 15:33:52 by akozin           ###   ########.fr       */
+/*   Created: 2024/03/31 15:04:34 by molasz-a          #+#    #+#             */
+/*   Updated: 2024/03/31 15:09:12 by molasz-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../inc/minishell.h"
+#include "../../inc/minishell.h"
 
-int	tokenize_error(t_token s, int i)
+void bpwd(t_data *data, char **args, int envi)
 {
-	ft_putstr_fd("incorrect token placement of ", 2);
-	ft_putstr_fd(s.token, 2);
-	ft_putstr_fd(" token at position ", 2);
-	ft_putnbr_fd(i, 2);
-	ft_putstr_fd("\n", 2);
-	return (1);
+	if (ft_strslen(args))
+		printf("pwd: too many arguments\n");
+	else
+		printf("%s\n", read_env(data, "PWD", envi));
 }

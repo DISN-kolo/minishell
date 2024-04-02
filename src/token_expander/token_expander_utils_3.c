@@ -6,11 +6,11 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 14:13:29 by akozin            #+#    #+#             */
-/*   Updated: 2024/04/02 16:45:44 by akozin           ###   ########.fr       */
+/*   Updated: 2024/04/02 18:26:05 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../inc/minishell.h"
+#include "../../inc/minishell.h"
 
 int	strchars_lit(t_token *t, int k, char *sep)
 {

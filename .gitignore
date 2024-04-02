@@ -63,3 +63,6 @@ readline/
 # tests
 out*
 infile
+
+# oh my god.
+.DS_Store

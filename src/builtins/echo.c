@@ -1,25 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strslen.c                                       :+:      :+:    :+:   */
+/*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: molasz-a <molasz-a@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/03/27 17:07:31 by molasz-a          #+#    #+#             */
-/*   Updated: 2024/03/31 15:10:12 by molasz-a         ###   ########.fr       */
+/*   Created: 2024/03/31 13:44:48 by molasz-a          #+#    #+#             */
+/*   Updated: 2024/03/31 13:56:08 by molasz-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../../inc/minishell.h"
 
-size_t	ft_strslen(char **s)
+void	becho(char **args)
 {
-	size_t	i;
+	int	i;
+	int	n;
 
-	if (!s)
-		return (0);
-	i = 0;
-	while (s[i])
+	if (!ft_strncmp(args[0], "-n", 3))
+		n = 1;
+	else
+		n = 0;
+	i = n;
+	while (args[i])
+	{
+		write(1, args[i], ft_strlen(args[i]));
+		write(1, " ", 1);
 		i++;
-	return (i);
+	}
+	if (!n)
+		write(1, "\n", 1);
 }

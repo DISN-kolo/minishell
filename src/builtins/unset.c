@@ -6,37 +6,49 @@
 /*   By: molasz-a <molasz-a@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 14:13:41 by molasz-a          #+#    #+#             */
-/*   Updated: 2024/03/28 12:59:26 by molasz-a         ###   ########.fr       */
+/*   Updated: 2024/03/31 13:55:33 by molasz-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 
-static int	remove_env(t_data *data, char *prop, int envi)
+static void	copy_remove_env(t_data *data, int envi, char *key, t_env *env)
 {
-	char	**env;
-	char	*key;
-	int		i;
-	int		j;
+	int	i;
+	int	j;
 
-	env = malloc(ft_strslen(data->env[envi]) * sizeof (char *));
-	if (!env)
-		return (1);
-	key = ft_strjoin(prop, "=");
-	if (!key)
-		return (free(env), 1);
 	i = -1;
 	j = 0;
-	while (data->env[envi][++i])
+	while (data->env[envi][++i].key)
 	{
-		if (ft_strncmp(key, data->env[envi][i], ft_strlen(key)))
-			env[j++] = data->env[envi][i];
+		if (ft_strncmp(key, data->env[envi][i].key, ft_strlen(key) + 1))
+		{
+			env[j].key = data->env[envi][i].key;
+			env[j].value = data->env[envi][i].value;
+			env[j++].exp = data->env[envi][i].exp;
+		}
 		else
-			free(data->env[envi][i]);
+		{
+			free(data->env[envi][i].key);
+			free(data->env[envi][i].value);
+		}
 	}
-	free(key);
+	env[j].key = NULL;
+}
+
+static int	remove_env(t_data *data, char *key, int envi)
+{
+	t_env	*env;
+	int		len;
+
+	len = 0;
+	while (data->env[envi][len].key)
+		len++;
+	env = malloc(len * sizeof (t_env));
+	if (!env)
+		return (1);
+	copy_remove_env(data, envi, key, env);
 	free(data->env[envi]);
-	env[j] = NULL;
 	data->env[envi] = env;
 	return (0);
 }
@@ -66,7 +78,8 @@ int	bunset(t_data *data, char **keys)
 	i = 0;
 	while (keys[i])
 	{
-		unset_env(data, keys[i], envi - 1);
+		if (unset_env(data, keys[i], envi - 1))
+			write(2, "Unset params error\n", 19);
 		i++;
 	}
 	return (0);
