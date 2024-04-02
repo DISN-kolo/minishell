@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/28 12:01:48 by akozin            #+#    #+#             */
-/*   Updated: 2024/04/02 16:43:50 by akozin           ###   ########.fr       */
+/*   Updated: 2024/04/02 17:35:12 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ t_token	*tokens_join(t_token *t1, t_token *t2) // TODO literal int array copy?
 
 	if (!t1)
 		return (t2);
-	ret = malloc(tokenslen(t1) + tokenslen(t2) + 1);
+	ret = malloc(sizeof (t_token) * (tokenslen(t1) + tokenslen(t2) + 1));
 	if (!ret)
 		return (NULL);
 	i = 0;
