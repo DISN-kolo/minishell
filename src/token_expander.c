@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 16:41:25 by akozin            #+#    #+#             */
-/*   Updated: 2024/04/02 16:27:32 by akozin           ###   ########.fr       */
+/*   Updated: 2024/04/02 16:38:00 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,6 +106,17 @@ static int	expansion_counter(t_data *data, int envi, char *t)
 	return (i + ret);
 }
 
+/*
+ * new tokens = final returned tokens re-made from data->tokens with
+ * expansion n stuff
+ *
+ * local n tokens = tokens received while expanding an existing token from
+ * data->tokens. they need to be added to the new tokens
+ *
+ * exp t is a single token to be expanded. inside of it we push our stuff from
+ * the current data->tokens token, then we pass this exp t to the function that
+ * creates the local n tokens, dissecting exp t.
+ */
 void	token_expander(t_data *data, int envi)
 {
 	int		i;
