@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 16:41:25 by akozin            #+#    #+#             */
-/*   Updated: 2024/04/02 18:25:45 by akozin           ###   ########.fr       */
+/*   Updated: 2024/04/03 12:05:43 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,10 +74,17 @@ static int	inside_dollar_counter(t_data *data, int envi, char *t, int i)
 	char	*env_v_name;
 	char	*env_v_val;
 
+	printf("entered inside dollar counter\n");
 	if (t[i + 1] != '_' && !ft_isalpha(t[i + 1]))
 		return (0);
 	env_v_name = ft_substr(&t[i + 1], 0, var_end(&t[i + 1]) - &t[i + 1]);
+	printf("substr success:\n"
+			"env_v_name = %s\n", env_v_name);
 	env_v_val = read_env(data, env_v_name, envi); // TODO envi? madonn
+	printf("read_env success:\n"
+			"env_v_val  = %s\n", env_v_val);
+	if (!env_v_val)
+		return (-ft_strlen(env_v_name));
 	ret = ft_strlen(env_v_val) - ft_strlen(env_v_name);
 	free(env_v_name);
 	free(env_v_val);
@@ -93,6 +100,7 @@ static int	expansion_counter(t_data *data, int envi, char *t)
 	ret = 0;
 	i = 0;
 	in_q = 0;
+	printf("entered expansion counter\n");
 	while (t[i])
 	{
 		if ((in_q == 1 && t[i] == '\'') || (in_q == 2 && t[i] == '"'))
@@ -125,8 +133,10 @@ void	token_expander(t_data *data, int envi)
 	t_token	exp_t;
 
 	i = 0;
+	printf("entered token expander\n");
 	while (data->tokens[i].token) // TODO norm, error returns, CHECK THE THING IF IT WORKS LOL
 	{
+		printf("in data->tokens[%2d]\n", i);
 		exp_t.token = malloc(expansion_counter(data, envi, data->tokens[i].token)); // done
 		exp_t.literal = malloc(sizeof (int) * expansion_counter(data, envi, data->tokens[i].token));
 		if (!exp_t.token || !exp_t.literal)
