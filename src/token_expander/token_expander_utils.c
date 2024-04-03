@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/28 12:01:48 by akozin            #+#    #+#             */
-/*   Updated: 2024/04/03 12:18:50 by akozin           ###   ########.fr       */
+/*   Updated: 2024/04/03 16:51:25 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,16 @@ char	*var_end(char *s)
 		s++;
 	}
 	return (s);
+}
+
+int	tokenslen(t_token *t)
+{
+	int	ret;
+
+	ret = 0;
+	while (t[ret].token)
+		ret++;
+	return (ret);
 }
 
 t_token	*tokens_join(t_token *t1, t_token *t2) // TODO literal int array copy?
@@ -56,26 +66,8 @@ t_token	*tokens_join_free(t_token *t1, t_token *t2)
 	t_token	*ret;
 
 	ret = tokens_join(t1, t2);
-//	if (t1) // TODO
-//		free_ret(&t1);
+	if (t1) // TODO
+		free_ret(&t1);
 	return (ret);
 }
 
-void	literal_filler(int in_q, char c, t_token *f_me, int j)
-{
-	printf("\t\tentered literal filler token\n");
-	if ((in_q == 1 && c == '\'') || (in_q == 2 && c == '"')
-			|| (!in_q && ft_strchr(" \t\f\v'\"", c)))
-		f_me->literal[j] = 0;
-	else
-		f_me->literal[j] = 1;
-}
-
-void	determine_q(int *in_q, char c)
-{
-	printf("\t\tentered determine q\n");
-	if ((*in_q == 1 && c == '\'') || (*in_q == 2 && c == '"'))
-		*in_q = 0;
-	else if (!*in_q && (c == '\'' || c == '"'))
-		*in_q = (c == '"') + 1;
-}

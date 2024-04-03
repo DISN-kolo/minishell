@@ -1,29 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   token_expander_utils_2.c                           :+:      :+:    :+:   */
+/*   new_token_splitter.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/04/02 12:30:35 by akozin            #+#    #+#             */
-/*   Updated: 2024/04/03 12:15:43 by akozin           ###   ########.fr       */
+/*   Created: 2024/04/03 16:33:07 by akozin            #+#    #+#             */
+/*   Updated: 2024/04/03 16:54:11 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
-
-/*
- * k is basically var's value len.
- */
-void	fill_lit_expanded(int k, t_token *f_me, int in_q, int j)
-{
-	printf("\t\tentered fill lit expanded\n");
-	while (k-- > 0)
-	{
-		f_me->literal[j - k] = in_q
-			|| !ft_strchr(" \t\f\v", f_me->token[j - k]);
-	}
-}
 
 static int	new_t_c_internal(t_token t, char *sep, int *in_q, int i)
 {
@@ -78,6 +65,28 @@ static int	new_t_c(t_token t)
 	if (!in_q)
 		return (count);
 	return (-2);
+}
+
+int	strchars_lit(t_token *t, int k, char *sep)
+{
+	int		in_q;
+
+	in_q = 0;
+	while (t->token[k])
+	{
+		if (!t->literal[k])
+		{
+			if ((in_q == 1 && t->token[k] == '\'')
+					|| (in_q == 2 && t->token[k] == '"'))
+				in_q = 0;
+			else if (!in_q && (t->token[k] == '\'' || t->token[k] == '"'))
+				in_q = (t->token[k] == '"') + 1;
+		}
+		if (!in_q && ft_strchr(sep, t->token[k]) && !t->literal[k])
+			return (k);
+		k++;
+	}
+	return (-1);
 }
 
 static int	new_t_split_internal(t_token *t, int *k, t_token **ret, int *i)

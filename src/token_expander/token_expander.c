@@ -6,76 +6,11 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 16:41:25 by akozin            #+#    #+#             */
-/*   Updated: 2024/04/03 12:29:59 by akozin           ###   ########.fr       */
+/*   Updated: 2024/04/03 16:57:05 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
-
-static int fill_token(t_token *f_me, char *t, t_data *data, int *j)
-{
-	char	*env_v_name;
-	char	*env_v_val;
-	int		k;
-
-	k = 0;
-	printf("\t\tentered fill token\n");
-	env_v_name = ft_substr(t, 0, var_end(t) - t);
-	printf("\t\t\tsubstr success:\n"
-			"\t\t\tenv_v_name = %s\n", env_v_name);
-	env_v_val = read_env(data, env_v_name, 0); // TODO NEED ENVI SOMEHOW HEREEEE
-	printf("\t\t\tread_env success:\n"
-			"\t\t\tenv_v_val  = %s\n", env_v_val);
-	if (!env_v_val)
-		return (-1);
-	while (env_v_val[k])
-	{
-		printf("k: %2d\n", k);
-		f_me->token[*j] = env_v_val[k];
-		printf("j: %2d eq OK\n", *j);
-		k++;
-		(*j)++;
-	}
-	(*j)--;
-	free(env_v_name);
-	//free(env_v_val); // do we free it? can we free it?
-	return (k);
-}
-/* ^ use k to know how many ints to fill in the literals arr
- */
-
-/*
- * envi here, to later send it to other funcs who need it or smthn
- * MUST ADD, TODO
- */
-static void	dollar_expander(t_token *f_me, t_data *data, char *t)
-{
-	int		i;
-	int		j;
-	int		in_q;
-
-	i = 0;
-	j = 0;
-	in_q = 0;
-	printf("\tentered dollar expander\n");
-	while (t[i])
-	{
-		determine_q(&in_q, t[i]);
-		if (in_q != 1 && t[i] == '$'
-				&& (t[i + 1] == '_' || ft_isalpha(t[i + 1])))
-		{
-			fill_lit_expanded(fill_token(f_me, &t[i + 1], data, &j),
-					f_me, in_q, j);
-			i += var_end(&t[i + 1]) - &t[i + 1];
-		}
-		else
-			f_me->token[j] = t[i];
-		literal_filler(in_q, t[i], f_me, j);
-		i++;
-		j++;
-	}
-	f_me->token[j] = 0;
-}
 
 static int	inside_dollar_counter(t_data *data, int envi, char *t, int i)
 {
@@ -96,7 +31,6 @@ static int	inside_dollar_counter(t_data *data, int envi, char *t, int i)
 		return (-ft_strlen(env_v_name));
 	ret = ft_strlen(env_v_val) - ft_strlen(env_v_name);
 	free(env_v_name);
-	//free(env_v_val);
 	return (ret);
 }
 
@@ -143,25 +77,26 @@ void	token_expander(t_data *data, int envi)
 	int		exp_len;
 
 	i = 0;
+	new_tokens = NULL;
 	printf("entered token expander\n");
 	while (data->tokens[i].token) // TODO norm, error returns, CHECK THE THING IF IT WORKS LOL
 	{
 		printf("======      ======\n");
 		printf("in data->tokens[%2d]\n", i);
 		exp_len = expansion_counter(data, envi, data->tokens[i].token);
-		exp_t.token = malloc(exp_len); // done
+		exp_t.token = malloc(exp_len);
 		printf("expanded token allocated\n");
 		exp_t.literal = malloc(sizeof (int) * exp_len);
 		printf("expanded literal allocated\n");
 		if (!exp_t.token || !exp_t.literal)
 			return ;
-		dollar_expander(&exp_t, data, data->tokens[i].token); // done
+		dollar_expander(&exp_t, data, data->tokens[i].token);
 		printf("dollars expanded\n");
 		printf("BEHOLD! the new line looks like this: %s\n", exp_t.token);
-		local_n_t = new_t_split(exp_t); // done
+		local_n_t = new_t_split(exp_t);
 		if (!local_n_t)
 			return ;
-		new_tokens = tokens_join_free(new_tokens, local_n_t); // done
+		new_tokens = tokens_join_free(new_tokens, local_n_t);
 		if (!new_tokens)
 			return ;
 		i++;
