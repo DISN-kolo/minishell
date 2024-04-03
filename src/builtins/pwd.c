@@ -6,13 +6,13 @@
 /*   By: molasz-a <molasz-a@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 15:04:34 by molasz-a          #+#    #+#             */
-/*   Updated: 2024/04/03 13:04:00 by molasz-a         ###   ########.fr       */
+/*   Updated: 2024/04/03 15:02:01 by molasz-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 
-void	bpwd(t_data *data, char **args, int envi)
+void	bpwd(t_data *data, char **args)
 {
 	char	*path;
 
@@ -27,6 +27,6 @@ void	bpwd(t_data *data, char **args, int envi)
 			free(path);
 		}
 		else
-			printf("%s\n", read_env(data, "PWD", envi));
+			printf("%s\n", read_env(data, "PWD"));
 	}
 }

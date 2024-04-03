@@ -6,7 +6,7 @@
 /*   By: molasz-a <molasz-a@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/28 13:10:50 by molasz-a          #+#    #+#             */
-/*   Updated: 2024/03/31 12:57:51 by molasz-a         ###   ########.fr       */
+/*   Updated: 2024/04/03 15:09:30 by molasz-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,30 +60,10 @@ void	free_env(t_env *env)
 	free(env);
 }
 
-static int	reset_env(t_data *data)
-{
-	t_env	**env;
-	int		i;
-
-	env = malloc(sizeof(t_env *) * 2);
-	if (!env)
-		return (1);
-	env[1] = NULL;
-	i = 0;
-	while (data->env[i + 1])
-		free_env(data->env[i++]);
-	env[0] = data->env[i];
-	free(data->env);
-	data->env = env;
-	return (0);
-}
-
 void	data_cleaner(t_data *data)
 {
 	int	i;
 
-	if (data->env)
-		reset_env(data);
 	if (data->tokens)
 		free_ret(&data->tokens);
 	data->tokens = 0;

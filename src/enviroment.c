@@ -6,45 +6,76 @@
 /*   By: molasz-a <molasz-a@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/25 13:23:31 by molasz-a          #+#    #+#             */
-/*   Updated: 2024/03/31 12:48:04 by molasz-a         ###   ########.fr       */
+/*   Updated: 2024/04/03 15:00:56 by molasz-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../inc/minishell.h"
+#include "../inc/minishell.h"
 
-char	*read_env(t_data *data, char *key, int envi)
+t_env	*alloc_env(char **envp)
+{
+	t_env	*env;
+	int		len;
+	int		i;
+	int		j;
+
+	len = ft_strslen(envp);
+	env = malloc((len + 1) * sizeof (t_env));
+	if (!env)
+		return (NULL);
+	env[len].key = NULL;
+	i = 0;
+	while (i < len)
+	{
+		j = 0;
+		while (envp[i][j] != '=')
+			j++;
+		env[i].key = ft_substr(envp[i], 0, j);
+		env[i].value = ft_substr(envp[i], j + 1, ft_strlen(envp[i]));
+		if (!env[i].key || !env[i].value)
+			return (free_env(env), NULL);
+		env[i].exp = 1;
+		i++;
+	}
+	return (env);
+}
+
+char	*read_env(t_data *data, char *key)
 {
 	int		i;
 
 	i = 0;
-	while (data->env[envi][i].key)
+	while (data->env[i].key)
 	{
-		if (!ft_strncmp(key, data->env[envi][i].key, ft_strlen(key) + 1))
+		if (!ft_strncmp(key, data->env[i].key, ft_strlen(key) + 1))
 			break ;
 		i++;
 	}
-	if (data->env[envi][i].key)
-		return (data->env[envi][i].value);
+	if (data->env[i].key)
+		return (data->env[i].value);
 	return (NULL);
 }
 
-char	**format_env(t_env *env)
+char	**format_env(t_data *data)
 {
-	char	**new_env;
+	char	**env;
 	int		len;
 	int		i;
 
 	len = 0;
-	while (env[len].value)
+	while (data->env[len].value)
 		len++;
-	new_env = malloc((len + 1) * sizeof (char *));
-	if (!new_env)
+	env = malloc((len + 1) * sizeof (char *));
+	if (!env)
 		return (NULL);
-	i = -1;
-	while (env[++i].value)
-		new_env[i] = env[i].value;
-	new_env[i] = NULL;
-	return (new_env);
+	i = 0;
+	while (data->env[i].value)
+	{
+		env[i] = data->env[i].value;
+		i++;
+	}
+	env[i] = NULL;
+	return (env);
 }
 
 int	find_equal(char *s)

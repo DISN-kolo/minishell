@@ -1,43 +1,57 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   bcd.c                                              :+:      :+:    :+:   */
+/*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: molasz-a <molasz-a@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/04/03 13:06:05 by molasz-a          #+#    #+#             */
-/*   Updated: 2024/04/03 14:25:49 by molasz-a         ###   ########.fr       */
+/*   Created: 2024/04/03 15:29:33 by molasz-a          #+#    #+#             */
+/*   Updated: 2024/04/03 15:44:15 by molasz-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 
-void	update_pwd(t_data *data, char *path, int envi)
+static int	update_pwd(t_data *data, char *path)
+{
+	char	*pwd;
 
-void	update_path(t_data *data, char *path, int envi)
+	pwd = ft_strjoin("PWD=", path);
+	if (!pwd)
+		return (1);
+	if (export_env(data, pwd))
+		return (1);
+	free(pwd);
+	return (0);
+}
+
+static void	update_path(t_data *data, char *path)
 {
 	if (chdir(path) < 0)
 		write(2, "CHDIR error\n", 12);
 	else
-	{
-		export_env(data, );
-	}
+		update_pwd(data, path);
 }
 
-void	bcd(t_data *data, char **args, int envi)
+void	bcd(t_data *data, char **args)
 {
+	char	*dir;
 	char	*path;
 
 	if (!args[0])
-		update_path(data, read_env(data, "HOME", envi), envi);
+		update_path(data, read_env(data, "HOME"));
 	else if (args[0][0] == '/')
-		update_path(data, args[0], envi);
+		update_path(data, args[0]);
 	else
 	{
-		path = ft_strjoin(read_env(data, "PWD", envi), args[0]);
+		dir = ft_strjoin(read_env(data, "PWD"), "/");
+		if (!dir)
+			return ;
+		path = ft_strjoin(dir, args[0]);
 		if (!path)
 			return ;
-		update_path(data, path, envi);
+		update_path(data, path);
+		free(dir);
 		free(path);
 	}
 }

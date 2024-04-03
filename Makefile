@@ -6,7 +6,7 @@
 #    By: akozin <akozin@student.42barcelona.com>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/18 16:38:42 by akozin            #+#    #+#              #
-#    Updated: 2024/03/31 15:09:48 by molasz-a         ###   ########.fr        #
+#    Updated: 2024/04/03 15:29:53 by molasz-a         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -35,14 +35,14 @@ SRCNAMES = main.c \
 			tokenize/tokenize_err_probe.c \
 			expand_vars.c \
 			redir_exec.c \
-			enviroment/create_env.c \
-			enviroment/utils_env.c \
 			builtins/echo.c \
+			builtins/cd.c \
 			builtins/pwd.c \
 			builtins/export.c \
 			builtins/unset.c \
 			builtins/env.c \
 			builtins/exit.c \
+			enviroment.c \
 			free_utils.c
 
 SRCS = $(SRCNAMES)
@@ -54,7 +54,7 @@ RM = rm -rf
 all:		folders make_libs $(NAME)
 
 folders:
-	mkdir -p obj/tokenize obj/enviroment obj/builtins
+	mkdir -p obj/tokenize obj/builtins
 
 
 make_libs: $(RL)
