@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 16:41:25 by akozin            #+#    #+#             */
-/*   Updated: 2024/04/03 12:23:02 by akozin           ###   ########.fr       */
+/*   Updated: 2024/04/03 12:29:59 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ static int fill_token(t_token *f_me, char *t, t_data *data, int *j)
 	}
 	(*j)--;
 	free(env_v_name);
-	free(env_v_val); // do we free it? can we free it?
+	//free(env_v_val); // do we free it? can we free it?
 	return (k);
 }
 /* ^ use k to know how many ints to fill in the literals arr
@@ -96,7 +96,7 @@ static int	inside_dollar_counter(t_data *data, int envi, char *t, int i)
 		return (-ft_strlen(env_v_name));
 	ret = ft_strlen(env_v_val) - ft_strlen(env_v_name);
 	free(env_v_name);
-	free(env_v_val);
+	//free(env_v_val);
 	return (ret);
 }
 
