@@ -6,7 +6,7 @@
 /*   By: molasz-a <molasz-a@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 14:09:48 by molasz-a          #+#    #+#             */
-/*   Updated: 2024/04/03 15:15:27 by molasz-a         ###   ########.fr       */
+/*   Updated: 2024/04/03 16:04:01 by molasz-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,6 +107,7 @@ static int	print_export(t_data *data)
 int	bexport(t_data *data, char **exports)
 {
 	int	i;
+	int	j;
 
 	if (!exports)
 		return (print_export(data));
@@ -114,7 +115,14 @@ int	bexport(t_data *data, char **exports)
 	while (exports[i])
 	{
 		if (export_env(data, exports[i]))
-			write(2, "Export params error\n", 20);
+		{
+			j = 0;
+			while (exports[i][j] && exports[i][j] != '=')
+				j++;
+			write(2, "export: not an identifier: ", 27);
+			write(2, exports[i], j);
+			write(2, "\n", 1);
+		}
 		i++;
 	}
 	return (0);
