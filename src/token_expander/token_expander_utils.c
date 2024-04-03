@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/28 12:01:48 by akozin            #+#    #+#             */
-/*   Updated: 2024/04/02 18:25:52 by akozin           ###   ########.fr       */
+/*   Updated: 2024/04/03 12:18:50 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,7 @@ t_token	*tokens_join_free(t_token *t1, t_token *t2)
 
 void	literal_filler(int in_q, char c, t_token *f_me, int j)
 {
+	printf("\t\tentered literal filler token\n");
 	if ((in_q == 1 && c == '\'') || (in_q == 2 && c == '"')
 			|| (!in_q && ft_strchr(" \t\f\v'\"", c)))
 		f_me->literal[j] = 0;
@@ -72,6 +73,7 @@ void	literal_filler(int in_q, char c, t_token *f_me, int j)
 
 void	determine_q(int *in_q, char c)
 {
+	printf("\t\tentered determine q\n");
 	if ((*in_q == 1 && c == '\'') || (*in_q == 2 && c == '"'))
 		*in_q = 0;
 	else if (!*in_q && (c == '\'' || c == '"'))

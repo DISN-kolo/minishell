@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 12:30:35 by akozin            #+#    #+#             */
-/*   Updated: 2024/04/02 18:25:57 by akozin           ###   ########.fr       */
+/*   Updated: 2024/04/03 12:15:43 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
  */
 void	fill_lit_expanded(int k, t_token *f_me, int in_q, int j)
 {
+	printf("\t\tentered fill lit expanded\n");
 	while (k-- > 0)
 	{
 		f_me->literal[j - k] = in_q
