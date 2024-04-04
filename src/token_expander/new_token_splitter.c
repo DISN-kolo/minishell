@@ -99,7 +99,8 @@ static int	new_t_split_internal(t_token *t, int *k, t_token **ret, int *i)
 		wlen = strchars_lit(t, *k, " \t\f\v") - *k;
 	ret[*i]->token = ft_substr(&(t->token[*k]), 0, wlen);
 	if (!ret[*i]->token)
-		return (free_ret(ret), 1); // TODO huh?
+//		return (free_ret(ret), 1); // TODO huh?
+		return (1);
 	(*i)++;
 	*k += wlen;
 	return (0);

@@ -36,8 +36,9 @@ static int fill_token(t_token *f_me, char *t, t_data *data, int *j)
 		k++;
 		(*j)++;
 	}
+	f_me->token[*j] = 0; // TODO check if it screws us up. should fix the ft_strchr in the fill_lit_expanded tho
 	(*j)--;
-	free(env_v_name);
+//	free(env_v_name);
 	return (k);
 }
 /* ^ use k to know how many ints to fill in the literals arr

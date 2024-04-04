@@ -29,6 +29,8 @@ int	free_ret(t_token **ret)
 	int	i;
 
 	i = 0;
+	if (!*ret)
+		return (0);
 	while ((*ret)[i].token)
 	{
 		free((*ret)[i].token);

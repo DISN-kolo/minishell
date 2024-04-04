@@ -66,8 +66,9 @@ t_token	*tokens_join_free(t_token *t1, t_token *t2)
 	t_token	*ret;
 
 	ret = tokens_join(t1, t2);
-	if (t1) // TODO
-		free_ret(&t1);
+//	if (t1) // TODO
+//		free_ret(&t1);
+	t1 = NULL;
 	return (ret);
 }
 

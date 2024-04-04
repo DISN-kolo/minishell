@@ -30,7 +30,7 @@ static int	inside_dollar_counter(t_data *data, int envi, char *t, int i)
 	if (!env_v_val)
 		return (-ft_strlen(env_v_name));
 	ret = ft_strlen(env_v_val) - ft_strlen(env_v_name);
-	free(env_v_name);
+//	free(env_v_name);
 	return (ret);
 }
 
@@ -96,7 +96,9 @@ void	token_expander(t_data *data, int envi)
 		local_n_t = new_t_split(exp_t);
 		if (!local_n_t)
 			return ;
+		printf("local n t obtained SIN PROBLEMAS\n");
 		new_tokens = tokens_join_free(new_tokens, local_n_t);
+		printf("new_tokens joined SIN PROBLEMAS\n");
 		if (!new_tokens)
 			return ;
 		i++;

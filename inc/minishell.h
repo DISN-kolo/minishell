@@ -32,10 +32,8 @@ int		tokenize_err_probe(t_token *tokens);
 
 // TOKEN EXPANSION
 void	token_expander(t_data *data, int envi);
+void	dollar_expander(t_token *f_me, t_data *data, char *t);
 char	*var_end(char *s);
-void	determine_q(int *in_q, char c);
-void	fill_lit_expanded(int k, t_token *f_me, int in_q, int j);
-void	literal_filler(int in_q, char c, t_token *f_me, int j);
 t_token	*new_t_split(t_token t);
 t_token	*tokens_join_free(t_token *t1, t_token *t2);
 int		tokenslen(t_token *t);

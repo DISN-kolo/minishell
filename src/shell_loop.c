@@ -31,6 +31,7 @@ void	shell_loop(t_data *data)
 //		token_loop(data);
 		token_expander(data, 0); // TODO need i say that envi=0 shan't be a const???
 //		parse_exec(data);
+		printf("yall ready for some data cleaning?\n");
 		data_cleaner(data);
 	}
 	bexit(data, NULL);
