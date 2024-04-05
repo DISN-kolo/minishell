@@ -6,7 +6,7 @@
 /*   By: molasz-a <molasz-a@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/28 13:10:50 by molasz-a          #+#    #+#             */
-/*   Updated: 2024/03/31 12:57:51 by molasz-a         ###   ########.fr       */
+/*   Updated: 2024/04/05 12:05:41 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ int	free_ret(t_token **ret)
 		i++;
 	}
 	free(*ret);
+	*ret = NULL;
 	return (1);
 }
 

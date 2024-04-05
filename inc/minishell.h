@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 16:20:41 by akozin            #+#    #+#             */
-/*   Updated: 2024/04/03 17:01:59 by akozin           ###   ########.fr       */
+/*   Updated: 2024/04/05 13:08:01 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ char	*var_end(char *s);
 t_token	*new_t_split(t_token t);
 t_token	*tokens_join_free(t_token *t1, t_token *t2);
 int		tokenslen(t_token *t);
-int		strchars_lit(t_token *t, int k, char *sep);
+char	*strchars_lit(t_token *t, int k, char *sep);
 
 // EXPAND & PARSE
 void	parse_exec(t_data *data);

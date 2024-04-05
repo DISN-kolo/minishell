@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 16:41:25 by akozin            #+#    #+#             */
-/*   Updated: 2024/04/03 16:57:05 by akozin           ###   ########.fr       */
+/*   Updated: 2024/04/05 14:08:35 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,19 +18,14 @@ static int	inside_dollar_counter(t_data *data, int envi, char *t, int i)
 	char	*env_v_name;
 	char	*env_v_val;
 
-	printf("\tentered inside dollar counter\n");
 	if (t[i + 1] != '_' && !ft_isalpha(t[i + 1]))
 		return (0);
 	env_v_name = ft_substr(&t[i + 1], 0, var_end(&t[i + 1]) - &t[i + 1]);
-	printf("\t\tsubstr success:\n"
-			"\t\tenv_v_name = %s\n", env_v_name);
 	env_v_val = read_env(data, env_v_name, envi); // TODO envi? madonn
-	printf("\t\tread_env success:\n"
-			"\t\tenv_v_val  = %s\n", env_v_val);
 	if (!env_v_val)
 		return (-ft_strlen(env_v_name));
 	ret = ft_strlen(env_v_val) - ft_strlen(env_v_name);
-//	free(env_v_name);
+	free(env_v_name);
 	return (ret);
 }
 
@@ -43,7 +38,6 @@ static int	expansion_counter(t_data *data, int envi, char *t)
 	ret = 0;
 	i = 0;
 	in_q = 0;
-	printf("\tentered expansion counter\n");
 	while (t[i])
 	{
 		if ((in_q == 1 && t[i] == '\'') || (in_q == 2 && t[i] == '"'))
@@ -78,32 +72,37 @@ void	token_expander(t_data *data, int envi)
 
 	i = 0;
 	new_tokens = NULL;
-	printf("entered token expander\n");
 	while (data->tokens[i].token) // TODO norm, error returns, CHECK THE THING IF IT WORKS LOL
 	{
 		printf("======      ======\n");
 		printf("in data->tokens[%2d]\n", i);
 		exp_len = expansion_counter(data, envi, data->tokens[i].token);
-		exp_t.token = malloc(exp_len);
-		printf("expanded token allocated\n");
+		exp_t.token = malloc(exp_len + 1);
 		exp_t.literal = malloc(sizeof (int) * exp_len);
-		printf("expanded literal allocated\n");
 		if (!exp_t.token || !exp_t.literal)
 			return ;
 		dollar_expander(&exp_t, data, data->tokens[i].token);
-		printf("dollars expanded\n");
 		printf("BEHOLD! the new line looks like this: %s\n", exp_t.token);
+		printf("while the literal of the first character is %d\n", exp_t.literal[0]);
 		local_n_t = new_t_split(exp_t);
 		if (!local_n_t)
 			return ;
-		printf("local n t obtained SIN PROBLEMAS\n");
+		printf("local n t obtained\n");
+		for (int a = 0; a < 5; a++)
+		{
+			printf("with a = %d\n", a);
+			if (local_n_t[a].token)
+				printf("local n t token number %d is %s\n", a, local_n_t[a].token);
+			else
+				break ;
+		}
 		new_tokens = tokens_join_free(new_tokens, local_n_t);
-		printf("new_tokens joined SIN PROBLEMAS\n");
 		if (!new_tokens)
 			return ;
+		printf("new_tokens joined\n");
 		i++;
 	}
-	// free(data->tokens); // TODO free_all or something?
+	free_ret(&(data->tokens)); // TODO free_all or something?
 	data->tokens = new_tokens;
 	if (data->tokens)
 	{

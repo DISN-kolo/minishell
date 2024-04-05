@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 16:33:07 by akozin            #+#    #+#             */
-/*   Updated: 2024/04/03 16:54:11 by akozin           ###   ########.fr       */
+/*   Updated: 2024/04/05 13:58:08 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,7 @@ static int	new_t_c(t_token t)
 	count = 0;
 	if (!t.token[i])
 		return (0);
+	printf("is the first char literal? %d\n", t.literal[i]);
 	if ((t.token[i] == '\'' || t.token[i] == '"') && !t.literal[i])
 	{
 		count++;
@@ -63,11 +64,11 @@ static int	new_t_c(t_token t)
 		count++;
 	count += new_t_c_internal(t, " \t\f\v", &in_q, i);
 	if (!in_q)
-		return (count);
+		return (printf("we've counted %d tokens here\n", count), count);
 	return (-2);
 }
 
-int	strchars_lit(t_token *t, int k, char *sep)
+char	*strchars_lit(t_token *t, int k, char *sep)
 {
 	int		in_q;
 
@@ -83,20 +84,20 @@ int	strchars_lit(t_token *t, int k, char *sep)
 				in_q = (t->token[k] == '"') + 1;
 		}
 		if (!in_q && ft_strchr(sep, t->token[k]) && !t->literal[k])
-			return (k);
+			return (&(t->token[k]));
 		k++;
 	}
-	return (-1);
+	return (NULL);
 }
 
 static int	new_t_split_internal(t_token *t, int *k, t_token **ret, int *i)
 {
 	size_t	wlen;
 
-	if (strchars_lit(t, *k, " \t\f\v") == -1)
+	if (!strchars_lit(t, *k, " \t\f\v"))
 		wlen = ft_strlen(&(t->token[*k]));
 	else
-		wlen = strchars_lit(t, *k, " \t\f\v") - *k;
+		wlen = strchars_lit(t, *k, " \t\f\v") - &(t->token[*k]);
 	ret[*i]->token = ft_substr(&(t->token[*k]), 0, wlen);
 	if (!ret[*i]->token)
 //		return (free_ret(ret), 1); // TODO huh?
@@ -119,7 +120,7 @@ t_token	*new_t_split(t_token t)
 		return (NULL);
 	while (t.token[k])
 	{
-		while (ft_strchr(" \t\f\v", t.token[k]) && t.token[k])
+		while (ft_strchr(" \t\f\v", t.token[k]) && t.token[k] && !t.literal[k])
 			k++;
 		if (t.token[k])
 		{
