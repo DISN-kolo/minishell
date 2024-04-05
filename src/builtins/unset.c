@@ -6,7 +6,7 @@
 /*   By: molasz-a <molasz-a@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 14:13:41 by molasz-a          #+#    #+#             */
-/*   Updated: 2024/04/05 13:59:03 by molasz-a         ###   ########.fr       */
+/*   Updated: 2024/04/05 14:32:46 by molasz-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ static void	copy_remove_env(t_data *data, char *key, t_env *env)
 		}
 	}
 	env[j].key = NULL;
+	env[j].value = NULL;
 }
 
 static int	remove_env(t_data *data, char *key)

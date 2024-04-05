@@ -6,7 +6,7 @@
 /*   By: molasz-a <molasz-a@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/25 13:23:31 by molasz-a          #+#    #+#             */
-/*   Updated: 2024/04/05 14:19:36 by molasz-a         ###   ########.fr       */
+/*   Updated: 2024/04/05 14:31:55 by molasz-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ t_env	*alloc_env(char **envp)
 	if (!env)
 		return (NULL);
 	env[len].key = NULL;
+	env[len].value = NULL;
 	i = 0;
 	while (i < len)
 	{
@@ -65,13 +66,13 @@ char	**format_env(t_data *data)
 	int		i;
 
 	len = 0;
-	while (data->env[len].value)
+	while (data->env[len].key)
 		len++;
 	env = malloc((len + 1) * sizeof (char *));
 	if (!env)
 		return (NULL);
 	i = 0;
-	while (data->env[i].value)
+	while (data->env[i].key)
 	{
 		env[i] = data->env[i].value;
 		i++;
