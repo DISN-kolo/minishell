@@ -6,7 +6,7 @@
 /*   By: molasz-a <molasz-a@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 14:13:41 by molasz-a          #+#    #+#             */
-/*   Updated: 2024/04/03 16:05:46 by molasz-a         ###   ########.fr       */
+/*   Updated: 2024/04/05 13:59:03 by molasz-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ static int	remove_env(t_data *data, char *key)
 
 static int	unset_env(t_data *data, char *key)
 {
-	if (ft_strchr(key, '='))
+	if (!(ft_isalpha(key[0]) || key[0] == '_') || (ft_strchr(key, '=')))
 		return (1);
 	if (read_env(data, key))
 	{
@@ -74,9 +74,9 @@ int	bunset(t_data *data, char **keys)
 	{
 		if (unset_env(data, keys[i]))
 		{
-			write(2, "unset: ", 7);
+			write(2, "minishell: unset: `", 19);
 			write(2, keys[i], ft_strlen(keys[i]));
-			write(2, ": invalid parameter name\n", 25);
+			write(2, "': not a valid identifier\n", 26);
 		}
 		i++;
 	}

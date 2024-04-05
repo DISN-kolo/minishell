@@ -6,7 +6,7 @@
 #    By: akozin <akozin@student.42barcelona.com>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/18 16:38:42 by akozin            #+#    #+#              #
-#    Updated: 2024/04/03 15:29:53 by molasz-a         ###   ########.fr        #
+#    Updated: 2024/04/05 14:04:40 by molasz-a         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -39,6 +39,7 @@ SRCNAMES = main.c \
 			builtins/cd.c \
 			builtins/pwd.c \
 			builtins/export.c \
+			builtins/export_utils.c \
 			builtins/unset.c \
 			builtins/env.c \
 			builtins/exit.c \

@@ -26,7 +26,6 @@ typedef struct s_com
 	t_inout *outs;
 	int envi;
 	t_operator oper;
-	int status;
 } t_com;
 
 typedef struct s_token
@@ -46,6 +45,7 @@ typedef struct s_data
 {
 	t_token *tokens;
 	t_com *coms;
+	int status_code;
 	int errored;
 	t_env *env;
 } t_data;
