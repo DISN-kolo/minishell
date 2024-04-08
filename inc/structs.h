@@ -45,8 +45,9 @@ typedef struct s_data
 {
 	t_token *tokens;
 	t_com *coms;
+	int status_code;
 	int errored;
-	t_env **env;
+	t_env *env;
 } t_data;
 
 #endif

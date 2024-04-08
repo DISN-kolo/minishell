@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 16:26:06 by akozin            #+#    #+#             */
-/*   Updated: 2024/04/05 14:04:32 by akozin           ###   ########.fr       */
+/*   Updated: 2024/04/08 13:15:11 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ static int fill_token(t_token *f_me, char *t, t_data *data, int *j)
 
 	k = 0;
 	env_v_name = ft_substr(t, 0, var_end(t) - t);
-	env_v_val = read_env(data, env_v_name, 0); // TODO envi removal
+	env_v_val = read_env(data, env_v_name);
 	if (!env_v_val)
 		return (-1);
 	while (env_v_val[k])
@@ -64,10 +64,6 @@ static void	literal_filler(int in_q, char c, t_token *f_me, int j)
 	printf("leaving literal filler with literal = %3d\n", f_me->literal[j]);
 }
 
-/*
- * envi here, to later send it to other funcs who need it or smthn
- * MUST ADD, TODO
- */
 void	dollar_expander(t_token *f_me, t_data *data, char *t)
 {
 	int		i;

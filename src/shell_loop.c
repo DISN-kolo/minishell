@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 16:15:48 by akozin            #+#    #+#             */
-/*   Updated: 2024/04/03 15:07:48 by akozin           ###   ########.fr       */
+/*   Updated: 2024/04/08 13:07:07 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,14 +24,15 @@ void	shell_loop(t_data *data)
 		if (!s)
 			break ;
 		if (!s[0])
+		{
+			free(s);
 			continue ;
+		}
 		add_history(s);
 		tokenize_line(s, data);
 		free(s);
-//		token_loop(data);
-		token_expander(data, 0); // TODO need i say that envi=0 shan't be a const???
+		token_loop(data);
 //		parse_exec(data);
-		printf("yall ready for some data cleaning?\n");
 		data_cleaner(data);
 	}
 	bexit(data, NULL);

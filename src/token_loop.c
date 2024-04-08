@@ -6,9 +6,11 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 14:59:19 by akozin            #+#    #+#             */
-/*   Updated: 2024/04/03 16:23:38 by akozin           ###   ########.fr       */
+/*   Updated: 2024/04/08 13:19:04 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+#include "../inc/minishell.h"
 
 void	prepare_commands(t_data *data)
 {
@@ -19,8 +21,8 @@ void	prepare_commands(t_data *data)
 	count = 0;
 	while (data->tokens[i].token)
 	{
-		if (ft_strncmp(data->tokens[i]->token, "&&", 3)
-				|| ft_strncmp(data->tokens[i]->token, "||", 3))
+		if (ft_strncmp(data->tokens[i].token, "&&", 3)
+				|| ft_strncmp(data->tokens[i].token, "||", 3))
 			count++;
 		i++;
 	}
@@ -43,14 +45,14 @@ void	token_loop(t_data *data)
 	k = 0;
 	while (data->coms[k].com)
 	{
-		while (!ft_strncmp(data->tokens[i]->token, "&&", 3)
-				&& !ft_strncmp(data->tokens[i]->token, "||", 3))
+		while (!ft_strncmp(data->tokens[i].token, "&&", 3)
+				&& !ft_strncmp(data->tokens[i].token, "||", 3))
 		{
 			current_tokens = tokens_join_free(current_tokens, &(data->tokens[i]));
 			i++;
 		}
 		token_expander(data, current_tokens);
-		command_fill(&(data->coms[k]), current_tokens); // TODO
+//		command_fill(&(data->coms[k]), current_tokens); // TODO
 		k++;
 	}
 }

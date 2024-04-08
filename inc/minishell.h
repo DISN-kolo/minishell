@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 16:20:41 by akozin            #+#    #+#             */
-/*   Updated: 2024/04/05 13:08:01 by akozin           ###   ########.fr       */
+/*   Updated: 2024/04/08 13:18:51 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@
 
 // GENERAL
 void	shell_loop(t_data *data);
+void	token_loop(t_data *data);
 
 // TOKENIZE
 void	tokenize_line(char *s, t_data *data);
@@ -31,7 +32,7 @@ int		tokenize_count(char *s, char *sep);
 int		tokenize_err_probe(t_token *tokens);
 
 // TOKEN EXPANSION
-void	token_expander(t_data *data, int envi);
+void	token_expander(t_data *data, t_token *current_tokens);
 void	dollar_expander(t_token *f_me, t_data *data, char *t);
 char	*var_end(char *s);
 t_token	*new_t_split(t_token t);
@@ -47,19 +48,20 @@ void	expand_vars(char *s, t_data *data);
 void	redir_exec(t_data *data);
 
 // ENVIROMENT
-t_env	**create_env(char **envp);
-char	**format_env(t_env *env);
-char	*read_env(t_data *data, char *prop, int envi);
+t_env	*alloc_env(char **envp);
+char	**format_env(t_data *data);
+char	*read_env(t_data *data, char *prop);
 int		dup_env(t_data *data);
 int		find_equal(char *s);
 
 // BUILTINS
 void	becho(char **args);
-void	bcd(char **args);
-void	bpwd(t_data *data, char **args, int envi);
+void	bcd(t_data *data, char **args);
+void	bpwd(t_data *data, char **args);
 int		bexport(t_data *data, char **exports);
+int		export_env(t_data *data, char *exp);
 int		bunset(t_data *data, char **keys);
-void	benv(t_data *data, int envi);
+void	benv(t_data *data);
 void	bexit(t_data *data, char **args);
 
 // FREE UTILS

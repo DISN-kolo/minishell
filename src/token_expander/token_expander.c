@@ -6,13 +6,13 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 16:41:25 by akozin            #+#    #+#             */
-/*   Updated: 2024/04/08 11:59:45 by akozin           ###   ########.fr       */
+/*   Updated: 2024/04/08 13:21:06 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 
-static int	inside_dollar_counter(t_data *data, int envi, char *t, int i)
+static int	inside_dollar_counter(t_data *data, char *t, int i)
 {
 	int		ret;
 	char	*env_v_name;
@@ -21,7 +21,7 @@ static int	inside_dollar_counter(t_data *data, int envi, char *t, int i)
 	if (t[i + 1] != '_' && !ft_isalpha(t[i + 1]))
 		return (0);
 	env_v_name = ft_substr(&t[i + 1], 0, var_end(&t[i + 1]) - &t[i + 1]);
-	env_v_val = read_env(data, env_v_name, envi); // TODO envi? madonn
+	env_v_val = read_env(data, env_v_name);
 	if (!env_v_val)
 		return (-ft_strlen(env_v_name));
 	ret = ft_strlen(env_v_val) - ft_strlen(env_v_name);
@@ -29,7 +29,7 @@ static int	inside_dollar_counter(t_data *data, int envi, char *t, int i)
 	return (ret);
 }
 
-static int	expansion_counter(t_data *data, int envi, char *t)
+static int	expansion_counter(t_data *data, char *t)
 {
 	int	ret;
 	int	i;
@@ -45,7 +45,7 @@ static int	expansion_counter(t_data *data, int envi, char *t)
 		else if (!in_q && (t[i] == '\'' || t[i] == '"'))
 			in_q = (t[i] == '"') + 1;
 		if (in_q != 1 && t[i] == '$')
-			ret += inside_dollar_counter(data, envi, t, i) - 1;
+			ret += inside_dollar_counter(data, t, i) - 1;
 		i++;
 	}
 	return (i + ret);
@@ -62,7 +62,7 @@ static int	expansion_counter(t_data *data, int envi, char *t)
  * the current data->tokens token, then we pass this exp t to the function that
  * creates the local n tokens, dissecting exp t.
  */
-void	token_expander(t_data *data, int envi)
+void	token_expander(t_data *data, t_token *current_tokens)
 {
 	int		i;
 	t_token	*new_tokens;
@@ -74,16 +74,16 @@ void	token_expander(t_data *data, int envi)
 		return ;
 	i = 0;
 	new_tokens = NULL;
-	while (data->tokens[i].token) // TODO norm, error returns, CHECK THE THING IF IT WORKS LOL
+	while (current_tokens[i].token) // TODO norm, error returns, CHECK THE THING IF IT WORKS LOL
 	{
 		printf("======      ======\n");
-		printf("in data->tokens[%2d]\n", i);
-		exp_len = expansion_counter(data, envi, data->tokens[i].token);
+		printf("in current_tokens[%2d]\n", i);
+		exp_len = expansion_counter(data, current_tokens[i].token);
 		exp_t.token = malloc(exp_len + 1);
 		exp_t.literal = malloc(sizeof (int) * exp_len);
 		if (!exp_t.token || !exp_t.literal)
 			return ;
-		dollar_expander(&exp_t, data, data->tokens[i].token);
+		dollar_expander(&exp_t, data, current_tokens[i].token);
 		printf("BEHOLD! the new line looks like this: %s\n", exp_t.token);
 		printf("while the literal of the first character is %d\n", exp_t.literal[0]);
 		local_n_t = new_t_split(exp_t);
@@ -104,13 +104,13 @@ void	token_expander(t_data *data, int envi)
 		printf("new_tokens joined\n");
 		i++;
 	}
-	free_ret(&(data->tokens));
-	data->tokens = new_tokens;
-	if (data->tokens)
+	free_ret(&(current_tokens));
+	current_tokens = new_tokens;
+	if (current_tokens)
 	{
-		for (int j = 0; data->tokens[j].token != NULL; j++)
+		for (int j = 0; current_tokens[j].token != NULL; j++)
 		{
-			printf("new token %3d: %s\n", j, data->tokens[j].token);
+			printf("new token %3d: %s\n", j, current_tokens[j].token);
 		}
 	}
 }
