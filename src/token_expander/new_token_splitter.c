@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 16:33:07 by akozin            #+#    #+#             */
-/*   Updated: 2024/04/08 16:09:39 by akozin           ###   ########.fr       */
+/*   Updated: 2024/04/08 16:34:36 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,6 @@ static int	new_t_c(t_token t)
 	count = 0;
 	if (!t.token[i])
 		return (0);
-	printf("is the first char literal? %d\n", t.literal[i]);
 	if ((t.token[i] == '\'' || t.token[i] == '"') && !t.literal[i])
 	{
 		count++;
@@ -64,7 +63,7 @@ static int	new_t_c(t_token t)
 		count++;
 	count += new_t_c_internal(t, " \t\f\v", &in_q, i);
 	if (!in_q)
-		return (printf("we've counted %d tokens here\n", count), count);
+		return (count);
 	return (-2);
 }
 

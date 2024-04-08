@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 16:26:06 by akozin            #+#    #+#             */
-/*   Updated: 2024/04/08 13:15:11 by akozin           ###   ########.fr       */
+/*   Updated: 2024/04/08 16:31:36 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,8 @@ static int fill_token(t_token *f_me, char *t, t_data *data, int *j)
 		k++;
 		(*j)++;
 	}
-	(*j)--;
+	if (env_v_val[0])
+		(*j)--;
 	free(env_v_name);
 	return (k);
 }
@@ -86,7 +87,7 @@ void	dollar_expander(t_token *f_me, t_data *data, char *t)
 		}
 		else
 			f_me->token[j] = t[i];
-		literal_filler(in_q, t[i], f_me, j);
+		literal_filler(in_q, f_me->token[j], f_me, j);
 		printf("for i = %3d, j = %3d: char = %c, literal = %d\n", i, j, f_me->token[j], f_me->literal[i]);
 		j++;
 		i++;

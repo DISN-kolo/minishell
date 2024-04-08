@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 16:41:25 by akozin            #+#    #+#             */
-/*   Updated: 2024/04/08 15:35:26 by akozin           ###   ########.fr       */
+/*   Updated: 2024/04/08 16:35:06 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,6 @@ void	token_expander(t_data *data, t_token *current_tokens)
 			return ;
 		dollar_expander(&exp_t, data, current_tokens[i].token);
 		printf("BEHOLD! the new line looks like this: %s\n", exp_t.token);
-		printf("while the literal of the first character is %d\n", exp_t.literal[0]);
 		local_n_t = new_t_split(exp_t);
 		if (!local_n_t)
 			return ;
