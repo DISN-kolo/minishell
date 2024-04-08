@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 16:33:07 by akozin            #+#    #+#             */
-/*   Updated: 2024/04/05 13:58:08 by akozin           ###   ########.fr       */
+/*   Updated: 2024/04/08 16:09:39 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,8 +98,8 @@ static int	new_t_split_internal(t_token *t, int *k, t_token **ret, int *i)
 		wlen = ft_strlen(&(t->token[*k]));
 	else
 		wlen = strchars_lit(t, *k, " \t\f\v") - &(t->token[*k]);
-	ret[*i]->token = ft_substr(&(t->token[*k]), 0, wlen);
-	if (!ret[*i]->token)
+	(*ret)[*i].token = ft_substr(&(t->token[*k]), 0, wlen);
+	if (!(*ret)[*i].token)
 //		return (free_ret(ret), 1); // TODO huh?
 		return (1);
 	(*i)++;
