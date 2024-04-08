@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 16:41:25 by akozin            #+#    #+#             */
-/*   Updated: 2024/04/08 16:35:06 by akozin           ###   ########.fr       */
+/*   Updated: 2024/04/08 17:10:23 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,7 @@ void	token_expander(t_data *data, t_token *current_tokens)
 		exp_len = expansion_counter(data, current_tokens[i].token);
 		exp_t.token = malloc(exp_len + 1);
 		exp_t.literal = malloc(sizeof (int) * exp_len);
+		printf("explen calculated: %d\n", exp_len);
 		if (!exp_t.token || !exp_t.literal)
 			return ;
 		dollar_expander(&exp_t, data, current_tokens[i].token);
