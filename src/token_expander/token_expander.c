@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 16:41:25 by akozin            #+#    #+#             */
-/*   Updated: 2024/04/08 13:21:06 by akozin           ###   ########.fr       */
+/*   Updated: 2024/04/08 15:35:26 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,4 +113,5 @@ void	token_expander(t_data *data, t_token *current_tokens)
 			printf("new token %3d: %s\n", j, current_tokens[j].token);
 		}
 	}
+	data->tokens = current_tokens; // TODO remove me ?
 }
