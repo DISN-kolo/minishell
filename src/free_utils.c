@@ -6,7 +6,7 @@
 /*   By: molasz-a <molasz-a@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/28 13:10:50 by molasz-a          #+#    #+#             */
-/*   Updated: 2024/04/05 14:35:02 by molasz-a         ###   ########.fr       */
+/*   Updated: 2024/04/08 13:01:15 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,8 @@ int	free_ret(t_token **ret)
 	int	i;
 
 	i = 0;
+	if (!*ret)
+		return (0);
 	while ((*ret)[i].token)
 	{
 		free((*ret)[i].token);
@@ -42,6 +44,7 @@ int	free_ret(t_token **ret)
 		i++;
 	}
 	free(*ret);
+	*ret = NULL;
 	return (1);
 }
 

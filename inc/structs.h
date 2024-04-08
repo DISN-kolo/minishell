@@ -24,8 +24,8 @@ typedef struct s_com
 	char **com;
 	t_inout *ins;
 	t_inout *outs;
-	int envi;
 	t_operator oper;
+	int status;
 } t_com;
 
 typedef struct s_token
