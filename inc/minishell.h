@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 16:20:41 by akozin            #+#    #+#             */
-/*   Updated: 2024/04/08 13:18:51 by akozin           ###   ########.fr       */
+/*   Updated: 2024/04/08 16:35:48 by molasz-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@
 
 // GENERAL
 void	shell_loop(t_data *data);
-void	token_loop(t_data *data);
+int		token_loop(t_data *data);
 
 // TOKENIZE
 void	tokenize_line(char *s, t_data *data);
@@ -45,7 +45,7 @@ void	parse_exec(t_data *data);
 void	expand_vars(char *s, t_data *data);
 
 // EXECUTION
-void	redir_exec(t_data *data);
+int		run_cmds(t_data *data);
 
 // ENVIROMENT
 t_env	*alloc_env(char **envp);
@@ -69,5 +69,6 @@ void	free_double(char **p);
 void	free_env(t_env *env);
 int		free_ret(t_token **ret);
 void	data_cleaner(t_data *data);
+void	free_coms(t_data *data);
 
 #endif
