@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 16:41:25 by akozin            #+#    #+#             */
-/*   Updated: 2024/04/05 14:08:35 by akozin           ###   ########.fr       */
+/*   Updated: 2024/04/08 11:59:45 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,8 @@ void	token_expander(t_data *data, int envi)
 	t_token	exp_t;
 	int		exp_len;
 
+	if (data->errored)
+		return ;
 	i = 0;
 	new_tokens = NULL;
 	while (data->tokens[i].token) // TODO norm, error returns, CHECK THE THING IF IT WORKS LOL
@@ -102,7 +104,7 @@ void	token_expander(t_data *data, int envi)
 		printf("new_tokens joined\n");
 		i++;
 	}
-	free_ret(&(data->tokens)); // TODO free_all or something?
+	free_ret(&(data->tokens));
 	data->tokens = new_tokens;
 	if (data->tokens)
 	{
