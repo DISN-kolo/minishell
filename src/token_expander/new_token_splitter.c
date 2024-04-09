@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 16:33:07 by akozin            #+#    #+#             */
-/*   Updated: 2024/04/08 16:34:36 by akozin           ###   ########.fr       */
+/*   Updated: 2024/04/09 12:50:26 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,15 +92,38 @@ char	*strchars_lit(t_token *t, int k, char *sep)
 static int	new_t_split_internal(t_token *t, int *k, t_token **ret, int *i)
 {
 	size_t	wlen;
+	size_t	x;
+	size_t	y;
 
 	if (!strchars_lit(t, *k, " \t\f\v"))
 		wlen = ft_strlen(&(t->token[*k]));
 	else
 		wlen = strchars_lit(t, *k, " \t\f\v") - &(t->token[*k]);
-	(*ret)[*i].token = ft_substr(&(t->token[*k]), 0, wlen);
+	x = 0;
+	y = 0;
+	(*ret)[*i].token = malloc(wlen + 1);
 	if (!(*ret)[*i].token)
+		return (1); // TODO
+	while (x < wlen)
+	{
+		if (ft_strchr("\"'", t->token[*k + x]) && !t->literal[*k + x])
+		{
+			x++;
+			continue ;
+		}
+		(*ret)[*i].token[y] = t->token[*k + x];
+		x++;
+		y++;
+	}
+	(*ret)[*i].token[y] = 0;
+	/*
+	 * this ^^^^^^ is a
+	 * remake of vvvvvv
+	 */
+//	(*ret)[*i].token = ft_substr(&(t->token[*k]), 0, wlen);
+//	if (!(*ret)[*i].token)
 //		return (free_ret(ret), 1); // TODO huh?
-		return (1);
+//		return (1);
 	(*i)++;
 	*k += wlen;
 	return (0);
