@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 16:20:41 by akozin            #+#    #+#             */
-/*   Updated: 2024/04/08 17:39:47 by akozin           ###   ########.fr       */
+/*   Updated: 2024/04/09 15:24:55 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,6 @@ int		tokenize_err_probe(t_token *tokens);
 // TOKEN EXPANSION
 void	token_expander(t_data *data, t_token *current_tokens);
 void	dollar_expander(t_token *f_me, t_data *data, char *t);
-void	j_min_capped(int *j);
 char	*var_end(char *s);
 t_token	*new_t_split(t_token t);
 t_token	*tokens_join_free(t_token *t1, t_token *t2);
