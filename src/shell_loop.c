@@ -6,13 +6,25 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 16:15:48 by akozin            #+#    #+#             */
-/*   Updated: 2024/04/08 15:31:29 by akozin           ###   ########.fr       */
+/*   Updated: 2024/04/09 14:12:02 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
 #include "../readline/readline.h"
 #include "../readline/history.h"
+
+static void	token_printer(t_token *t)
+{
+	int	i;
+
+	i = 0;
+	while (t[i].token)
+	{
+		printf("'%s'\n", t[i].token);
+		i++;
+	}
+}
 
 void	shell_loop(t_data *data)
 {
@@ -38,6 +50,7 @@ void	shell_loop(t_data *data)
  *      vvv
  */
 		token_expander(data, data->tokens);
+		token_printer(data->tokens);
 		data_cleaner(data);
 	}
 	bexit(data, NULL);

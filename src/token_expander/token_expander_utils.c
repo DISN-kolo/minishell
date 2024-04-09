@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/28 12:01:48 by akozin            #+#    #+#             */
-/*   Updated: 2024/04/09 12:54:20 by akozin           ###   ########.fr       */
+/*   Updated: 2024/04/09 13:39:01 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ t_token	*tokens_join_free(t_token *t1, t_token *t2)
 	t_token	*ret;
 
 	ret = tokens_join(t1, t2);
-	if (t1) // TODO
+	if (t1)
 		free_ret(&t1);
 	t1 = NULL;
 	return (ret);

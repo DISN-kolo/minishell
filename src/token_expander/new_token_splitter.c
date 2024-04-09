@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 16:33:07 by akozin            #+#    #+#             */
-/*   Updated: 2024/04/09 12:50:26 by akozin           ###   ########.fr       */
+/*   Updated: 2024/04/09 13:47:53 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,14 +23,14 @@ static int	new_t_c_internal(t_token t, char *sep, int *in_q, int i)
 		if (!t.literal[i])
 		{
 			if ((*in_q == 1 && t.token[i] == '\'')
-					|| (*in_q == 2 && t.token[i] == '"'))
+				|| (*in_q == 2 && t.token[i] == '"'))
 				*in_q = 0;
 			else if (!*in_q && (t.token[i] == '\'' || t.token[i] == '"'))
 				*in_q = (t.token[i] == '"') + 1;
 		}
 		if (!t.literal[i - 1] && ft_strchr(sep, t.token[i - 1])
-				&& (t.literal[i] || (*in_q == 1 && t.token[i] == '\'')
-					|| (*in_q == 2 && t.token[i] == '"')))
+			&& (t.literal[i] || (*in_q == 1 && t.token[i] == '\'')
+				|| (*in_q == 2 && t.token[i] == '"')))
 			count++;
 		i++;
 	}
@@ -67,63 +67,39 @@ static int	new_t_c(t_token t)
 	return (-2);
 }
 
-char	*strchars_lit(t_token *t, int k, char *sep)
+static void	fill_and_remove_q(size_t wlen, t_token *t, int k, t_token *ret_one)
 {
-	int		in_q;
+	size_t	x;
+	size_t	y;
 
-	in_q = 0;
-	while (t->token[k])
+	x = 0;
+	y = 0;
+	while (x < wlen)
 	{
-		if (!t->literal[k])
+		if (ft_strchr("\"'", t->token[k + x]) && !t->literal[k + x])
 		{
-			if ((in_q == 1 && t->token[k] == '\'')
-					|| (in_q == 2 && t->token[k] == '"'))
-				in_q = 0;
-			else if (!in_q && (t->token[k] == '\'' || t->token[k] == '"'))
-				in_q = (t->token[k] == '"') + 1;
+			x++;
+			continue ;
 		}
-		if (!in_q && ft_strchr(sep, t->token[k]) && !t->literal[k])
-			return (&(t->token[k]));
-		k++;
+		ret_one->token[y] = t->token[k + x];
+		x++;
+		y++;
 	}
-	return (NULL);
+	ret_one->token[y] = 0;
 }
 
 static int	new_t_split_internal(t_token *t, int *k, t_token **ret, int *i)
 {
 	size_t	wlen;
-	size_t	x;
-	size_t	y;
 
 	if (!strchars_lit(t, *k, " \t\f\v"))
 		wlen = ft_strlen(&(t->token[*k]));
 	else
 		wlen = strchars_lit(t, *k, " \t\f\v") - &(t->token[*k]);
-	x = 0;
-	y = 0;
 	(*ret)[*i].token = malloc(wlen + 1);
 	if (!(*ret)[*i].token)
 		return (1); // TODO
-	while (x < wlen)
-	{
-		if (ft_strchr("\"'", t->token[*k + x]) && !t->literal[*k + x])
-		{
-			x++;
-			continue ;
-		}
-		(*ret)[*i].token[y] = t->token[*k + x];
-		x++;
-		y++;
-	}
-	(*ret)[*i].token[y] = 0;
-	/*
-	 * this ^^^^^^ is a
-	 * remake of vvvvvv
-	 */
-//	(*ret)[*i].token = ft_substr(&(t->token[*k]), 0, wlen);
-//	if (!(*ret)[*i].token)
-//		return (free_ret(ret), 1); // TODO huh?
-//		return (1);
+	fill_and_remove_q(wlen, t, *k, &((*ret)[*i]));
 	(*i)++;
 	*k += wlen;
 	return (0);

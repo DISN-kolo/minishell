@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 16:41:25 by akozin            #+#    #+#             */
-/*   Updated: 2024/04/08 17:10:23 by akozin           ###   ########.fr       */
+/*   Updated: 2024/04/09 14:08:06 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,18 @@ static int	expansion_counter(t_data *data, char *t)
 	return (i + ret);
 }
 
+static int	exp_t_init(t_token *exp_t, t_data *data, char *current_token)
+{
+	int	exp_len;
+
+	exp_len = expansion_counter(data, current_token);
+	exp_t->token = malloc(exp_len + 1);
+	exp_t->literal = malloc(sizeof (int) * exp_len);
+	if (!exp_t->token || !exp_t->literal)
+		return (1);
+	return (0);
+}
+
 /*
  * new tokens = final returned tokens re-made from data->tokens with
  * expansion n stuff
@@ -68,50 +80,25 @@ void	token_expander(t_data *data, t_token *current_tokens)
 	t_token	*new_tokens;
 	t_token	*local_n_t;
 	t_token	exp_t;
-	int		exp_len;
 
 	if (data->errored)
 		return ;
 	i = 0;
 	new_tokens = NULL;
-	while (current_tokens[i].token) // TODO norm, error returns, CHECK THE THING IF IT WORKS LOL
+	while (current_tokens[i].token) // TODO error returns
 	{
-		printf("======      ======\n");
-		printf("in current_tokens[%2d]\n", i);
-		exp_len = expansion_counter(data, current_tokens[i].token);
-		exp_t.token = malloc(exp_len + 1);
-		exp_t.literal = malloc(sizeof (int) * exp_len);
-		printf("explen calculated: %d\n", exp_len);
-		if (!exp_t.token || !exp_t.literal)
+		if (exp_t_init(&exp_t, data, current_tokens[i].token))
 			return ;
 		dollar_expander(&exp_t, data, current_tokens[i].token);
-		printf("BEHOLD! the new line looks like this: %s\n", exp_t.token);
 		local_n_t = new_t_split(exp_t);
 		if (!local_n_t)
 			return ;
-		printf("local n t obtained\n");
-		for (int a = 0; a < 5; a++)
-		{
-			printf("with a = %d\n", a);
-			if (local_n_t[a].token)
-				printf("local n t token number %d is %s\n", a, local_n_t[a].token);
-			else
-				break ;
-		}
 		new_tokens = tokens_join_free(new_tokens, local_n_t);
 		if (!new_tokens)
 			return ;
-		printf("new_tokens joined\n");
 		i++;
 	}
 	free_ret(&(current_tokens));
 	current_tokens = new_tokens;
-	if (current_tokens)
-	{
-		for (int j = 0; current_tokens[j].token != NULL; j++)
-		{
-			printf("new token %3d: %s\n", j, current_tokens[j].token);
-		}
-	}
 	data->tokens = current_tokens; // TODO remove me ?
 }

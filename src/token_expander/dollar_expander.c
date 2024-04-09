@@ -6,13 +6,13 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 16:26:06 by akozin            #+#    #+#             */
-/*   Updated: 2024/04/09 13:37:58 by akozin           ###   ########.fr       */
+/*   Updated: 2024/04/09 13:40:01 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 
-static int fill_token(t_token *f_me, char *t, t_data *data, int *j)
+static int	fill_token(t_token *f_me, char *t, t_data *data, int *j)
 {
 	char	*env_v_name;
 	char	*env_v_val;
@@ -56,7 +56,7 @@ static void	fill_lit_expanded(int k, t_token *f_me, int in_q, int j)
 static char	literal_filler(int in_q, char c, t_token *f_me, int j)
 {
 	if ((in_q == 1 && c == '\'') || (in_q == 2 && c == '"')
-			|| (!in_q && ft_strchr(" \t\f\v'\"", c)))
+		|| (!in_q && ft_strchr(" \t\f\v'\"", c)))
 		f_me->literal[j] = 0;
 	else if (c)
 		f_me->literal[j] = 1;
@@ -76,10 +76,10 @@ void	dollar_expander(t_token *f_me, t_data *data, char *t)
 	{
 		determine_q(&in_q, t[i]);
 		if (in_q != 1 && t[i] == '$'
-				&& (t[i + 1] == '_' || ft_isalpha(t[i + 1])))
+			&& (t[i + 1] == '_' || ft_isalpha(t[i + 1])))
 		{
 			fill_lit_expanded(fill_token(f_me, &t[i + 1], data, &j),
-					f_me, in_q, j);
+				f_me, in_q, j);
 			i += var_end(&t[i + 1]) - &t[i + 1];
 		}
 		else
