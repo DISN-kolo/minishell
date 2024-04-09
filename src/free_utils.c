@@ -6,7 +6,7 @@
 /*   By: molasz-a <molasz-a@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/28 13:10:50 by molasz-a          #+#    #+#             */
-/*   Updated: 2024/04/08 13:01:15 by akozin           ###   ########.fr       */
+/*   Updated: 2024/04/09 15:40:55 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,4 +84,16 @@ void	data_cleaner(t_data *data)
 	}
 	data->coms = 0;
 	data->errored = 0;
+}
+
+void	free_coms(t_data *data)
+{
+	int	i;
+
+	if (!data->coms)
+		return ;
+	i = 0;
+	while (data->coms[i].com)
+		free_double(data->coms[i].com);
+	free(data->coms);
 }

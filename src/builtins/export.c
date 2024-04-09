@@ -6,7 +6,7 @@
 /*   By: molasz-a <molasz-a@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 14:09:48 by molasz-a          #+#    #+#             */
-/*   Updated: 2024/04/05 14:03:56 by molasz-a         ###   ########.fr       */
+/*   Updated: 2024/04/09 15:41:42 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ int	bexport(t_data *data, char **exports)
 {
 	int	i;
 
-	if (!exports)
+	if (!exports[0])
 		return (print_export(data));
 	i = 0;
 	while (exports[i])
