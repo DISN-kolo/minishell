@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/28 12:01:48 by akozin            #+#    #+#             */
-/*   Updated: 2024/04/05 13:45:02 by akozin           ###   ########.fr       */
+/*   Updated: 2024/04/09 13:39:01 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,16 +35,14 @@ int	tokenslen(t_token *t)
 	return (ret);
 }
 
-t_token	*tokens_join(t_token *t1, t_token *t2) // TODO literal int array copy?
+t_token	*tokens_join(t_token *t1, t_token *t2)
 {
 	t_token	*ret;
 	int		i;
 	int		j;
 
-	if (!t1)
+	if (!t1 || !t2)
 		return (t2);
-	if (!t2)
-		return (printf("somehow t2 is null!\n"), NULL);
 	ret = malloc(sizeof (t_token) * (tokenslen(t1) + tokenslen(t2) + 1));
 	if (!ret)
 		return (NULL);
@@ -70,8 +68,8 @@ t_token	*tokens_join_free(t_token *t1, t_token *t2)
 	t_token	*ret;
 
 	ret = tokens_join(t1, t2);
-//	if (t1) // TODO
-//		free_ret(&t1);
+	if (t1)
+		free_ret(&t1);
 	t1 = NULL;
 	return (ret);
 }
