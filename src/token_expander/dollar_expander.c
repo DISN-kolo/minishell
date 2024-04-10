@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 16:26:06 by akozin            #+#    #+#             */
-/*   Updated: 2024/04/09 13:40:01 by akozin           ###   ########.fr       */
+/*   Updated: 2024/04/10 12:48:50 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,7 @@ void	dollar_expander(t_token *f_me, t_data *data, char *t)
 	i = 0;
 	j = 0;
 	in_q = 0;
+	f_me->is_pipe = !ft_strncmp(t, "|", 2);
 	while (t[i])
 	{
 		determine_q(&in_q, t[i]);

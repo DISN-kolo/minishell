@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 16:41:25 by akozin            #+#    #+#             */
-/*   Updated: 2024/04/09 14:08:06 by akozin           ###   ########.fr       */
+/*   Updated: 2024/04/10 12:46:18 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ static int	exp_t_init(t_token *exp_t, t_data *data, char *current_token)
  * the current data->tokens token, then we pass this exp t to the function that
  * creates the local n tokens, dissecting exp t.
  */
-void	token_expander(t_data *data, t_token *current_tokens)
+t_token	*token_expander(t_data *data, t_token *current_tokens)
 {
 	int		i;
 	t_token	*new_tokens;
@@ -82,23 +82,23 @@ void	token_expander(t_data *data, t_token *current_tokens)
 	t_token	exp_t;
 
 	if (data->errored)
-		return ;
+		return (NULL);
 	i = 0;
 	new_tokens = NULL;
-	while (current_tokens[i].token) // TODO error returns
+	while (current_tokens[i].token
+		&& ft_strncmp(current_tokens[i].token, "||", 3)
+		&& ft_strncmp(current_tokens[i].token, "&&", 3)) // TODO error returns
 	{
 		if (exp_t_init(&exp_t, data, current_tokens[i].token))
-			return ;
+			return (NULL);
 		dollar_expander(&exp_t, data, current_tokens[i].token);
 		local_n_t = new_t_split(exp_t);
 		if (!local_n_t)
-			return ;
+			return (NULL);
 		new_tokens = tokens_join_free(new_tokens, local_n_t);
 		if (!new_tokens)
-			return ;
+			return (NULL);
 		i++;
 	}
-	free_ret(&(current_tokens));
-	current_tokens = new_tokens;
-	data->tokens = current_tokens; // TODO remove me ?
+	return (new_tokens);
 }

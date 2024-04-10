@@ -30,8 +30,9 @@ typedef struct s_com
 
 typedef struct s_token
 {
-	char *token;
-	int *literal;
+	char	*token;
+	int		*literal;
+	int		is_pipe;
 } t_token;
 
 typedef struct s_env

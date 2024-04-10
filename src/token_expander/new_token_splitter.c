@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 16:33:07 by akozin            #+#    #+#             */
-/*   Updated: 2024/04/09 13:47:53 by akozin           ###   ########.fr       */
+/*   Updated: 2024/04/10 12:39:05 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,6 +92,7 @@ static int	new_t_split_internal(t_token *t, int *k, t_token **ret, int *i)
 {
 	size_t	wlen;
 
+	(*ret)[*i].is_pipe = t->is_pipe;
 	if (!strchars_lit(t, *k, " \t\f\v"))
 		wlen = ft_strlen(&(t->token[*k]));
 	else
