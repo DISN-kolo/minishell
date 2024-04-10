@@ -6,7 +6,7 @@
 /*   By: molasz-a <molasz-a@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 13:34:21 by molasz-a          #+#    #+#             */
-/*   Updated: 2024/04/08 17:54:24 by molasz-a         ###   ########.fr       */
+/*   Updated: 2024/04/10 11:10:31 by molasz-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,19 +14,19 @@
 
 static int	check_builtins(t_data *data, t_com cmd)
 {
-	if (!ft_strncmp(cmd.com[0], "cd", 3))
+	if (!ft_strncmp_case(cmd.com[0], "cd", 3))
 		bcd(data, cmd.com + 1);
-	else if (!ft_strncmp(cmd.com[0], "echo", 5))
+	else if (!ft_strncmp_case(cmd.com[0], "echo", 5))
 		becho(cmd.com + 1);
-	else if (!ft_strncmp(cmd.com[0], "env", 4))
+	else if (!ft_strncmp_case(cmd.com[0], "env", 4))
 		benv(data);
-	else if (!ft_strncmp(cmd.com[0], "exit", 5))
+	else if (!ft_strncmp_case(cmd.com[0], "exit", 5))
 		bexit(data, cmd.com + 1);
-	else if (!ft_strncmp(cmd.com[0], "export", 7))
+	else if (!ft_strncmp_case(cmd.com[0], "export", 7))
 		bexport(data, cmd.com + 1);
-	else if (!ft_strncmp(cmd.com[0], "pwd", 4))
+	else if (!ft_strncmp_case(cmd.com[0], "pwd", 4))
 		bpwd(data, cmd.com + 1);
-	else if (!ft_strncmp(cmd.com[0], "unset", 6))
+	else if (!ft_strncmp_case(cmd.com[0], "unset", 6))
 		bunset(data, cmd.com + 1);
 	else
 		return (0);
