@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 14:59:19 by akozin            #+#    #+#             */
-/*   Updated: 2024/04/10 15:52:31 by akozin           ###   ########.fr       */
+/*   Updated: 2024/04/10 16:17:17 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,8 +83,11 @@ int	token_loop(t_data *data)
 	count = 0;
 	while (i < cmd_c)
 	{
+		printf("i is %d\n", i);
+		printf("starting from\n\t%s\ntoken\n", data->tokens[count].token);
 		current_tokens = token_expander(data, data->tokens + count, &count);
 		count++;
+		printf("current tokens = great success! count (after ++) is %d\n", count);
 		cmd_loop(data, current_tokens);
 		run_cmds(data);
 		i++;

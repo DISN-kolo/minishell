@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 16:41:25 by akozin            #+#    #+#             */
-/*   Updated: 2024/04/10 15:53:36 by akozin           ###   ########.fr       */
+/*   Updated: 2024/04/10 16:22:24 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ static int	expansion_counter(t_data *data, char *t)
 	return (i + ret);
 }
 
-static int	exp_t_init(t_token *exp_t, t_data *data, char *c_t, int *count)
+static int	exp_t_init(t_token *exp_t, t_data *data, char *c_t)
 {
 	int	exp_len;
 
@@ -60,7 +60,6 @@ static int	exp_t_init(t_token *exp_t, t_data *data, char *c_t, int *count)
 	exp_t->literal = malloc(sizeof (int) * exp_len);
 	if (!exp_t->token || !exp_t->literal)
 		return (1);
-	(*count)++;
 	return (0);
 }
 
@@ -90,7 +89,7 @@ t_token	*token_expander(t_data *data, t_token *current_tokens, int *count)
 		&& ft_strncmp(current_tokens[i].token, "||", 3)
 		&& ft_strncmp(current_tokens[i].token, "&&", 3)) // TODO error returns
 	{
-		if (exp_t_init(&exp_t, data, current_tokens[i].token, count))
+		if (exp_t_init(&exp_t, data, current_tokens[i].token))
 			return (NULL);
 		dollar_expander(&exp_t, data, current_tokens[i].token);
 		local_n_t = new_t_split(exp_t);
@@ -101,5 +100,5 @@ t_token	*token_expander(t_data *data, t_token *current_tokens, int *count)
 			return (NULL);
 		i++;
 	}
-	return (new_tokens);
+	return (*count += tokenslen(new_tokens), new_tokens);
 }
