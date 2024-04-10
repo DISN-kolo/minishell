@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 14:59:19 by akozin            #+#    #+#             */
-/*   Updated: 2024/04/10 16:17:17 by akozin           ###   ########.fr       */
+/*   Updated: 2024/04/10 16:58:07 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ static int	cmd_loop(t_data *data, t_token *tokens)
 		data->coms[i[0]].com[i[1]] = NULL;
 		i[2] = -1;
 		while (++i[2] < i[1])
-			data->coms[i[0]].com[i[2]] = tokens[i[2]].token;
+			data->coms[i[0]].com[i[2]] = tokens[i[2] + i[3]].token;
 		i[3] += i[2] + 1;
 	}
 	return (0);
