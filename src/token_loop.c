@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 14:59:19 by akozin            #+#    #+#             */
-/*   Updated: 2024/04/10 13:39:46 by molasz-a         ###   ########.fr       */
+/*   Updated: 2024/04/10 13:54:45 by molasz-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,6 @@ static int	cmd_loop(t_data *data, t_token *tokens, int *count)
 		*count += i[2];
 		i[3] += i[2];
 	}
-	*count += 1;
 	return (0);
 }
 
@@ -75,11 +74,12 @@ int	token_loop(t_data *data)
 	int		count;
 	t_token	*current_tokens;
 
-	cmd_c = 1;
-	while (data->tokens[cmd_c].token
-		&& (!ft_strncmp(data->tokens[cmd_c].token, "||", 3)
-			|| !ft_strncmp(data->tokens[cmd_c].token, "&&", 3)))
-		cmd_c++;
+	i = -1;
+	cmd_c = 0;
+	while (data->tokens[++i].token) 
+		cmd_c += !ft_strncmp(data->tokens[i].token, "||", 3)
+			|| !ft_strncmp(data->tokens[i].token, "&&", 3);
+	cmd_c++;
 	i = 0;
 	count = 0;
 	while (i < cmd_c)
