@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 14:59:19 by akozin            #+#    #+#             */
-/*   Updated: 2024/04/10 13:05:33 by akozin           ###   ########.fr       */
+/*   Updated: 2024/04/10 13:39:46 by molasz-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ static int	cmd_len(t_token *tokens)
 	i = 0;
 	while (tokens[i].token && !tokens[i].is_pipe)
 		i++;
-	return (i);
+	return (i + 1);
 }
 
 static int	cmd_loop(t_data *data, t_token *tokens, int *count)
@@ -63,8 +63,8 @@ static int	cmd_loop(t_data *data, t_token *tokens, int *count)
 			data->coms[i[0]].com[i[2]] = tokens[*count + i[2]].token;
 		*count += i[2];
 		i[3] += i[2];
-		*count += i[0] + 1 < cmd_c;
 	}
+	*count += 1;
 	return (0);
 }
 
