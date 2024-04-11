@@ -6,7 +6,7 @@
 /*   By: molasz-a <molasz-a@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 13:44:48 by molasz-a          #+#    #+#             */
-/*   Updated: 2024/04/02 16:49:06 by molasz-a         ###   ########.fr       */
+/*   Updated: 2024/04/11 13:51:30 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ static int	is_nflag(char *arg)
 {
 	int	i;
 
-	if (!arg && arg[0] != '-')
+	if (!arg || arg[0] != '-' || !ft_strncmp(arg, "-", 2))
 		return (0);
 	i = 1;
 	while (arg[i])
@@ -32,6 +32,7 @@ void	becho(char **args)
 {
 	int	i;
 	int	n;
+	int	wlen;
 
 	i = 0;
 	while (args[i] && is_nflag(args[i]))
@@ -39,12 +40,15 @@ void	becho(char **args)
 	n = 0;
 	if (i)
 		n = 1;
-	while (args[i])
+	while (args[i] && args[i + 1])
 	{
-		write(1, args[i], ft_strlen(args[i]));
+		wlen = ft_strlen(args[i]);
+		write(1, args[i], wlen);
 		write(1, " ", 1);
 		i++;
 	}
+	if (args[i])
+		write(1, args[i], ft_strlen(args[i]));
 	if (!n)
 		write(1, "\n", 1);
 }
