@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 14:59:19 by akozin            #+#    #+#             */
-/*   Updated: 2024/04/11 13:07:39 by akozin           ###   ########.fr       */
+/*   Updated: 2024/04/11 15:51:27 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,10 +57,11 @@ static int	cmd_loop(t_data *data, t_token *tokens)
 		data->coms[i[0]].com = malloc((i[1] + 1) * sizeof (char *));
 		if (!data->coms[i[0]].com)
 			return (free_coms(data), 1);
+		if (io_coms_alloc(&(data->coms[i[0]]), tokens +)) // TODO we need to allocate io arrays for a single command
+			return (free_coms(data), 1);
 		data->coms[i[0]].com[i[1]] = NULL;
 		i[2] = -1;
-		while (++i[2] < i[1])
-			data->coms[i[0]].com[i[2]] = tokens[i[2] + i[3]].token;
+		com_filler(data, i); // TODO
 		i[3] += i[2] + 1;
 	}
 	return (0);
