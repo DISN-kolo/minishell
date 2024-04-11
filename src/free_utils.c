@@ -6,7 +6,7 @@
 /*   By: molasz-a <molasz-a@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/28 13:10:50 by molasz-a          #+#    #+#             */
-/*   Updated: 2024/04/09 15:40:55 by akozin           ###   ########.fr       */
+/*   Updated: 2024/04/11 13:07:40 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,12 @@ void	free_double(char **p)
 		return ;
 	i = 0;
 	while (p[i])
-		free(p[i++]);
+	{
+		free(p[i]);
+		p[i++] = NULL;
+	}
 	free(p);
+	p = NULL;
 }
 
 int	free_ret(t_token **ret)
@@ -75,14 +79,15 @@ void	data_cleaner(t_data *data)
 	i = 0;
 	if (data->coms)
 	{
-		while (data->coms[i].oper)
+		while (data->coms[i].com)
 		{
 			free_double(data->coms[i].com);
+			data->coms[i].com = NULL;
 			i++;
 		}
 		free(data->coms);
 	}
-	data->coms = 0;
+	data->coms = NULL;
 	data->errored = 0;
 }
 
@@ -96,4 +101,5 @@ void	free_coms(t_data *data)
 	while (data->coms[i].com)
 		free_double(data->coms[i].com);
 	free(data->coms);
+	data->coms = NULL;
 }
