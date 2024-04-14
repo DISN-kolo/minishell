@@ -39,6 +39,14 @@ static int	cmd_len(t_token *tokens)
 	return (i);
 }
 
+/*
+ * 1. counts the commands between && and ||
+ * 2. allocs them
+ * 3. iteraties thru them
+ * 3.1. allocs the array of strings
+ * 3.2. fills each array with the commands, pasting the tokens
+ * EXCEPT that is pastes io files into their own special arrays within 1 comm
+ */
 static int	cmd_loop(t_data *data, t_token *tokens)
 {
 	int	cmd_c;
@@ -57,7 +65,7 @@ static int	cmd_loop(t_data *data, t_token *tokens)
 		data->coms[i[0]].com = malloc((i[1] + 1) * sizeof (char *));
 		if (!data->coms[i[0]].com)
 			return (free_coms(data), 1);
-		if (io_coms_alloc(&(data->coms[i[0]]), tokens +)) // TODO we need to allocate io arrays for a single command
+		if (io_coms_alloc(&(data->coms[i[0]]), tokens + i[3], i[1])) // TODO we need to allocate io arrays for a single command
 			return (free_coms(data), 1);
 		data->coms[i[0]].com[i[1]] = NULL;
 		i[2] = -1;
