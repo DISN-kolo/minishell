@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 16:20:41 by akozin            #+#    #+#             */
-/*   Updated: 2024/04/10 16:21:03 by akozin           ###   ########.fr       */
+/*   Updated: 2024/04/15 11:35:49 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,11 @@ t_token	*tokenize_split(char *s);
 int		tokenize_count(char *s, char *sep);
 int		tokenize_err_probe(t_token *tokens);
 
+// TOKEN LOOP UTILS
+void	com_filler(t_data *data, int *i, t_token *tokens);
+int		io_coms_alloc(t_com *coms, t_token *tokens, int u);
+
+
 // TOKEN EXPANSION
 t_token	*token_expander(t_data *data, t_token *current_tokens, int *count);
 void	dollar_expander(t_token *f_me, t_data *data, char *t);
@@ -42,6 +47,7 @@ char	*strchars_lit(t_token *t, int k, char *sep);
 
 // EXPAND & PARSE
 void	parse_exec(t_data *data);
+int		io_coms_alloc(t_com *coms, t_token *tokens, int u);
 void	expand_vars(char *s, t_data *data);
 
 // EXECUTION

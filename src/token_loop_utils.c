@@ -6,27 +6,18 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 14:55:17 by akozin            #+#    #+#             */
-/*   Updated: 2024/04/11 16:14:07 by akozin           ###   ########.fr       */
+/*   Updated: 2024/04/15 11:44:15 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
 
 /*
- * the first part sets the dub of the next io redir
- * this means < or <<, > or >>
- */
-/*
- * the next part sets the corresponding (in? or out?) filename
- * we need separate indices for iterating over these arrays
- * also we need to allocate them somehow, so we need to count em all.
- */
-/*
  * is_in ==> we count the <, <<
  * !is_in => we count the >, >>
  * u = the "until" integer, because we only need to count within the command
  */
-static int	ioredirs_counter(t_tokens *tokens, int is_in, int u)
+static int	ioredirs_counter(t_token *tokens, int is_in, int u)
 {
 	int	i;
 	int	c;
@@ -52,6 +43,11 @@ static int	ioredirs_counter(t_tokens *tokens, int is_in, int u)
 	return (c);
 }
 
+/*
+ * the next part sets the corresponding (in? or out?) filename
+ * we need separate indices for iterating over these arrays
+ * also we need to allocate them somehow, so we need to count em all.
+ */
 int	io_coms_alloc(t_com *coms, t_token *tokens, int u)
 {
 	int	ilen;
@@ -66,6 +62,24 @@ int	io_coms_alloc(t_com *coms, t_token *tokens, int u)
 	return (0);
 }
 
+static void	io_dub_determinator(t_data *data, int *i, t_token *tokens, int k)
+{
+	if (!ft_strncmp(tokens[i[2] + i[3]].token, "<", 2))
+		data->coms[i[0]].ins[k].dub = 0;
+	else if (!ft_strncmp(tokens[i[2] + i[3]].token, ">", 2))
+		data->coms[i[0]].outs[k].dub = 0;
+	else if (!ft_strncmp(tokens[i[2] + i[3]].token, "<<", 3))
+		data->coms[i[0]].ins[k].dub = 1;
+	else if (!ft_strncmp(tokens[i[2] + i[3]].token, ">>", 3))
+		data->coms[i[0]].outs[k].dub = 1;
+}
+
+/*
+ * 1. the first part sets the dub of the current io redir.
+ *   this means < or <<, > or >>.
+ * 2. the second part (big if ...) fills the io arrays, and moves by
+ *   two in order to skip the io filename that's already filled in.
+ */
 void	com_filler(t_data *data, int *i, t_token *tokens)
 {
 	int	k;
@@ -73,23 +87,19 @@ void	com_filler(t_data *data, int *i, t_token *tokens)
 	k = 0;
 	while (++i[2] < i[1])
 	{
-		if (!ft_strncmp(tokens[i[2] + i[3]].token, "<", 2))
-			data->coms[i[0]].com[i[2]].ins[k].dub = 0;
-		else if (!ft_strncmp(tokens[i[2] + i[3]].token, ">", 2))
-			data->coms[i[0]].com[i[2]].outs[k].dub = 0;
-		else if (!ft_strncmp(tokens[i[2] + i[3]].token, "<<", 3))
-			data->coms[i[0]].com[i[2]].ins[k].dub = 1;
-		else if (!ft_strncmp(tokens[i[2] + i[3]].token, ">>", 3))
-			data->coms[i[0]].com[i[2]].outs[k].dub = 1;
-		// TODO put all of this in different funcs
-		// for norminette ofc
-
+		io_dub_determinator(data, i, tokens, k);
 		if (!ft_strncmp(tokens[i[2] + i[3]].token, "<", 2)
 			|| !ft_strncmp(tokens[i[2] + i[3]].token, "<<", 3))
-			data->coms[i[0]].com[i[2]].ins[k].fname = tokens[i[2] + i[3] + 1].token;
+		{
+			data->coms[i[0]].ins[k++].fname = tokens[i[2] + i[3] + 1].token;
+			++i[2];
+		}
 		else if (!ft_strncmp(tokens[i[2] + i[3]].token, ">", 2)
 			|| !ft_strncmp(tokens[i[2] + i[3]].token, ">>", 3))
-			data->coms[i[0]].com[i[2]].outs[k].fname = tokens[i[2] + i[3] + 1].token;
+		{
+			data->coms[i[0]].outs[k++].fname = tokens[i[2] + i[3] + 1].token;
+			++i[2];
+		}
 		else
 			data->coms[i[0]].com[i[2]] = tokens[i[2] + i[3]].token;
 	}
