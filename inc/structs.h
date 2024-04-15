@@ -42,11 +42,22 @@ typedef struct s_env
 	int		exp;
 } t_env;
 
+/*
+ * expand? yeah -> we expand $ inside
+ * nah -> we don't
+ * determined by whether the hdoc str is in quotations or no (wow)
+ */
+typedef struct	s_hdoc
+{
+	char	*str;
+	int		expand;
+}	t_hdoc;
+
 typedef struct s_data
 {
 	t_token	*tokens;
 	t_com	*coms;
-	char	***heredocs;
+	t_hdoc	**hds;
 	int		status_code;
 	int		errored;
 	t_env	*env;

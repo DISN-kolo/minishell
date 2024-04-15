@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 16:15:48 by akozin            #+#    #+#             */
-/*   Updated: 2024/04/15 13:35:02 by akozin           ###   ########.fr       */
+/*   Updated: 2024/04/15 14:44:56 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,10 +32,9 @@ void	shell_loop(t_data *data)
 		tokenize_line(s, data);
 		free(s);
 		get_heredocs(data);
-/*
-		if (token_loop(data))
-			write(2, "run error\n", 10); //TODO err handeling
-*/
+//		process_heredocs(data); // TODO
+//		if (token_loop(data))
+//			write(2, "run error\n", 10); //TODO err handeling
 		data_cleaner(data);
 	}
 	bexit(data, NULL);
