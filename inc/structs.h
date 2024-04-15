@@ -46,6 +46,7 @@ typedef struct s_data
 {
 	t_token	*tokens;
 	t_com	*coms;
+	char	***heredocs;
 	int		status_code;
 	int		errored;
 	t_env	*env;

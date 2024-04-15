@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 16:20:41 by akozin            #+#    #+#             */
-/*   Updated: 2024/04/15 11:35:49 by akozin           ###   ########.fr       */
+/*   Updated: 2024/04/15 13:12:17 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,9 @@ void	tokenize_line(char *s, t_data *data);
 t_token	*tokenize_split(char *s);
 int		tokenize_count(char *s, char *sep);
 int		tokenize_err_probe(t_token *tokens);
+
+// HEREDOC GRABBIN'
+void	get_heredocs(t_data *data);
 
 // TOKEN LOOP UTILS
 void	com_filler(t_data *data, int *i, t_token *tokens);
