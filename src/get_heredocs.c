@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 13:12:42 by akozin            #+#    #+#             */
-/*   Updated: 2024/04/15 16:04:52 by akozin           ###   ########.fr       */
+/*   Updated: 2024/04/16 11:05:23 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,8 +100,8 @@ static void	fill_heredocs(t_data *data)
 		if (!ft_strncmp(data->tokens[i].token, "<<", 3))
 		{
 			data->hds[j][hd_c].str = get_hd_str(data->tokens[i + 1]);
-			data->hds[j][hd_c++].expand = (data->tokens[i + 1].token[0] != '\''
-					&& data->tokens[i + 1].token[0] != '"');
+			data->hds[j][hd_c++].expand = (strchars(data->tokens[i + 1].token,
+						"'\"") == NULL);
 		}
 		if (!ft_strncmp(data->tokens[i].token, "||", 3)
 			|| !ft_strncmp(data->tokens[i].token, "&&", 3))

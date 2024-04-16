@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 16:20:41 by akozin            #+#    #+#             */
-/*   Updated: 2024/04/15 15:34:53 by akozin           ###   ########.fr       */
+/*   Updated: 2024/04/16 11:06:11 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ int		token_loop(t_data *data);
 // TOKENIZE
 void	tokenize_line(char *s, t_data *data);
 t_token	*tokenize_split(char *s);
+char	*strchars(char *s, char *sep);
 int		tokenize_count(char *s, char *sep);
 int		tokenize_err_probe(t_token *tokens);
 
