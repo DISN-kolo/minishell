@@ -6,7 +6,7 @@
 #    By: akozin <akozin@student.42barcelona.com>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/18 16:38:42 by akozin            #+#    #+#              #
-#    Updated: 2024/04/09 15:45:54 by akozin           ###   ########.fr        #
+#    Updated: 2024/04/15 13:12:37 by akozin           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -33,7 +33,9 @@ SRCNAMES = main.c \
 			tokenize/tokenize_count.c \
 			tokenize/tokenize_split.c \
 			tokenize/tokenize_err_probe.c \
+			get_heredocs.c \
 			token_loop.c \
+			token_loop_utils.c \
 			token_expander/token_expander.c \
 			token_expander/token_expander_utils.c \
 			token_expander/dollar_expander.c \

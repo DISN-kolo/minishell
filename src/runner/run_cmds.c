@@ -6,7 +6,7 @@
 /*   By: molasz-a <molasz-a@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 13:34:21 by molasz-a          #+#    #+#             */
-/*   Updated: 2024/04/15 19:47:35 by molasz-a         ###   ########.fr       */
+/*   Updated: 2024/04/16 11:20:37 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,7 +119,7 @@ int	run_cmds(t_data *data)
 	int		status;
 	pid_t	pid;
 
-	data->stdin = dup(STDIN_FILENO);
+	data->std_in = dup(STDIN_FILENO);
 	if (!data->coms[1].com)
 		pid = one_cmd(data);
 	else
@@ -132,6 +132,6 @@ int	run_cmds(t_data *data)
 	i = -1;
 	while (data->coms[++i].com)
 		waitpid(-1, &status, 0);
-	dup2(data->stdin, STDIN_FILENO);
+	dup2(data->std_in, STDIN_FILENO);
 	return (0);
 }

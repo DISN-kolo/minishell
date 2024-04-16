@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 16:26:06 by akozin            #+#    #+#             */
-/*   Updated: 2024/04/10 16:21:21 by akozin           ###   ########.fr       */
+/*   Updated: 2024/04/15 15:34:05 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ static int	fill_token(t_token *f_me, char *t, t_data *data, int *j)
 /* ^ use k to know how many ints to fill in the literals arr
  */
 
-static void	determine_q(int *in_q, char c)
+void	determine_q(int *in_q, char c)
 {
 	if ((*in_q == 1 && c == '\'') || (*in_q == 2 && c == '"'))
 		*in_q = 0;

@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 14:59:19 by akozin            #+#    #+#             */
-/*   Updated: 2024/04/11 13:07:39 by akozin           ###   ########.fr       */
+/*   Updated: 2024/04/15 11:34:17 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,18 @@ static int	cmd_len(t_token *tokens)
 	return (i);
 }
 
+/*
+ * 1. counts the commands until || or && using pipes.
+ *   this count is done with cmd_count.
+ * 2. allocs them.
+ * 3. iteraties thru them (while ...).
+ * 3.1. allocs the array of strings for each command (between pipes).
+ *     the len of it is counted with cmd_len.
+ * 3.2. fills each array with the commands, pasting the tokens.
+ *     EXCEPT that is pastes io files into their own special arrays.
+ *     for that, they're allocated first in io_coms_alloc, and then
+ *     pasted into within com_filler func.
+ */
 static int	cmd_loop(t_data *data, t_token *tokens)
 {
 	int	cmd_c;
@@ -57,10 +69,11 @@ static int	cmd_loop(t_data *data, t_token *tokens)
 		data->coms[i[0]].com = malloc((i[1] + 1) * sizeof (char *));
 		if (!data->coms[i[0]].com)
 			return (free_coms(data), 1);
+		if (io_coms_alloc(&(data->coms[i[0]]), tokens + i[3], i[1])) // TODO we need to allocate io arrays for a single command
+			return (free_coms(data), 1);
 		data->coms[i[0]].com[i[1]] = NULL;
 		i[2] = -1;
-		while (++i[2] < i[1])
-			data->coms[i[0]].com[i[2]] = tokens[i[2] + i[3]].token;
+		com_filler(data, i, tokens); // TODO
 		i[3] += i[2] + 1;
 	}
 	return (0);
@@ -96,7 +109,9 @@ int	token_loop(t_data *data)
 			for (int j = 0; data->coms[x].com[j]; j++)
 				printf("\tj = %3d, com[j] = %s\n", j, data->coms[x].com[j]);
 		}
+		printf("upon running:\n");
 		run_cmds(data);
+		printf("\n");
 		i++;
 	}
 	return (0);
