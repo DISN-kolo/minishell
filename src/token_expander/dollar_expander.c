@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 16:26:06 by akozin            #+#    #+#             */
-/*   Updated: 2024/04/15 15:34:05 by akozin           ###   ########.fr       */
+/*   Updated: 2024/04/16 12:26:11 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,10 +69,12 @@ void	dollar_expander(t_token *f_me, t_data *data, char *t)
 	int		j;
 	int		in_q;
 
+	printf("\tentered dollar expander with %s\n", t);
 	i = 0;
 	j = 0;
 	in_q = 0;
-	f_me->is_pipe = !ft_strncmp(t, "|", 2);
+	f_me->type = determine_type(t);
+	printf("\ttype determined to be %d\n", f_me->type);
 	while (t[i])
 	{
 		determine_q(&in_q, t[i]);

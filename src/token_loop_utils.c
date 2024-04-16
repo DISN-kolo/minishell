@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 14:55:17 by akozin            #+#    #+#             */
-/*   Updated: 2024/04/15 11:44:15 by akozin           ###   ########.fr       */
+/*   Updated: 2024/04/16 13:24:24 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,9 @@ int	io_coms_alloc(t_com *coms, t_token *tokens, int u)
 	int	olen;
 
 	ilen = ioredirs_counter(tokens, 1, u);
+	printf("\t\tilen = %3d\n", ilen);
 	olen = ioredirs_counter(tokens, 0, u);
+	printf("\t\tolen = %3d\n", olen);
 	coms->ins = malloc(sizeof (t_inout) * (ilen + 1));
 	coms->outs = malloc(sizeof (t_inout) * (olen + 1));
 	if (!coms->ins || !coms->outs)
@@ -80,27 +82,31 @@ static void	io_dub_determinator(t_data *data, int *i, t_token *tokens, int k)
  * 2. the second part (big if ...) fills the io arrays, and moves by
  *   two in order to skip the io filename that's already filled in.
  */
-void	com_filler(t_data *data, int *i, t_token *tokens)
+void	com_filler(t_data *data, int *i, t_token *ts)
 {
 	int	k;
+	int	l;
 
 	k = 0;
+	l = 0;
 	while (++i[2] < i[1])
 	{
-		io_dub_determinator(data, i, tokens, k);
-		if (!ft_strncmp(tokens[i[2] + i[3]].token, "<", 2)
-			|| !ft_strncmp(tokens[i[2] + i[3]].token, "<<", 3))
+		if (ts[i[2] + i[3]].type == REDIR)
 		{
-			data->coms[i[0]].ins[k++].fname = tokens[i[2] + i[3] + 1].token;
-			++i[2];
-		}
-		else if (!ft_strncmp(tokens[i[2] + i[3]].token, ">", 2)
-			|| !ft_strncmp(tokens[i[2] + i[3]].token, ">>", 3))
-		{
-			data->coms[i[0]].outs[k++].fname = tokens[i[2] + i[3] + 1].token;
-			++i[2];
+			if (!ft_strncmp(ts[i[2] + i[3]].token, "<", 2)
+				|| !ft_strncmp(ts[i[2] + i[3]].token, "<<", 3))
+			{
+				io_dub_determinator(data, i, ts, k);
+				data->coms[i[0]].ins[k++].fname = ts[i[2]++ + i[3] + 1].token;
+			}
+			else if (!ft_strncmp(ts[i[2] + i[3]].token, ">", 2)
+				|| !ft_strncmp(ts[i[2] + i[3]].token, ">>", 3))
+			{
+				io_dub_determinator(data, i, ts, l);
+				data->coms[i[0]].ins[l++].fname = ts[i[2]++ + i[3] + 1].token;
+			}
 		}
 		else
-			data->coms[i[0]].com[i[2]] = tokens[i[2] + i[3]].token;
+			data->coms[i[0]].com[i[2]] = ts[i[2] + i[3]].token;
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/28 12:01:48 by akozin            #+#    #+#             */
-/*   Updated: 2024/04/10 12:47:11 by akozin           ###   ########.fr       */
+/*   Updated: 2024/04/16 12:06:14 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,13 +50,13 @@ t_token	*tokens_join(t_token *t1, t_token *t2)
 	j = -1;
 	while (t1[++j].token)
 	{
-		ret[i].is_pipe = t1[j].is_pipe;
+		ret[i].type = t1[j].type;
 		ret[i++].token = ft_substr(t1[j].token, 0, ft_strlen(t1[j].token));
 	}
 	j = -1;
 	while (t2[++j].token)
 	{
-		ret[i].is_pipe = t2[j].is_pipe;
+		ret[i].type = t2[j].type;
 		ret[i++].token = ft_substr(t2[j].token, 0, ft_strlen(t2[j].token));
 	}
 	ret[i].token = 0;
@@ -72,4 +72,14 @@ t_token	*tokens_join_free(t_token *t1, t_token *t2)
 		free_ret(&t1);
 	t1 = NULL;
 	return (ret);
+}
+
+t_tok_s	determine_type(char *t)
+{
+	if (!ft_strncmp(t, "|", 2))
+		return (PIPE);
+	if (!ft_strncmp(t, "<", 2) || !ft_strncmp(t, ">", 2)
+		|| (!ft_strncmp(t, "<<", 3) || !ft_strncmp(t, ">>", 3)))
+		return (REDIR);
+	return (TOKEN);
 }

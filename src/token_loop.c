@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 14:59:19 by akozin            #+#    #+#             */
-/*   Updated: 2024/04/15 11:34:17 by akozin           ###   ########.fr       */
+/*   Updated: 2024/04/16 13:10:31 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ static int	cmd_count(t_token *tokens)
 	while (tokens[i].token && ft_strncmp(tokens[i].token, "||", 3)
 		&& ft_strncmp(tokens[i].token, "&&", 3))
 	{
-		if (tokens[i].is_pipe)
+		if (tokens[i].type == PIPE)
 			count++;
 		i++;
 	}
@@ -32,11 +32,17 @@ static int	cmd_count(t_token *tokens)
 static int	cmd_len(t_token *tokens)
 {
 	int	i;
+	int	count;
 
 	i = 0;
-	while (tokens[i].token && !tokens[i].is_pipe)
+	count = 0;
+	while (tokens[i].token && tokens[i].type != PIPE)
+	{
+		count += (tokens[i].type == TOKEN);
+		i += (tokens[i].type == REDIR);
 		i++;
-	return (i);
+	}
+	return (count);
 }
 
 /*
@@ -57,6 +63,7 @@ static int	cmd_loop(t_data *data, t_token *tokens)
 	int	i[4];
 
 	cmd_c = cmd_count(tokens);
+	printf("enterec cmd loop. counted cmds: %3d\n", cmd_c);
 	data->coms = malloc((cmd_c + 1) * sizeof (t_com));
 	if (!data->coms)
 		return (1);
@@ -66,6 +73,7 @@ static int	cmd_loop(t_data *data, t_token *tokens)
 	while (++i[0] < cmd_c)
 	{
 		i[1] = cmd_len(tokens + i[3]);
+		printf("\tcounted cmd len of command #%3d: it is %3d\n", i[0], i[1]);
 		data->coms[i[0]].com = malloc((i[1] + 1) * sizeof (char *));
 		if (!data->coms[i[0]].com)
 			return (free_coms(data), 1);
@@ -74,6 +82,7 @@ static int	cmd_loop(t_data *data, t_token *tokens)
 		data->coms[i[0]].com[i[1]] = NULL;
 		i[2] = -1;
 		com_filler(data, i, tokens); // TODO
+		printf("\ti[2] is %3d\n", i[2]);
 		i[3] += i[2] + 1;
 	}
 	return (0);
@@ -100,6 +109,10 @@ int	token_loop(t_data *data)
 		current_tokens = token_expander(data, data->tokens + count, &count);
 		count++;
 		printf("current tokens = great success! count (after ++) is %d\n", count);
+		for (int x = 0; current_tokens[x].token; x++)
+		{
+			printf("\ttoken #%3d is '%s' with type %d\n", x, current_tokens[x].token, current_tokens[x].type);
+		}
 		cmd_loop(data, current_tokens);
 		printf("command loop = great success!\n");
 		printf("here's all the commands that we have thus far:\n");
@@ -111,6 +124,7 @@ int	token_loop(t_data *data)
 		}
 		printf("upon running:\n");
 		run_cmds(data);
+		printf("run cmds execd success\n");
 		printf("\n");
 		i++;
 	}

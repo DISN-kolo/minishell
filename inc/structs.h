@@ -6,12 +6,12 @@
  * redirs are >, <, >>, <<
  */
 
-typedef enum e_operator
+typedef enum e_tok_s
 {
-	AND,
-	OR,
+	TOKEN,
+	REDIR,
 	PIPE
-} t_operator;
+}	t_tok_s;
 
 typedef struct s_inout
 {
@@ -21,18 +21,17 @@ typedef struct s_inout
 
 typedef struct s_com
 {
-	char		**com;
-	t_inout		*ins;
-	t_inout		*outs;
-	t_operator	oper;
-	int			status;
+	char	**com;
+	t_inout	*ins;
+	t_inout	*outs;
+	int		status;
 } t_com;
 
 typedef struct s_token
 {
 	char	*token;
 	int		*literal;
-	int		is_pipe;
+	t_tok_s	type;
 } t_token;
 
 typedef struct s_env
