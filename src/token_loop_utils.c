@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 14:55:17 by akozin            #+#    #+#             */
-/*   Updated: 2024/04/16 13:24:24 by akozin           ###   ########.fr       */
+/*   Updated: 2024/04/16 15:46:39 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ static int	ioredirs_counter(t_token *tokens, int is_in, int u)
 	c = 0;
 	while (tokens[i].token && i < u)
 	{
+		printf("\t\t\tio redirs counter #%3d (<%3d) is '%s'\n", i, u, tokens[i].token);
 		if (is_in)
 		{
 			if (!ft_strncmp(tokens[i].token, "<", 2)

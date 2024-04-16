@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 14:59:19 by akozin            #+#    #+#             */
-/*   Updated: 2024/04/16 13:10:31 by akozin           ###   ########.fr       */
+/*   Updated: 2024/04/16 15:53:54 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,20 +29,25 @@ static int	cmd_count(t_token *tokens)
 	return (count);
 }
 
-static int	cmd_len(t_token *tokens)
+/*
+ * i[4] is used strictly for total-until-pipe len purposes, while
+ * i[1] is used as a "true" com len, accounting for <><<>>
+ */
+static void	cmd_len(t_token *tokens, int *i)
 {
-	int	i;
+	int	j;
 	int	count;
 
-	i = 0;
+	j = 0;
 	count = 0;
-	while (tokens[i].token && tokens[i].type != PIPE)
+	while (tokens[j].token && tokens[j].type != PIPE)
 	{
-		count += (tokens[i].type == TOKEN);
-		i += (tokens[i].type == REDIR);
-		i++;
+		count += (tokens[j].type == TOKEN);
+		j += (tokens[j].type == REDIR);
+		j++;
 	}
-	return (count);
+	i[1] = count;
+	i[4] = j;
 }
 
 /*
@@ -60,7 +65,7 @@ static int	cmd_len(t_token *tokens)
 static int	cmd_loop(t_data *data, t_token *tokens)
 {
 	int	cmd_c;
-	int	i[4];
+	int	i[5];
 
 	cmd_c = cmd_count(tokens);
 	printf("enterec cmd loop. counted cmds: %3d\n", cmd_c);
@@ -72,12 +77,12 @@ static int	cmd_loop(t_data *data, t_token *tokens)
 	i[3] = 0;
 	while (++i[0] < cmd_c)
 	{
-		i[1] = cmd_len(tokens + i[3]);
-		printf("\tcounted cmd len of command #%3d: it is %3d\n", i[0], i[1]);
+		cmd_len(tokens + i[3], i);
+		printf("\tcounted cmd len of command #%3d: it is %3d\n\twith the TOTAL len being %3d\n", i[0], i[1], i[4]);
 		data->coms[i[0]].com = malloc((i[1] + 1) * sizeof (char *));
 		if (!data->coms[i[0]].com)
 			return (free_coms(data), 1);
-		if (io_coms_alloc(&(data->coms[i[0]]), tokens + i[3], i[1])) // TODO we need to allocate io arrays for a single command
+		if (io_coms_alloc(&(data->coms[i[0]]), tokens + i[3], i[4])) // TODO we need to allocate io arrays for a single command
 			return (free_coms(data), 1);
 		data->coms[i[0]].com[i[1]] = NULL;
 		i[2] = -1;
