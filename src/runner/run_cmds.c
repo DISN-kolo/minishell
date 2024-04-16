@@ -6,40 +6,11 @@
 /*   By: molasz-a <molasz-a@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 13:34:21 by molasz-a          #+#    #+#             */
-/*   Updated: 2024/04/15 19:47:35 by molasz-a         ###   ########.fr       */
+/*   Updated: 2024/04/16 12:26:09 by molasz-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
-
-static void	find_cmd(t_data *data, int i) //TODO control errors!!!!!!
-{
-	char	*path;
-	char	**splited_path;
-	char	*filepath;
-	char	*filepath2;
-	int		j;
-
-	path = read_env(data, "PATH");
-	splited_path = ft_split(path, ':');
-	j = -1;
-	while (splited_path[++j])
-	{
-		filepath = ft_strjoin(splited_path[j], "/");
-		filepath2 = ft_strjoin(filepath, data->coms[i].com[0]);
-		if (!filepath2)
-			write(2, "Strjoin error\n", 14);
-		if (!access(filepath2, F_OK))
-			break ;
-		free(filepath2);
-	}
-	if (splited_path[j])
-	{
-		if (execve(filepath2, data->coms[i].com, NULL) < 0)
-			write(2, "Execve error\n", 13);
-	}
-	write(2, "Error: command not found\n", 25);
-}
 
 static void	run_cmd(t_data *data, int i)
 {

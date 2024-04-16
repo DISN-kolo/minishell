@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 16:20:41 by akozin            #+#    #+#             */
-/*   Updated: 2024/04/10 16:21:03 by akozin           ###   ########.fr       */
+/*   Updated: 2024/04/16 12:24:41 by molasz-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ void	expand_vars(char *s, t_data *data);
 
 // EXECUTION
 int		run_cmds(t_data *data);
+void	find_cmd(t_data *data, int i);
 
 // ENVIROMENT
 t_env	*alloc_env(char **envp);
