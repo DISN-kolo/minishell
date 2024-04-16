@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 16:14:33 by akozin            #+#    #+#             */
-/*   Updated: 2024/04/16 16:17:25 by akozin           ###   ########.fr       */
+/*   Updated: 2024/04/16 16:44:01 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,6 @@ int	cmd_loop(t_data *data, t_token *tokens)
 	int	i[5];
 
 	cmd_c = cmd_count(tokens);
-	printf("enterec cmd loop. counted cmds: %3d\n", cmd_c);
 	data->coms = malloc((cmd_c + 1) * sizeof (t_com));
 	if (!data->coms)
 		return (1);
@@ -78,15 +77,14 @@ int	cmd_loop(t_data *data, t_token *tokens)
 	while (++i[0] < cmd_c)
 	{
 		cmd_len(tokens + i[3], i);
-		printf("\tcounted cmd len of command #%3d: it is %3d\n\twith the TOTAL len being %3d\n", i[0], i[1], i[4]);
 		data->coms[i[0]].com = malloc((i[1] + 1) * sizeof (char *));
 		if (!data->coms[i[0]].com)
 			return (free_coms(data), 1);
-		if (io_coms_alloc(&(data->coms[i[0]]), tokens + i[3], i[4])) // TODO we need to allocate io arrays for a single command
+		if (io_coms_alloc(&(data->coms[i[0]]), tokens + i[3], i[4]))
 			return (free_coms(data), 1);
 		data->coms[i[0]].com[i[1]] = NULL;
 		i[2] = -1;
-		cmd_filler(data, i, tokens); // TODO
+		cmd_filler(data, i, tokens);
 		printf("\ti[2] is %3d\n", i[2]);
 		i[3] += i[2] + 1;
 	}

@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 16:17:06 by akozin            #+#    #+#             */
-/*   Updated: 2024/04/16 16:24:39 by akozin           ###   ########.fr       */
+/*   Updated: 2024/04/16 16:44:20 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ static void	out_filler(t_data *data, int *i, t_token *ts, int l)
 	io_dub_determinator(data, i, ts, l);
 	data->coms[i[0]].ins[l++].fname = ts[i[2]++ + i[3] + 1].token;
 }
+
 /*
  * 1. the first part sets the dub of the current io redir.
  *   this means < or <<, > or >>.
