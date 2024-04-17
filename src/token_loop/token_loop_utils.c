@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 14:55:17 by akozin            #+#    #+#             */
-/*   Updated: 2024/04/17 12:49:52 by akozin           ###   ########.fr       */
+/*   Updated: 2024/04/17 15:56:11 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,23 +27,11 @@ static int	ioredirs_counter(t_token *tokens, int is_in, int u)
 	while (tokens[i].token && i < u)
 	{
 		if (is_in)
-		{
-			if (!ft_strncmp(tokens[i].token, "<", 2)
-				|| !ft_strncmp(tokens[i].token, "<<", 3))
-			{
-				printf("\t\t\tio redirs counter #%3d (<%3d) is '%s'\n", i, u, tokens[i].token);
-				c++;
-			}
-		}
+			c += (!ft_strncmp(tokens[i].token, "<", 2)
+					|| !ft_strncmp(tokens[i].token, "<<", 3));
 		else
-		{
-			if (!ft_strncmp(tokens[i].token, ">", 2)
-				|| !ft_strncmp(tokens[i].token, ">>", 3))
-			{
-				printf("\t\t\tio redirs counter #%3d (<%3d) is '%s'\n", i, u, tokens[i].token);
-				c++;
-			}
-		}
+			c += (!ft_strncmp(tokens[i].token, ">", 2)
+					|| !ft_strncmp(tokens[i].token, ">>", 3));
 		i++;
 	}
 	return (c);
@@ -60,9 +48,7 @@ int	io_coms_alloc(t_com *coms, t_token *tokens, int u)
 	int	olen;
 
 	ilen = ioredirs_counter(tokens, 1, u);
-	printf("\t\tilen = %3d\n", ilen);
 	olen = ioredirs_counter(tokens, 0, u);
-	printf("\t\tolen = %3d\n", olen);
 	coms->ins = malloc(sizeof (t_inout) * (ilen + 1));
 	coms->outs = malloc(sizeof (t_inout) * (olen + 1));
 	if (!coms->ins || !coms->outs)

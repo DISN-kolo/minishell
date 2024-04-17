@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 13:12:42 by akozin            #+#    #+#             */
-/*   Updated: 2024/04/16 11:05:23 by akozin           ###   ########.fr       */
+/*   Updated: 2024/04/17 15:59:23 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,6 @@ static char	*get_hd_str(t_token t)
 	int		j;
 	int		in_q;
 
-
 	ret = malloc(hd_str_count(t.token));
 	if (!ret)
 		return (NULL); // TODO ? or is it ok
@@ -120,7 +119,7 @@ void	get_heredocs(t_data *data)
 
 	i = -1;
 	cmd_c = 0;
-	while (data->tokens[++i].token) 
+	while (data->tokens[++i].token)
 		cmd_c += !ft_strncmp(data->tokens[i].token, "||", 3)
 			|| !ft_strncmp(data->tokens[i].token, "&&", 3);
 	cmd_c++;
@@ -131,12 +130,4 @@ void	get_heredocs(t_data *data)
 		return ; // TODO
 	fill_heredocs(data);
 	data->hds[cmd_c] = NULL;
-	// TODO remove this! debug stuff vvvvvvvvvvvvvvvvvvvvvvvv
-	for (int x = 0; x < cmd_c; x++)
-	{
-		printf("inside command #%3d,\n", x);
-		for (int y = 0; data->hds[x][y].str; y++)
-			printf("\theredoc #%3d: %s\n"
-					"\tdo we expand? %d\n", y, data->hds[x][y].str, data->hds[x][y].expand);
-	}
 }
