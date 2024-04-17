@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 16:17:06 by akozin            #+#    #+#             */
-/*   Updated: 2024/04/16 16:44:20 by akozin           ###   ########.fr       */
+/*   Updated: 2024/04/17 13:29:19 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,16 +24,40 @@ static void	io_dub_determinator(t_data *data, int *i, t_token *tokens, int k)
 		data->coms[i[0]].outs[k].dub = 1;
 }
 
-static void	in_filler(t_data *data, int *i, t_token *ts, int k)
+static void	in_filler(t_data *data, int *i, t_token *ts, int *k)
 {
-	io_dub_determinator(data, i, ts, k);
-	data->coms[i[0]].ins[k++].fname = ts[i[2]++ + i[3] + 1].token;
+	size_t	s;
+
+	io_dub_determinator(data, i, ts, *k);
+	s = ft_strlen(ts[i[2] + i[3] + 1].token);
+
+	printf("i[2] is %3d, i[3] is %3d\n", i[2], i[3]);
+	printf("put this '%s', len %3zu, inside...\n", ts[i[2] + i[3] + 1].token, s);
+
+	data->coms[i[0]].ins[*k].fname = ft_substr(ts[i[2] + i[3] + 1].token, 0, s);
+	
+	printf("\tin, filled!  filename: %s, double: %s\n", data->coms[i[0]].ins[*k].fname, data->coms[i[0]].ins[*k].dub ? "yes" : "no");
+
+	(*k)++;
+	i[2]++;
 }
 
-static void	out_filler(t_data *data, int *i, t_token *ts, int l)
+static void	out_filler(t_data *data, int *i, t_token *ts, int *l)
 {
-	io_dub_determinator(data, i, ts, l);
-	data->coms[i[0]].ins[l++].fname = ts[i[2]++ + i[3] + 1].token;
+	size_t	s;
+
+	io_dub_determinator(data, i, ts, *l);
+	s = ft_strlen(ts[i[2] + i[3] + 1].token);
+
+	printf("i[2] is %3d, i[3] is %3d\n", i[2], i[3]);
+	printf("put this '%s', len %3zu, inside...\n", ts[i[2] + i[3] + 1].token, s);
+
+	data->coms[i[0]].outs[*l].fname = ft_substr(ts[i[2] + i[3] + 1].token, 0, s);
+
+	printf("\tout, filled! filename: %s, double: %s\n", data->coms[i[0]].outs[*l].fname, data->coms[i[0]].outs[*l].dub ? "yes" : "no");
+
+	(*l)++;
+	i[2]++;
 }
 
 /*
@@ -53,16 +77,19 @@ void	cmd_filler(t_data *data, int *i, t_token *ts)
 	m = 0;
 	while (++i[2] < i[4])
 	{
+		printf("token %s type %s\n", ts[i[2] + i[3]].token, (ts[i[2] + i[3]].type == TOKEN) ? "TOKEN" : ((ts[i[2] + i[3]].type == REDIR) ? "REDIR" : "PIPE"));
 		if (ts[i[2] + i[3]].type == REDIR)
 		{
 			if (!ft_strncmp(ts[i[2] + i[3]].token, "<", 2)
 				|| !ft_strncmp(ts[i[2] + i[3]].token, "<<", 3))
-				in_filler(data, i, ts, k);
+				in_filler(data, i, ts, &k);
 			else if (!ft_strncmp(ts[i[2] + i[3]].token, ">", 2)
 				|| !ft_strncmp(ts[i[2] + i[3]].token, ">>", 3))
-				out_filler(data, i, ts, l);
+				out_filler(data, i, ts, &l);
 		}
 		else
 			data->coms[i[0]].com[m++] = ts[i[2] + i[3]].token;
 	}
+	data->coms[i[0]].ins[k].fname = NULL;
+	data->coms[i[0]].outs[l].fname = NULL;
 }
