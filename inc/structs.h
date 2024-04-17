@@ -9,6 +9,7 @@
 typedef enum e_tok_s
 {
 	TOKEN,
+	HDOC,
 	REDIR,
 	PIPE
 }	t_tok_s;

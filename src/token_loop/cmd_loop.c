@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 16:14:33 by akozin            #+#    #+#             */
-/*   Updated: 2024/04/16 16:44:01 by akozin           ###   ########.fr       */
+/*   Updated: 2024/04/17 15:30:50 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ static void	cmd_len(t_token *tokens, int *i)
 	while (tokens[j].token && tokens[j].type != PIPE)
 	{
 		count += (tokens[j].type == TOKEN);
-		j += (tokens[j].type == REDIR);
+		j += (tokens[j].type == REDIR || tokens[j].type == HDOC);
 		j++;
 	}
 	i[1] = count;

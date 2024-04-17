@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 16:17:06 by akozin            #+#    #+#             */
-/*   Updated: 2024/04/17 13:29:19 by akozin           ###   ########.fr       */
+/*   Updated: 2024/04/17 15:30:03 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,8 +77,8 @@ void	cmd_filler(t_data *data, int *i, t_token *ts)
 	m = 0;
 	while (++i[2] < i[4])
 	{
-		printf("token %s type %s\n", ts[i[2] + i[3]].token, (ts[i[2] + i[3]].type == TOKEN) ? "TOKEN" : ((ts[i[2] + i[3]].type == REDIR) ? "REDIR" : "PIPE"));
-		if (ts[i[2] + i[3]].type == REDIR)
+		printf("token %s type %s\n", ts[i[2] + i[3]].token, (ts[i[2] + i[3]].type == TOKEN) ? "TOKEN" : ((ts[i[2] + i[3]].type == REDIR) ? "REDIR" : ((ts[i[2] + i[3]].type == HDOC) ? "HDOC" : "PIPE")));
+		if (ts[i[2] + i[3]].type == REDIR || ts[i[2] + i[3]].type == HDOC)
 		{
 			if (!ft_strncmp(ts[i[2] + i[3]].token, "<", 2)
 				|| !ft_strncmp(ts[i[2] + i[3]].token, "<<", 3))

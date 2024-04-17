@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 16:20:41 by akozin            #+#    #+#             */
-/*   Updated: 2024/04/16 16:30:20 by akozin           ###   ########.fr       */
+/*   Updated: 2024/04/17 15:21:58 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,8 @@ void	cmd_filler(t_data *data, int *i, t_token *ts);
 
 // TOKEN EXPANSION
 t_token	*token_expander(t_data *data, t_token *current_tokens, int *count);
-void	dollar_expander(t_token *f_me, t_data *data, char *t);
+void	dollar_exp_helper(t_token *exp_t, t_data *data, t_token *c_toks, int i);
+void	dollar_expander(t_token *f_me, t_data *data, char *t, t_tok_s prev);
 void	determine_q(int *in_q, char c);
 t_tok_s	determine_type(char *t);
 char	*var_end(char *s);

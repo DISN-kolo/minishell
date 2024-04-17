@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/28 12:01:48 by akozin            #+#    #+#             */
-/*   Updated: 2024/04/16 12:06:14 by akozin           ###   ########.fr       */
+/*   Updated: 2024/04/17 15:23:56 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,9 @@ t_tok_s	determine_type(char *t)
 	if (!ft_strncmp(t, "|", 2))
 		return (PIPE);
 	if (!ft_strncmp(t, "<", 2) || !ft_strncmp(t, ">", 2)
-		|| (!ft_strncmp(t, "<<", 3) || !ft_strncmp(t, ">>", 3)))
+		|| !ft_strncmp(t, ">>", 3))
 		return (REDIR);
+	if (!ft_strncmp(t, "<<", 3))
+		return (HDOC);
 	return (TOKEN);
 }

@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 16:26:06 by akozin            #+#    #+#             */
-/*   Updated: 2024/04/16 16:59:10 by akozin           ###   ########.fr       */
+/*   Updated: 2024/04/17 15:13:49 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ static char	literal_filler(int in_q, char c, t_token *f_me, int j)
 	return (c);
 }
 
-void	dollar_expander(t_token *f_me, t_data *data, char *t)
+void	dollar_expander(t_token *f_me, t_data *data, char *t, t_tok_s prev)
 {
 	int		i;
 	int		j;
@@ -77,7 +77,7 @@ void	dollar_expander(t_token *f_me, t_data *data, char *t)
 	{
 		determine_q(&in_q, t[i]);
 		if (in_q != 1 && t[i] == '$'
-			&& (t[i + 1] == '_' || ft_isalpha(t[i + 1])))
+			&& (t[i + 1] == '_' || ft_isalpha(t[i + 1])) && prev != HDOC)
 		{
 			fill_lit_expanded(fill_token(f_me, &t[i + 1], data, &j),
 				f_me, in_q, j);
