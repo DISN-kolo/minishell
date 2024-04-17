@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 14:59:19 by akozin            #+#    #+#             */
-/*   Updated: 2024/04/17 15:56:26 by akozin           ###   ########.fr       */
+/*   Updated: 2024/04/17 17:07:00 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,8 @@ int	token_loop(t_data *data)
 	while (i < cmd_c)
 	{
 		current_tokens = token_expander(data, data->tokens + count, &count);
+		if (!current_tokens)
+			return (1);
 		count++;
 		cmd_loop(data, current_tokens);
 		run_cmds(data);

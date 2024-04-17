@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 16:41:25 by akozin            #+#    #+#             */
-/*   Updated: 2024/04/17 15:20:58 by akozin           ###   ########.fr       */
+/*   Updated: 2024/04/17 17:02:51 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,8 @@ t_token	*token_expander(t_data *data, t_token *c_toks, int *count)
 	{
 		if (exp_t_init(&exp_t, data, c_toks[i].token))
 			return (NULL);
-		dollar_exp_helper(&exp_t, data, c_toks, i);
+		if (dollar_exp_helper(&exp_t, data, c_toks, i))
+			return (NULL);
 		local_n_t = new_t_split(exp_t);
 		if (!local_n_t)
 			return (NULL);
