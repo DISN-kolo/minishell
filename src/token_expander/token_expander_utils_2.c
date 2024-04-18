@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/17 13:52:11 by akozin            #+#    #+#             */
-/*   Updated: 2024/04/17 17:05:11 by akozin           ###   ########.fr       */
+/*   Updated: 2024/04/18 16:59:18 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,4 +36,24 @@ int	unlit_spaces_probe(t_token *f_me)
 		i++;
 	}
 	return (0);
+}
+
+t_tok_s	nt_prev(t_token *new_tokens)
+{
+	int		i;
+	t_tok_s	ret;
+
+	if (!new_tokens)
+		return (TOKEN);
+	else
+	{
+		i = 0;
+		ret = TOKEN;
+		while (new_tokens[i].token)
+		{
+			ret = new_tokens[i].type;
+			i++;
+		}
+	}
+	return (ret);
 }

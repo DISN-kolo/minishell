@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 16:20:41 by akozin            #+#    #+#             */
-/*   Updated: 2024/04/18 14:37:29 by akozin           ###   ########.fr       */
+/*   Updated: 2024/04/18 16:59:34 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ int		dollar_exp_helper(t_token *exp_t, t_data *data, t_token *c_toks, int i);
 int		dollar_expander(t_token *f_me, t_data *data, char *t, t_tok_s prev);
 void	determine_q(int *in_q, char c);
 t_tok_s	determine_type(char *t);
+t_tok_s	nt_prev(t_token *new_tokens);
 int		unlit_spaces_probe(t_token *f_me);
 char	*var_end(char *s);
 t_token	*new_t_split(t_token t);
