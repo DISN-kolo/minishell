@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 16:14:33 by akozin            #+#    #+#             */
-/*   Updated: 2024/04/17 15:56:40 by akozin           ###   ########.fr       */
+/*   Updated: 2024/04/18 13:17:42 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,6 @@ int	cmd_loop(t_data *data, t_token *tokens)
 		data->coms[i[0]].com[i[1]] = NULL;
 		i[2] = -1;
 		cmd_filler(data, i, tokens);
-		printf("\ti[2] is %3d\n", i[2]);
 		i[3] += i[2] + 1;
 	}
 	return (0);
