@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 16:41:25 by akozin            #+#    #+#             */
-/*   Updated: 2024/04/18 17:23:51 by akozin           ###   ########.fr       */
+/*   Updated: 2024/04/18 17:26:44 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ static int	expansion_counter(t_data *data, char *t)
 	{
 		determine_q(&in_q, t[i]);
 		if ((in_q != 1 && t[i] == '$' && (t[i + 1] == '_'
-				|| ft_isalpha(t[i + 1]))) || (t[i] == '~' && !i
+					|| ft_isalpha(t[i + 1]))) || (t[i] == '~' && !i
 				&& ft_strchr(" \t\f\v/", t[1])))
 			ret += inside_dollar_counter(data, t, i) - 1;
 		i++;
