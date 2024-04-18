@@ -6,13 +6,13 @@
 /*   By: molasz-a <molasz-a@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/28 16:48:14 by molasz-a          #+#    #+#             */
-/*   Updated: 2024/03/28 16:48:16 by molasz-a         ###   ########.fr       */
+/*   Updated: 2024/04/16 11:05:54 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 
-static char	*strchars(char *s, char *sep)
+char	*strchars(char *s, char *sep)
 {
 	int		in_q;
 
