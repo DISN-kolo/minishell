@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 16:20:41 by akozin            #+#    #+#             */
-/*   Updated: 2024/04/16 12:24:41 by molasz-a         ###   ########.fr       */
+/*   Updated: 2024/04/18 14:37:29 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,12 +28,27 @@ int		token_loop(t_data *data);
 // TOKENIZE
 void	tokenize_line(char *s, t_data *data);
 t_token	*tokenize_split(char *s);
+char	*strchars(char *s, char *sep);
 int		tokenize_count(char *s, char *sep);
 int		tokenize_err_probe(t_token *tokens);
 
+// HEREDOC GRABBIN'
+void	get_heredocs(t_data *data);
+
+// TOKEN LOOP UTILS
+int		io_coms_alloc(t_com *coms, t_token *tokens, int u);
+//+CMD LOOP
+int		cmd_loop(t_data *data, t_token *tokens);
+//+CMD FILLER
+void	cmd_filler(t_data *data, int *i, t_token *ts);
+
 // TOKEN EXPANSION
 t_token	*token_expander(t_data *data, t_token *current_tokens, int *count);
-void	dollar_expander(t_token *f_me, t_data *data, char *t);
+int		dollar_exp_helper(t_token *exp_t, t_data *data, t_token *c_toks, int i);
+int		dollar_expander(t_token *f_me, t_data *data, char *t, t_tok_s prev);
+void	determine_q(int *in_q, char c);
+t_tok_s	determine_type(char *t);
+int		unlit_spaces_probe(t_token *f_me);
 char	*var_end(char *s);
 t_token	*new_t_split(t_token t);
 t_token	*tokens_join_free(t_token *t1, t_token *t2);
@@ -42,6 +57,7 @@ char	*strchars_lit(t_token *t, int k, char *sep);
 
 // EXPAND & PARSE
 void	parse_exec(t_data *data);
+int		io_coms_alloc(t_com *coms, t_token *tokens, int u);
 void	expand_vars(char *s, t_data *data);
 
 // EXECUTION

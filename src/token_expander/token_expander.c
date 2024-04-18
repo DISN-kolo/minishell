@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 16:41:25 by akozin            #+#    #+#             */
-/*   Updated: 2024/04/10 16:22:24 by akozin           ###   ########.fr       */
+/*   Updated: 2024/04/17 17:02:51 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ static int	exp_t_init(t_token *exp_t, t_data *data, char *c_t)
  * the current data->tokens token, then we pass this exp t to the function that
  * creates the local n tokens, dissecting exp t.
  */
-t_token	*token_expander(t_data *data, t_token *current_tokens, int *count)
+t_token	*token_expander(t_data *data, t_token *c_toks, int *count)
 {
 	int		i;
 	t_token	*new_tokens;
@@ -85,13 +85,13 @@ t_token	*token_expander(t_data *data, t_token *current_tokens, int *count)
 		return (NULL);
 	i = 0;
 	new_tokens = NULL;
-	while (current_tokens[i].token
-		&& ft_strncmp(current_tokens[i].token, "||", 3)
-		&& ft_strncmp(current_tokens[i].token, "&&", 3)) // TODO error returns
+	while (c_toks[i].token && ft_strncmp(c_toks[i].token, "||", 3)
+		&& ft_strncmp(c_toks[i].token, "&&", 3)) // TODO error returns
 	{
-		if (exp_t_init(&exp_t, data, current_tokens[i].token))
+		if (exp_t_init(&exp_t, data, c_toks[i].token))
 			return (NULL);
-		dollar_expander(&exp_t, data, current_tokens[i].token);
+		if (dollar_exp_helper(&exp_t, data, c_toks, i))
+			return (NULL);
 		local_n_t = new_t_split(exp_t);
 		if (!local_n_t)
 			return (NULL);
