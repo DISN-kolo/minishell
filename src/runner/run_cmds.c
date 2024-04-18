@@ -6,7 +6,7 @@
 /*   By: molasz-a <molasz-a@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 13:34:21 by molasz-a          #+#    #+#             */
-/*   Updated: 2024/04/18 14:36:59 by akozin           ###   ########.fr       */
+/*   Updated: 2024/04/18 16:17:33 by molasz-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,16 +33,32 @@ static void	run_cmd(t_data *data, int i)
 	exit(0);
 }
 
-static pid_t	one_cmd(t_data *data)
+static void	one_cmd(t_data *data)
 {
 	pid_t	pid;
 
-	pid = fork();
-	if (pid < 0)
-		write(2, "Fork pipe error\n", 16);
-	else if (!pid)
-		run_cmd(data, 0);
-	return (pid);
+	if (!ft_strncmp_case(data->coms[0].com[0], "cd", 3))
+		bcd(data, data->coms[0].com + 1);
+	else if (!ft_strncmp_case(data->coms[0].com[0], "echo", 5))
+		becho(data->coms[0].com + 1);
+	else if (!ft_strncmp_case(data->coms[0].com[0], "env", 4))
+		benv(data);
+	else if (!ft_strncmp_case(data->coms[0].com[0], "exit", 5))
+		bexit(data, data->coms[0].com + 1);
+	else if (!ft_strncmp_case(data->coms[0].com[0], "export", 7))
+		bexport(data, data->coms[0].com + 1);
+	else if (!ft_strncmp_case(data->coms[0].com[0], "pwd", 4))
+		bpwd(data, data->coms[0].com + 1);
+	else if (!ft_strncmp_case(data->coms[0].com[0], "unset", 6))
+		bunset(data, data->coms[0].com + 1);
+	else
+	{
+		pid = fork();
+		if (pid < 0)
+			write(2, "Fork pipe error\n", 16);
+		else if (!pid)
+			find_cmd(data, 0);
+	}
 }
 
 static pid_t	normal_pipe(t_data *data, int *end, int i)
@@ -69,12 +85,10 @@ static pid_t	normal_pipe(t_data *data, int *end, int i)
 	return (pid);
 }
 
-static pid_t	last_pipe(t_data *data, int *end, int i)
+static pid_t	last_pipe(t_data *data, int i)
 {
 	pid_t	pid;
 
-	if (pipe(end) < 0)
-		write(2, "Pipe erro\n", 10);
 	pid = fork();
 	if (pid < 0)
 		write(2, "Fork pipe error\n", 16);
@@ -92,13 +106,13 @@ int	run_cmds(t_data *data)
 
 	data->std_in = dup(STDIN_FILENO);
 	if (!data->coms[1].com)
-		pid = one_cmd(data);
+		one_cmd(data);
 	else
 	{
 		i = 0;
 		while (data->coms[i].com && data->coms[i + 1].com)
 			normal_pipe(data, end, i++);
-		pid = last_pipe(data, end, i);
+		pid = last_pipe(data, i);
 	}
 	i = -1;
 	while (data->coms[++i].com)
