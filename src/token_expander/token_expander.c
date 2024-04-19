@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 16:41:25 by akozin            #+#    #+#             */
-/*   Updated: 2024/04/18 17:26:44 by akozin           ###   ########.fr       */
+/*   Updated: 2024/04/19 15:24:06 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ static int	inside_dollar_counter(t_data *data, char *t, int i)
 	char	*env_v_val;
 
 	if (t[i] == '~')
-		env_v_name = ft_substr("HOME", 0, 5);
+		env_v_name = ft_strdup("HOME");
 	else
 	{
 		if (t[i + 1] != '_' && !ft_isalpha(t[i + 1]))

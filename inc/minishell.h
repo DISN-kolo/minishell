@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 16:20:41 by akozin            #+#    #+#             */
-/*   Updated: 2024/04/19 13:15:22 by akozin           ###   ########.fr       */
+/*   Updated: 2024/04/19 15:27:52 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,9 @@ t_token	*new_t_split(t_token t);
 t_token	*tokens_join_free(t_token *t1, t_token *t2);
 int		tokenslen(t_token *t);
 char	*strchars_lit(t_token *t, int k, char *sep);
+
+// HEREDOC PROCESSIN'
+int		process_heredocs(t_data *data);
 
 // EXPAND & PARSE
 void	parse_exec(t_data *data);

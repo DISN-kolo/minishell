@@ -6,7 +6,7 @@
 #    By: akozin <akozin@student.42barcelona.com>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/18 16:38:42 by akozin            #+#    #+#              #
-#    Updated: 2024/04/18 17:03:12 by molasz-a         ###   ########.fr        #
+#    Updated: 2024/04/19 15:30:09 by akozin           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -34,6 +34,7 @@ SRCNAMES = main.c \
 			tokenize/tokenize_split.c \
 			tokenize/tokenize_err_probe.c \
 			get_heredocs.c \
+			heredoc_processing/heredoc_rl.c \
 			token_loop/token_loop.c \
 			token_loop/token_loop_utils.c \
 			token_loop/cmd_loop.c \
@@ -68,7 +69,8 @@ RM = rm -rf
 all:		folders make_libs $(NAME)
 
 folders:
-	mkdir -p obj/tokenize obj/builtins obj/token_expander obj/runner obj/token_loop
+	mkdir -p obj/tokenize obj/builtins obj/token_expander obj/runner obj/token_loop \
+		obj/heredoc_processing
 
 
 make_libs: $(RL)

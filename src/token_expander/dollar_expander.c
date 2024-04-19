@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 16:26:06 by akozin            #+#    #+#             */
-/*   Updated: 2024/04/18 17:27:03 by akozin           ###   ########.fr       */
+/*   Updated: 2024/04/19 15:23:50 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ static int	fill_token(t_token *f_me, char *t, t_data *data, int *j)
 
 	k = 0;
 	if (*(t - 1) == '~')
-		env_v_name = ft_substr("HOME", 0, 5);
+		env_v_name = ft_strdup("HOME");
 	else
 		env_v_name = ft_substr(t, 0, var_end(t) - t);
 	env_v_val = read_env(data, env_v_name);
