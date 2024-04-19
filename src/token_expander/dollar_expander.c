@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 16:26:06 by akozin            #+#    #+#             */
-/*   Updated: 2024/04/17 17:06:18 by akozin           ###   ########.fr       */
+/*   Updated: 2024/04/18 17:27:03 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,10 @@ static int	fill_token(t_token *f_me, char *t, t_data *data, int *j)
 	int		k;
 
 	k = 0;
-	env_v_name = ft_substr(t, 0, var_end(t) - t);
+	if (*(t - 1) == '~')
+		env_v_name = ft_substr("HOME", 0, 5);
+	else
+		env_v_name = ft_substr(t, 0, var_end(t) - t);
 	env_v_val = read_env(data, env_v_name);
 	if (!env_v_val)
 		return ((*j)--, 0);
@@ -76,8 +79,9 @@ int	dollar_expander(t_token *f_me, t_data *data, char *t, t_tok_s prev)
 	while (t[i])
 	{
 		determine_q(&in_q, t[i]);
-		if (in_q != 1 && t[i] == '$'
-			&& (t[i + 1] == '_' || ft_isalpha(t[i + 1])) && prev != HDOC)
+		if (((in_q != 1 && t[i] == '$' && (t[i + 1] == '_'
+						|| ft_isalpha(t[i + 1]))) || (t[i] == '~' && !i
+					&& ft_strchr(" \t\f\v/", t[1]))) && prev != HDOC)
 		{
 			fill_lit_exp(fill_token(f_me, &t[i + 1], data, &j), f_me, in_q, j);
 			i += var_end(&t[i + 1]) - &t[i + 1];

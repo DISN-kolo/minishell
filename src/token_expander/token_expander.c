@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 16:41:25 by akozin            #+#    #+#             */
-/*   Updated: 2024/04/17 17:02:51 by akozin           ###   ########.fr       */
+/*   Updated: 2024/04/18 17:26:44 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,13 +18,21 @@ static int	inside_dollar_counter(t_data *data, char *t, int i)
 	char	*env_v_name;
 	char	*env_v_val;
 
-	if (t[i + 1] != '_' && !ft_isalpha(t[i + 1]))
-		return (0);
-	env_v_name = ft_substr(&t[i + 1], 0, var_end(&t[i + 1]) - &t[i + 1]);
+	if (t[i] == '~')
+		env_v_name = ft_substr("HOME", 0, 5);
+	else
+	{
+		if (t[i + 1] != '_' && !ft_isalpha(t[i + 1]))
+			return (0);
+		env_v_name = ft_substr(&t[i + 1], 0, var_end(&t[i + 1]) - &t[i + 1]);
+	}
 	env_v_val = read_env(data, env_v_name);
 	if (!env_v_val)
 		return (-ft_strlen(env_v_name));
-	ret = ft_strlen(env_v_val) - ft_strlen(env_v_name);
+	if (t[i] == '~')
+		ret = ft_strlen(env_v_val);
+	else
+		ret = ft_strlen(env_v_val) - ft_strlen(env_v_name);
 	free(env_v_name);
 	return (ret);
 }
@@ -40,22 +48,24 @@ static int	expansion_counter(t_data *data, char *t)
 	in_q = 0;
 	while (t[i])
 	{
-		if ((in_q == 1 && t[i] == '\'') || (in_q == 2 && t[i] == '"'))
-			in_q = 0;
-		else if (!in_q && (t[i] == '\'' || t[i] == '"'))
-			in_q = (t[i] == '"') + 1;
-		if (in_q != 1 && t[i] == '$')
+		determine_q(&in_q, t[i]);
+		if ((in_q != 1 && t[i] == '$' && (t[i + 1] == '_'
+					|| ft_isalpha(t[i + 1]))) || (t[i] == '~' && !i
+				&& ft_strchr(" \t\f\v/", t[1])))
 			ret += inside_dollar_counter(data, t, i) - 1;
 		i++;
 	}
 	return (i + ret);
 }
 
-static int	exp_t_init(t_token *exp_t, t_data *data, char *c_t)
+static int	exp_t_init(t_token *exp_t, t_data *data, char *c_t, t_tok_s prev)
 {
 	int	exp_len;
 
-	exp_len = expansion_counter(data, c_t);
+	if (prev == HDOC)
+		exp_len = ft_strlen(c_t);
+	else
+		exp_len = expansion_counter(data, c_t);
 	exp_t->token = malloc(exp_len + 1);
 	exp_t->literal = malloc(sizeof (int) * exp_len);
 	if (!exp_t->token || !exp_t->literal)
@@ -88,7 +98,7 @@ t_token	*token_expander(t_data *data, t_token *c_toks, int *count)
 	while (c_toks[i].token && ft_strncmp(c_toks[i].token, "||", 3)
 		&& ft_strncmp(c_toks[i].token, "&&", 3)) // TODO error returns
 	{
-		if (exp_t_init(&exp_t, data, c_toks[i].token))
+		if (exp_t_init(&exp_t, data, c_toks[i].token, nt_prev(new_tokens)))
 			return (NULL);
 		if (dollar_exp_helper(&exp_t, data, c_toks, i))
 			return (NULL);
