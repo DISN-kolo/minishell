@@ -6,7 +6,7 @@
 /*   By: molasz-a <molasz-a@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 13:34:21 by molasz-a          #+#    #+#             */
-/*   Updated: 2024/04/18 16:17:33 by molasz-a         ###   ########.fr       */
+/*   Updated: 2024/04/19 12:57:47 by molasz-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,7 +116,10 @@ int	run_cmds(t_data *data)
 	}
 	i = -1;
 	while (data->coms[++i].com)
-		waitpid(-1, &status, 0);
+	{
+		if (waitpid(-1, &status, 0) == pid)
+			data->status_code = status;
+	}
 	dup2(data->std_in, STDIN_FILENO);
 	return (0);
 }
