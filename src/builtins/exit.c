@@ -6,7 +6,7 @@
 /*   By: molasz-a <molasz-a@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 14:40:31 by molasz-a          #+#    #+#             */
-/*   Updated: 2024/04/19 13:01:54 by molasz-a         ###   ########.fr       */
+/*   Updated: 2024/04/19 13:18:52 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ static int	numeric_str(char *s)
 
 void	bexit(t_data *data, char **args)
 {
-	if (!args[0])
+	if (!args || !args[0])
 	{
 		printf("exit\n");
 		exit_handler(data, 0);
