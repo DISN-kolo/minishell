@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 14:13:57 by akozin            #+#    #+#             */
-/*   Updated: 2024/04/22 14:32:19 by akozin           ###   ########.fr       */
+/*   Updated: 2024/04/22 15:48:04 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,40 @@
 #include "../../readline/readline.h"
 #include "../../readline/history.h"
 
+void	grab_and_write_hdoc(int fd, char *eof)
+{
+	int		i;
+	int		eoflen;
+	char	*hline;
+	char	*ret;
+
+	i = 0;
+	eoflen = ft_strlen(eof);
+	hline = readline("> ");
+	ret = ft_calloc(sizeof (char), 1);
+	if (!ret)
+		return ; // TODO
+	while (hline && ft_strncmp(hline, eof, eoflen))
+	{
+		ret = ft_strjoin_free(ret, hline);
+		printf("total ret is '%s'\n", ret);
+		hline = readline("> ");
+		ret = ft_strjoin_free(ret, "\n");
+	}
+	if (write(fd, ret, ft_strlen(ret)) != -1)
+		printf("write success!\n");
+	else
+		printf("write failed.\n");
+}
+
 /*
- * i[0] goes thru the first array, which contains hds as arrays between operators,
- * i.e. &&s and ||s.
+ * i[0] goes thru the first array, which contains hds as arrays between
+ * operators, i.e. &&s and ||s.
  * i[1] goes thru the second arrays, getting each heredoc.
- * j[0] goes thru the commands, j[1] goes thru their ins.
+ *
+ * prolly only for cmd filler -> j[0] goes thru the commands,
+ * j[1] goes thru their ins.
+ *
  * i don't think we need a total counter.
  */
 int	process_heredocs(t_data *data)
@@ -42,10 +71,10 @@ int	process_heredocs(t_data *data)
 			fname = gen_h_fname(i[0], i[1]);
 			if (access(fname, F_OK) == 0)
 				printf("why do we have the %s file already?\n", fname);
-			fd = open(fname, O_WRONLY | O_CREAT | O_EXCL | O_TRUNC);
+			fd = open(fname, O_WRONLY | O_CREAT | O_TRUNC);
 			if (fd == -1)
 				printf("open errorred on %s\n", fname);
-			//grab_and_write_hdoc(fd, ); // TODO
+			grab_and_write_hdoc(fd, data->hds[i[0]][i[1]].str); // TODO
 			close(fd);
 			/*
 			if (!data->coms[j[0]].ins[j[1] + 1].fname)
@@ -56,7 +85,7 @@ int	process_heredocs(t_data *data)
 			else
 				j[1]++;
 			*/
-			unlink(fname);
+			// unlink(fname);
 			free(fname);
 			i[1]++;
 		}

@@ -6,13 +6,13 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 13:27:50 by akozin            #+#    #+#             */
-/*   Updated: 2024/04/22 13:38:46 by akozin           ###   ########.fr       */
+/*   Updated: 2024/04/22 15:05:48 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 
-static char	*ft_strjoin_free(char *b1, char *b2)
+char	*ft_strjoin_free(char *b1, char *b2)
 {
 	char	*t;
 
