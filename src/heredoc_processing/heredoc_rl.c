@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 14:13:57 by akozin            #+#    #+#             */
-/*   Updated: 2024/04/22 15:48:04 by akozin           ###   ########.fr       */
+/*   Updated: 2024/04/22 15:52:33 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,25 +19,22 @@ void	grab_and_write_hdoc(int fd, char *eof)
 	int		i;
 	int		eoflen;
 	char	*hline;
-	char	*ret;
 
 	i = 0;
 	eoflen = ft_strlen(eof);
 	hline = readline("> ");
-	ret = ft_calloc(sizeof (char), 1);
-	if (!ret)
-		return ; // TODO
 	while (hline && ft_strncmp(hline, eof, eoflen))
 	{
-		ret = ft_strjoin_free(ret, hline);
-		printf("total ret is '%s'\n", ret);
+		if (write(fd, hline, ft_strlen(hline)) != -1)
+			printf("write success!\n");
+		else
+			printf("write failed.\n");
+		if (write(fd, "\n", 1) != -1)
+			printf("write success!\n");
+		else
+			printf("write failed.\n");
 		hline = readline("> ");
-		ret = ft_strjoin_free(ret, "\n");
 	}
-	if (write(fd, ret, ft_strlen(ret)) != -1)
-		printf("write success!\n");
-	else
-		printf("write failed.\n");
 }
 
 /*
