@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 16:20:41 by akozin            #+#    #+#             */
-/*   Updated: 2024/04/22 13:36:04 by akozin           ###   ########.fr       */
+/*   Updated: 2024/04/22 13:49:50 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 # include <stdlib.h>
 # include <errno.h>
 # include <sys/wait.h>
+# include <fcntl.h>
 
 # include "../libft/libft.h"
 # include "./structs.h"

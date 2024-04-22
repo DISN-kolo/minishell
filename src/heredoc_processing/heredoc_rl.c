@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 14:13:57 by akozin            #+#    #+#             */
-/*   Updated: 2024/04/22 13:38:50 by akozin           ###   ########.fr       */
+/*   Updated: 2024/04/22 14:32:19 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,9 @@
  */
 int	process_heredocs(t_data *data)
 {
-	int	i[2];
+	int		i[2];
+	char	*fname;
+	int		fd;
 //	int	j[2];
 
 	if (data->errored)
@@ -37,7 +39,14 @@ int	process_heredocs(t_data *data)
 		while (data->hds[i[0]][i[1]].str)
 		{
 			printf("data->hds[%2d][%2d].str = '%s', exp: %d\n", i[0], i[1], data->hds[i[0]][i[1]].str, data->hds[i[0]][i[1]].expand);
-			gen_h_fname(i[0], i[1]);
+			fname = gen_h_fname(i[0], i[1]);
+			if (access(fname, F_OK) == 0)
+				printf("why do we have the %s file already?\n", fname);
+			fd = open(fname, O_WRONLY | O_CREAT | O_EXCL | O_TRUNC);
+			if (fd == -1)
+				printf("open errorred on %s\n", fname);
+			//grab_and_write_hdoc(fd, ); // TODO
+			close(fd);
 			/*
 			if (!data->coms[j[0]].ins[j[1] + 1].fname)
 			{
@@ -47,6 +56,8 @@ int	process_heredocs(t_data *data)
 			else
 				j[1]++;
 			*/
+			unlink(fname);
+			free(fname);
 			i[1]++;
 		}
 		printf("==\n");
@@ -57,7 +68,7 @@ int	process_heredocs(t_data *data)
 //	int		i;
 //	char	*hline;
 //
-//	 = 0;
+//	i = 0;
 //	hline = readline("> ");
 //	while (hline && ft_strncmp(hline, "forcedoc", 8))
 //	{
