@@ -21,10 +21,14 @@ typedef enum e_tok_s
 	PIPE
 }	t_tok_s;
 
+/*
+ * expand -- for hdoc only!
+ */
 typedef struct s_inout
 {
 	int		dub;
 	char	*fname;
+	int		expand;
 } t_inout;
 
 typedef struct s_com

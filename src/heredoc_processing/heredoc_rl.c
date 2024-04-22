@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 14:13:57 by akozin            #+#    #+#             */
-/*   Updated: 2024/04/19 16:59:51 by akozin           ###   ########.fr       */
+/*   Updated: 2024/04/22 11:37:57 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,18 +24,18 @@
 int	process_heredocs(t_data *data)
 {
 	int	i[2];
-	int	j[2];
+//	int	j[2];
 
 	i[0] = 0;
-	j[0] = 0;
-	j[1] = 0;
+//	j[0] = 0;
+//	j[1] = 0;
 	while (data->hds[i[0]])
 	{
 		i[1] = 0;
 		while (data->hds[i[0]][i[1]].str)
 		{
 			printf("data->hds[%2d][%2d].str = '%s', exp: %d\n", i[0], i[1], data->hds[i[0]][i[1]].str, data->hds[i[0]][i[1]].expand);
-			printf("data->coms[%2d].ins[%2d].fname = '%s', dub: %d\n", j[0], j[1], data->coms[j[0]].ins[j[1]].fname, data->coms[j[0]].ins[j[1]].dub);
+			/*
 			if (!data->coms[j[0]].ins[j[1] + 1].fname)
 			{
 				j[0]++;
@@ -43,6 +43,7 @@ int	process_heredocs(t_data *data)
 			}
 			else
 				j[1]++;
+			*/
 			i[1]++;
 		}
 		printf("==\n");

@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 16:14:33 by akozin            #+#    #+#             */
-/*   Updated: 2024/04/19 15:41:18 by akozin           ###   ########.fr       */
+/*   Updated: 2024/04/22 12:01:20 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,17 @@ static int	cmd_len(t_token *tokens, int *i)
 	return (0);
 }
 
+static int	com_malloc_safe(t_data *data, int *i)
+{
+	data->coms[i[0]].com = malloc((i[1] + 1) * sizeof (char *));
+	if (!data->coms[i[0]].com)
+	{
+		free_coms(data);
+		return (1);
+	}
+	return (0);
+}
+
 /*
  * 1. counts the commands until || or && using pipes.
  *   this count is done with cmd_count.
@@ -81,14 +92,14 @@ int	cmd_loop(t_data *data, t_token *tokens)
 	{
 		if (cmd_len(tokens + i[3], i))
 			return (free_coms(data), 1);
-		data->coms[i[0]].com = malloc((i[1] + 1) * sizeof (char *));
-		if (!data->coms[i[0]].com)
-			return (free_coms(data), 1);
+		if (com_malloc_safe(data, i))
+			return (1);
 		if (io_coms_alloc(&(data->coms[i[0]]), tokens + i[3], i[4]))
 			return (free_coms(data), 1);
 		data->coms[i[0]].com[i[1]] = NULL;
 		i[2] = -1;
-		cmd_filler(data, i, tokens);
+		if (cmd_filler(data, i, tokens))
+			return (free_coms(data), 1);
 		i[3] += i[2] + 1;
 	}
 	return (0);

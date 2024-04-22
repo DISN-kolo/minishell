@@ -6,7 +6,7 @@
 #    By: akozin <akozin@student.42barcelona.com>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/18 16:38:42 by akozin            #+#    #+#              #
-#    Updated: 2024/04/19 15:30:09 by akozin           ###   ########.fr        #
+#    Updated: 2024/04/22 12:32:38 by akozin           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -39,6 +39,7 @@ SRCNAMES = main.c \
 			token_loop/token_loop_utils.c \
 			token_loop/cmd_loop.c \
 			token_loop/cmd_filler.c \
+			token_loop/cmd_filler_utils.c \
 			token_expander/token_expander.c \
 			token_expander/token_expander_utils.c \
 			token_expander/token_expander_utils_2.c \

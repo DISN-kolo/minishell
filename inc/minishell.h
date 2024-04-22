@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 16:20:41 by akozin            #+#    #+#             */
-/*   Updated: 2024/04/19 15:27:52 by akozin           ###   ########.fr       */
+/*   Updated: 2024/04/22 12:31:44 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,8 @@ int		io_coms_alloc(t_com *coms, t_token *tokens, int u);
 //+CMD LOOP
 int		cmd_loop(t_data *data, t_token *tokens);
 //+CMD FILLER
-void	cmd_filler(t_data *data, int *i, t_token *ts);
+int		cmd_filler(t_data *data, int *i, t_token *ts);
+int		cmd_filler_internal(t_data *data, int *i, t_token *ts, int *k);
 
 // TOKEN EXPANSION
 t_token	*token_expander(t_data *data, t_token *current_tokens, int *count);
