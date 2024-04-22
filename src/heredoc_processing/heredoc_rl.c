@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 14:13:57 by akozin            #+#    #+#             */
-/*   Updated: 2024/04/22 15:52:33 by akozin           ###   ########.fr       */
+/*   Updated: 2024/04/22 16:01:05 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include "../../readline/readline.h"
 #include "../../readline/history.h"
 
-void	grab_and_write_hdoc(int fd, char *eof)
+static int	grab_and_write_hdoc(int fd, char *eof)
 {
 	int		i;
 	int		eoflen;
@@ -25,16 +25,13 @@ void	grab_and_write_hdoc(int fd, char *eof)
 	hline = readline("> ");
 	while (hline && ft_strncmp(hline, eof, eoflen))
 	{
-		if (write(fd, hline, ft_strlen(hline)) != -1)
-			printf("write success!\n");
-		else
-			printf("write failed.\n");
-		if (write(fd, "\n", 1) != -1)
-			printf("write success!\n");
-		else
-			printf("write failed.\n");
+		if (write(fd, hline, ft_strlen(hline)) == -1)
+			return (1);
+		if (write(fd, "\n", 1) == -1)
+			return (1);
 		hline = readline("> ");
 	}
+	return (0);
 }
 
 /*
@@ -70,8 +67,9 @@ int	process_heredocs(t_data *data)
 				printf("why do we have the %s file already?\n", fname);
 			fd = open(fname, O_WRONLY | O_CREAT | O_TRUNC);
 			if (fd == -1)
-				printf("open errorred on %s\n", fname);
-			grab_and_write_hdoc(fd, data->hds[i[0]][i[1]].str); // TODO
+				return (printf("open errorred on %s\n", fname), close(fd), 1);
+			if (grab_and_write_hdoc(fd, data->hds[i[0]][i[1]].str))
+				return (printf("write failed\n"), close(fd), 1);
 			close(fd);
 			/*
 			if (!data->coms[j[0]].ins[j[1] + 1].fname)
