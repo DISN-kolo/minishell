@@ -6,7 +6,7 @@
 #    By: akozin <akozin@student.42barcelona.com>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/18 16:38:42 by akozin            #+#    #+#              #
-#    Updated: 2024/04/22 12:32:38 by akozin           ###   ########.fr        #
+#    Updated: 2024/04/22 13:36:25 by akozin           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -35,6 +35,7 @@ SRCNAMES = main.c \
 			tokenize/tokenize_err_probe.c \
 			get_heredocs.c \
 			heredoc_processing/heredoc_rl.c \
+			heredoc_processing/heredoc_filename_creator.c \
 			token_loop/token_loop.c \
 			token_loop/token_loop_utils.c \
 			token_loop/cmd_loop.c \
