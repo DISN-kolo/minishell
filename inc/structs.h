@@ -1,5 +1,5 @@
 #ifndef STRUCTS_H
-#define STRUCTS_H
+# define STRUCTS_H
 
 /*
  * operators are &&, ||, |
@@ -26,6 +26,7 @@ typedef enum e_tok_s
  */
 typedef struct s_inout
 {
+	int		in;
 	int		dub;
 	char	*fname;
 	int		expand;
@@ -34,10 +35,11 @@ typedef struct s_inout
 typedef struct s_com
 {
 	char		**com;
-	t_inout		*ins;
-	t_inout		*outs;
+	t_inout		*ios;
 	t_operator	oper;
 	int			status;
+	int			infd;
+	int			outfd;
 } t_com;
 
 typedef struct s_token

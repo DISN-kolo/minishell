@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 12:11:35 by akozin            #+#    #+#             */
-/*   Updated: 2024/04/22 12:34:09 by akozin           ###   ########.fr       */
+/*   Updated: 2024/04/23 16:30:20 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,13 +15,13 @@
 static void	io_dub_determinator(t_data *data, int *i, t_token *tokens, int k)
 {
 	if (!ft_strncmp(tokens[i[2] + i[3]].token, "<", 2))
-		data->coms[i[0]].ins[k].dub = 0;
+		data->coms[i[0]].ios[k].dub = 0;
 	else if (!ft_strncmp(tokens[i[2] + i[3]].token, ">", 2))
-		data->coms[i[0]].outs[k].dub = 0;
+		data->coms[i[0]].ios[k].dub = 0;
 	else if (!ft_strncmp(tokens[i[2] + i[3]].token, "<<", 3))
-		data->coms[i[0]].ins[k].dub = 1;
+		data->coms[i[0]].ios[k].dub = 1;
 	else if (!ft_strncmp(tokens[i[2] + i[3]].token, ">>", 3))
-		data->coms[i[0]].outs[k].dub = 1;
+		data->coms[i[0]].ios[k].dub = 1;
 }
 
 /*
@@ -33,7 +33,8 @@ static int	in_filler(t_data *d, int *i, t_token *ts, int *k)
 	if (!ts[i[2] + i[3] + 1].token)
 		return (write(2, "ambiguous redirect\n", 19), 1);
 	io_dub_determinator(d, i, ts, k[0]);
-	d->coms[i[0]].ins[k[0]].fname = ft_strdup(ts[i[2] + i[3] + 1].token);
+	d->coms[i[0]].ios[k[0]].fname = ft_strdup(ts[i[2] + i[3] + 1].token);
+	d->coms[i[0]].ios[k[0]].in = 1;
 	k[0]++;
 	i[2]++;
 	return (0);
@@ -43,9 +44,10 @@ static int	out_filler(t_data *d, int *i, t_token *ts, int *k)
 {
 	if (!ts[i[2] + i[3] + 1].token)
 		return (write(2, "ambiguous redirect\n", 19), 1);
-	io_dub_determinator(d, i, ts, k[1]);
-	d->coms[i[0]].outs[k[1]].fname = ft_strdup(ts[i[2] + i[3] + 1].token);
-	k[1]++;
+	io_dub_determinator(d, i, ts, k[0]);
+	d->coms[i[0]].ios[k[0]].fname = ft_strdup(ts[i[2] + i[3] + 1].token);
+	d->coms[i[0]].ios[k[0]].in = 0;
+	k[0]++;
 	i[2]++;
 	return (0);
 }

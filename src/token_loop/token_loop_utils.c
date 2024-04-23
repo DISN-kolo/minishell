@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 14:55:17 by akozin            #+#    #+#             */
-/*   Updated: 2024/04/17 15:56:11 by akozin           ###   ########.fr       */
+/*   Updated: 2024/04/23 16:33:36 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
  * !is_in => we count the >, >>
  * u = the "until" integer, because we only need to count within the command
  */
-static int	ioredirs_counter(t_token *tokens, int is_in, int u)
+static int	ioredirs_counter(t_token *tokens, int u)
 {
 	int	i;
 	int	c;
@@ -26,11 +26,9 @@ static int	ioredirs_counter(t_token *tokens, int is_in, int u)
 	c = 0;
 	while (tokens[i].token && i < u)
 	{
-		if (is_in)
-			c += (!ft_strncmp(tokens[i].token, "<", 2)
-					|| !ft_strncmp(tokens[i].token, "<<", 3));
-		else
-			c += (!ft_strncmp(tokens[i].token, ">", 2)
+		c += (!ft_strncmp(tokens[i].token, "<", 2)
+					|| !ft_strncmp(tokens[i].token, "<<", 3)
+					|| !ft_strncmp(tokens[i].token, ">", 2)
 					|| !ft_strncmp(tokens[i].token, ">>", 3));
 		i++;
 	}
@@ -45,13 +43,10 @@ static int	ioredirs_counter(t_token *tokens, int is_in, int u)
 int	io_coms_alloc(t_com *coms, t_token *tokens, int u)
 {
 	int	ilen;
-	int	olen;
 
-	ilen = ioredirs_counter(tokens, 1, u);
-	olen = ioredirs_counter(tokens, 0, u);
-	coms->ins = malloc(sizeof (t_inout) * (ilen + 1));
-	coms->outs = malloc(sizeof (t_inout) * (olen + 1));
-	if (!coms->ins || !coms->outs)
+	iolen = ioredirs_counter(tokens, u);
+	coms->ios = malloc(sizeof (t_inout) * (iolen + 1));
+	if (!coms->ios)
 		return (1);
 	return (0);
 }

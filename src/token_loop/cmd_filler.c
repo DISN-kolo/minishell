@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 16:17:06 by akozin            #+#    #+#             */
-/*   Updated: 2024/04/22 12:34:20 by akozin           ###   ########.fr       */
+/*   Updated: 2024/04/23 16:19:48 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,11 +24,10 @@
  */
 int	cmd_filler(t_data *data, int *i, t_token *ts)
 {
-	int	k[3];
+	int	k[2];
 
 	k[0] = 0;
 	k[1] = 0;
-	k[2] = 0;
 	while (++i[2] < i[4])
 	{
 		if (ts[i[2] + i[3]].type == REDIR || ts[i[2] + i[3]].type == HDOC)
@@ -37,9 +36,8 @@ int	cmd_filler(t_data *data, int *i, t_token *ts)
 				return (1);
 		}
 		else
-			data->coms[i[0]].com[k[2]++] = ft_strdup(ts[i[2] + i[3]].token);
+			data->coms[i[0]].com[k[1]++] = ft_strdup(ts[i[2] + i[3]].token);
 	}
-	data->coms[i[0]].ins[k[0]].fname = NULL;
-	data->coms[i[0]].outs[k[1]].fname = NULL;
+	data->coms[i[0]].ios[k[0]].fname = NULL;
 	return (0);
 }
