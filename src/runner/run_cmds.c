@@ -6,13 +6,13 @@
 /*   By: molasz-a <molasz-a@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 13:34:21 by molasz-a          #+#    #+#             */
-/*   Updated: 2024/04/19 12:57:47 by molasz-a         ###   ########.fr       */
+/*   Updated: 2024/04/23 12:39:52 by molasz-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 
-static void	run_cmd(t_data *data, int i)
+static int	run_builtin(t_data *data, int i)
 {
 	if (!ft_strncmp_case(data->coms[i].com[0], "cd", 3))
 		bcd(data, data->coms[i].com + 1);
@@ -29,36 +29,24 @@ static void	run_cmd(t_data *data, int i)
 	else if (!ft_strncmp_case(data->coms[i].com[0], "unset", 6))
 		bunset(data, data->coms[i].com + 1);
 	else
-		find_cmd(data, i);
-	exit(0);
+		return (0);
+	return (1);
 }
 
-static void	one_cmd(t_data *data)
+static pid_t	one_cmd(t_data *data)
 {
 	pid_t	pid;
 
-	if (!ft_strncmp_case(data->coms[0].com[0], "cd", 3))
-		bcd(data, data->coms[0].com + 1);
-	else if (!ft_strncmp_case(data->coms[0].com[0], "echo", 5))
-		becho(data->coms[0].com + 1);
-	else if (!ft_strncmp_case(data->coms[0].com[0], "env", 4))
-		benv(data);
-	else if (!ft_strncmp_case(data->coms[0].com[0], "exit", 5))
-		bexit(data, data->coms[0].com + 1);
-	else if (!ft_strncmp_case(data->coms[0].com[0], "export", 7))
-		bexport(data, data->coms[0].com + 1);
-	else if (!ft_strncmp_case(data->coms[0].com[0], "pwd", 4))
-		bpwd(data, data->coms[0].com + 1);
-	else if (!ft_strncmp_case(data->coms[0].com[0], "unset", 6))
-		bunset(data, data->coms[0].com + 1);
-	else
+	if (!run_builtin(data, 0))
 	{
 		pid = fork();
 		if (pid < 0)
 			write(2, "Fork pipe error\n", 16);
 		else if (!pid)
 			find_cmd(data, 0);
+		return (pid);
 	}
+	return (0);
 }
 
 static pid_t	normal_pipe(t_data *data, int *end, int i)
@@ -76,7 +64,8 @@ static pid_t	normal_pipe(t_data *data, int *end, int i)
 			write(2, "Child dup end[1] error\n", 23);
 		if (close(end[0]) < 0)
 			write(2, "Child close end[0] error\n", 25);
-		run_cmd(data, i);
+		if (!run_builtin(data, i))
+			find_cmd(data, i);
 	}
 	if (dup2(end[0], 0) < 0)
 		write(2, "Parent dup end[0] error\n", 24);
@@ -92,8 +81,8 @@ static pid_t	last_pipe(t_data *data, int i)
 	pid = fork();
 	if (pid < 0)
 		write(2, "Fork pipe error\n", 16);
-	else if (!pid)
-		run_cmd(data, i);
+	else if (!pid && !run_builtin(data, i))
+		find_cmd(data, i);
 	return (pid);
 }
 
@@ -106,7 +95,7 @@ int	run_cmds(t_data *data)
 
 	data->std_in = dup(STDIN_FILENO);
 	if (!data->coms[1].com)
-		one_cmd(data);
+		pid = one_cmd(data);
 	else
 	{
 		i = 0;
