@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 16:26:06 by akozin            #+#    #+#             */
-/*   Updated: 2024/04/19 15:23:50 by akozin           ###   ########.fr       */
+/*   Updated: 2024/04/23 13:04:54 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ int	dollar_expander(t_token *f_me, t_data *data, char *t, t_tok_s prev)
 	while (t[i])
 	{
 		determine_q(&in_q, t[i]);
-		if (((in_q != 1 && t[i] == '$' && (t[i + 1] == '_'
+		if (((in_q != 1 && t[i] == '$' && (t[i + 1] == '_' || t[i + 1] == '?'
 						|| ft_isalpha(t[i + 1]))) || (t[i] == '~' && !i
 					&& ft_strchr(" \t\f\v/", t[1]))) && prev != HDOC)
 		{

@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 16:41:25 by akozin            #+#    #+#             */
-/*   Updated: 2024/04/19 15:24:06 by akozin           ###   ########.fr       */
+/*   Updated: 2024/04/23 12:59:27 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,9 +22,10 @@ static int	inside_dollar_counter(t_data *data, char *t, int i)
 		env_v_name = ft_strdup("HOME");
 	else
 	{
-		if (t[i + 1] != '_' && !ft_isalpha(t[i + 1]))
+		if (t[i + 1] != '_' && !ft_isalpha(t[i + 1]) && t[i + 1] != '?')
 			return (0);
 		env_v_name = ft_substr(&t[i + 1], 0, var_end(&t[i + 1]) - &t[i + 1]);
+		printf("received env name '%s'\n", env_v_name);
 	}
 	env_v_val = read_env(data, env_v_name);
 	if (!env_v_val)
@@ -33,6 +34,7 @@ static int	inside_dollar_counter(t_data *data, char *t, int i)
 		ret = ft_strlen(env_v_val);
 	else
 		ret = ft_strlen(env_v_val) - ft_strlen(env_v_name);
+	free(env_v_val); // TODO check if it double frees
 	free(env_v_name);
 	return (ret);
 }
@@ -49,7 +51,7 @@ static int	expansion_counter(t_data *data, char *t)
 	while (t[i])
 	{
 		determine_q(&in_q, t[i]);
-		if ((in_q != 1 && t[i] == '$' && (t[i + 1] == '_'
+		if ((in_q != 1 && t[i] == '$' && (t[i + 1] == '_' || t[i + 1] == '?'
 					|| ft_isalpha(t[i + 1]))) || (t[i] == '~' && !i
 				&& ft_strchr(" \t\f\v/", t[1])))
 			ret += inside_dollar_counter(data, t, i) - 1;

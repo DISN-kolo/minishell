@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 14:13:57 by akozin            #+#    #+#             */
-/*   Updated: 2024/04/22 16:01:05 by akozin           ###   ########.fr       */
+/*   Updated: 2024/04/23 12:41:04 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,19 +87,5 @@ int	process_heredocs(t_data *data)
 		printf("==\n");
 		i[0]++;
 	}
-//
-//
-//	int		i;
-//	char	*hline;
-//
-//	i = 0;
-//	hline = readline("> ");
-//	while (hline && ft_strncmp(hline, "forcedoc", 8))
-//	{
-//		printf("last line was '%s'\n", hline);
-//		hline = readline("> ");
-//		if (!data->hds)
-//			return (1);
-//	}
 	return (0);
 }
