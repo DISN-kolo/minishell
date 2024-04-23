@@ -6,7 +6,7 @@
 #    By: akozin <akozin@student.42barcelona.com>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/18 16:38:42 by akozin            #+#    #+#              #
-#    Updated: 2024/04/22 13:36:25 by akozin           ###   ########.fr        #
+#    Updated: 2024/04/23 13:22:42 by akozin           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -72,7 +72,7 @@ all:		folders make_libs $(NAME)
 
 folders:
 	mkdir -p obj/tokenize obj/builtins obj/token_expander obj/runner obj/token_loop \
-		obj/heredoc_processing
+		obj/heredoc_processing obj/io_redirs
 
 
 make_libs: $(RL)
