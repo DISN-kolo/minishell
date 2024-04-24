@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 14:55:17 by akozin            #+#    #+#             */
-/*   Updated: 2024/04/23 16:33:36 by akozin           ###   ########.fr       */
+/*   Updated: 2024/04/24 12:12:50 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ static int	ioredirs_counter(t_token *tokens, int u)
  */
 int	io_coms_alloc(t_com *coms, t_token *tokens, int u)
 {
-	int	ilen;
+	int	iolen;
 
 	iolen = ioredirs_counter(tokens, u);
 	coms->ios = malloc(sizeof (t_inout) * (iolen + 1));

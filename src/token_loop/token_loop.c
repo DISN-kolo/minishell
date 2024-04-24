@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 14:59:19 by akozin            #+#    #+#             */
-/*   Updated: 2024/04/19 17:01:06 by akozin           ###   ########.fr       */
+/*   Updated: 2024/04/24 13:23:34 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ int	token_loop(t_data *data)
 	while (i < cmd_c)
 	{
 		current_tokens = token_expander(data, data->tokens + count, &count);
+		printf("amb redir on: %i with token: '%s'\n", data->amb_redir_ind, data->amb_redir_name);
 		if (!current_tokens)
 			return (1);
 		count++;

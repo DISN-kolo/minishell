@@ -75,6 +75,8 @@ typedef struct s_data
 	int		std_in;
 	int		status_code;
 	int		errored;
+	int		amb_redir_ind;
+	char	*amb_redir_name;
 	t_env	*env;
 } t_data;
 

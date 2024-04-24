@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 16:41:25 by akozin            #+#    #+#             */
-/*   Updated: 2024/04/23 12:59:27 by akozin           ###   ########.fr       */
+/*   Updated: 2024/04/24 13:15:08 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,17 +93,15 @@ t_token	*token_expander(t_data *data, t_token *c_toks, int *count)
 	t_token	*local_n_t;
 	t_token	exp_t;
 
-	if (data->errored)
+	if (init_te_data_linesave(&i, &new_tokens, data))
 		return (NULL);
-	i = 0;
-	new_tokens = NULL;
 	while (c_toks[i].token && ft_strncmp(c_toks[i].token, "||", 3)
 		&& ft_strncmp(c_toks[i].token, "&&", 3)) // TODO error returns
 	{
 		if (exp_t_init(&exp_t, data, c_toks[i].token, nt_prev(new_tokens)))
 			return (NULL);
-		if (dollar_exp_helper(&exp_t, data, c_toks, i))
-			return (NULL);
+		if (dollar_exp_helper(&exp_t, data, c_toks, i) == 2)
+			data->amb_redir_ind = *count + tokenslen(new_tokens);
 		local_n_t = new_t_split(exp_t);
 		if (!local_n_t)
 			return (NULL);

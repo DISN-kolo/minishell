@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 16:26:06 by akozin            #+#    #+#             */
-/*   Updated: 2024/04/23 13:04:54 by akozin           ###   ########.fr       */
+/*   Updated: 2024/04/24 13:17:37 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,5 +92,5 @@ int	dollar_expander(t_token *f_me, t_data *data, char *t, t_tok_s prev)
 		i++;
 	}
 	f_me->token[j] = 0;
-	return (prev == REDIR && unlit_spaces_probe(f_me)); // TODO errhandl
+	return ((prev == REDIR) * unlit_spaces_probe(f_me)); // TODO errhandl
 }
