@@ -6,7 +6,7 @@
 /*   By: molasz-a <molasz-a@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 13:34:21 by molasz-a          #+#    #+#             */
-/*   Updated: 2024/04/23 12:39:52 by molasz-a         ###   ########.fr       */
+/*   Updated: 2024/04/24 17:28:30 by molasz-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ static pid_t	one_cmd(t_data *data)
 	{
 		pid = fork();
 		if (pid < 0)
-			write(2, "Fork pipe error\n", 16);
+			perror("Fork one");
 		else if (!pid)
 			find_cmd(data, 0);
 		return (pid);
@@ -54,23 +54,23 @@ static pid_t	normal_pipe(t_data *data, int *end, int i)
 	pid_t	pid;
 
 	if (pipe(end) < 0)
-		write(2, "Pipe error\n", 11);
+		perror("Pipe");
 	pid = fork();
 	if (pid < 0)
-		write(2, "Fork pipe error\n", 16);
+		perror("Fork normal");
 	else if (!pid)
 	{
 		if (dup2(end[1], 1) < 0)
-			write(2, "Child dup end[1] error\n", 23);
+			perror("Dup2 on child normal");
 		if (close(end[0]) < 0)
-			write(2, "Child close end[0] error\n", 25);
+			perror("Close on child normal");
 		if (!run_builtin(data, i))
 			find_cmd(data, i);
 	}
 	if (dup2(end[0], 0) < 0)
-		write(2, "Parent dup end[0] error\n", 24);
+		perror("Dup2 on parent normal");
 	if (close(end[1]) < 0)
-		write(2, "Parent close end[1] error\n", 26);
+		perror("Close on parent normal");
 	return (pid);
 }
 
@@ -80,7 +80,7 @@ static pid_t	last_pipe(t_data *data, int i)
 
 	pid = fork();
 	if (pid < 0)
-		write(2, "Fork pipe error\n", 16);
+		perror("Fork last");
 	else if (!pid && !run_builtin(data, i))
 		find_cmd(data, i);
 	return (pid);
@@ -104,6 +104,8 @@ int	run_cmds(t_data *data)
 		pid = last_pipe(data, i);
 	}
 	i = -1;
+	close(end[0]);
+	close(end[1]);
 	while (data->coms[++i].com)
 	{
 		if (waitpid(-1, &status, 0) == pid)

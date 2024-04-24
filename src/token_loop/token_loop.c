@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 14:59:19 by akozin            #+#    #+#             */
-/*   Updated: 2024/04/23 20:55:09 by molasz-a         ###   ########.fr       */
+/*   Updated: 2024/04/24 13:43:00 by molasz-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 int	check_operators(t_data *data, int *count)
 {
-	if ((data->tokens[*count - 1].token[0] == '&' && data->status_code)
-		|| (data->tokens[*count - 1].token[0] == '|' && !data->status_code))
+	if ((data->tokens[*count - 1].type == AND && data->status_code)
+		|| (data->tokens[*count - 1].type == OR && !data->status_code))
 	{
 		while (data->tokens[*count].token
 			&& !(data->tokens[*count].token[0] == '&'

@@ -6,19 +6,14 @@
  * redirs are >, <, >>, <<
  */
 
-typedef enum e_operator
-{
-	NONE,
-	AND,
-	OR
-}	t_operator;
-
 typedef enum e_tok_s
 {
 	TOKEN,
 	HDOC,
 	REDIR,
-	PIPE
+	PIPE,
+	AND,
+	OR
 }	t_tok_s;
 
 typedef struct s_inout
@@ -32,7 +27,6 @@ typedef struct s_com
 	char		**com;
 	t_inout		*ins;
 	t_inout		*outs;
-	t_operator	oper;
 	int			status;
 } t_com;
 
