@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 16:20:41 by akozin            #+#    #+#             */
-/*   Updated: 2024/04/24 13:15:36 by akozin           ###   ########.fr       */
+/*   Updated: 2024/04/24 15:19:56 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ void	get_heredocs(t_data *data);
 
 // TOKEN LOOP UTILS
 int		io_coms_alloc(t_com *coms, t_token *tokens, int u);
+int		open_everything(t_data *data);
 //+CMD LOOP
 int		cmd_loop(t_data *data, t_token *tokens);
 //+CMD FILLER

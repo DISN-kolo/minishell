@@ -6,7 +6,7 @@
 #    By: akozin <akozin@student.42barcelona.com>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/18 16:38:42 by akozin            #+#    #+#              #
-#    Updated: 2024/04/23 13:22:42 by akozin           ###   ########.fr        #
+#    Updated: 2024/04/24 15:21:32 by akozin           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -48,6 +48,7 @@ SRCNAMES = main.c \
 			token_expander/new_token_splitter.c \
 			token_expander/new_token_splitter_utils.c \
 			expand_vars.c \
+			io_redirs/io_redirs_handler.c \
 			runner/run_cmds.c \
 			runner/find_cmd.c \
 			runner/find_cmd_utils.c \

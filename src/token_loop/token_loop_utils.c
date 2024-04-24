@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 14:55:17 by akozin            #+#    #+#             */
-/*   Updated: 2024/04/24 12:12:50 by akozin           ###   ########.fr       */
+/*   Updated: 2024/04/24 15:58:00 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ int	io_coms_alloc(t_com *coms, t_token *tokens, int u)
 	int	iolen;
 
 	iolen = ioredirs_counter(tokens, u);
+	printf("iolen = %d\n", iolen);
 	coms->ios = malloc(sizeof (t_inout) * (iolen + 1));
 	if (!coms->ios)
 		return (1);

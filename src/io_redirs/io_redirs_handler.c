@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/23 13:58:31 by akozin            #+#    #+#             */
-/*   Updated: 2024/04/23 17:01:05 by akozin           ###   ########.fr       */
+/*   Updated: 2024/04/24 16:16:53 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,14 @@ int	open_everything(t_data *data)
 	int	flags;
 
 	i[0] = 0;
+	for (int x = 0; data->coms[x].com; x++)
+	{
+		for (int y = 0; data->coms[x].ios[y].fname; y++)
+			printf("x = %2d, y = %2d, io = '%s'\n", x, y, data->coms[x].ios[y].fname);
+	}
 	while (data->coms[i[0]].com)
 	{
+		printf("i0 = %d\n", i[0]);
 		data->coms[i[0]].infd = 0;
 		data->coms[i[0]].outfd = 1;
 		i[1] = 0;
@@ -33,22 +39,26 @@ int	open_everything(t_data *data)
 		fo = -42;
 		while (data->coms[i[0]].ios[i[1]].fname)
 		{
+			printf("i1 = %d\n", i[1]);
 			if (data->coms[i[0]].ios[i[1]].in)
 			{
+				printf("infile '%s'\n", data->coms[i[0]].ios[i[1]].fname);
 				if (fi != -42)
 					close(fi);
 				if (data->coms[i[0]].ios[i[1]].dub
 						&& !data->coms[i[0]].ios[i[1] + 1].fname)
-					fi = heredoc_read_expand(i, data); // TODO
+					fi = -420;
+//					fi = heredoc_read_expand(i, data); // TODO
 				else if (!data->coms[i[0]].ios[i[1]].dub)
 					fi = open(data->coms[i[0]].ios[i[1]].fname, O_RDONLY);
 				if (fi == -1)
-					return (-2); // TODO non-fatal error. move on to the next command
+					return (printf("fi = -1, open fail\n"), -2); // TODO non-fatal error. move on to the next command
 				else if (fi == -2)
 					return (-1); // TODO fatal error(?). someone screwed our heredoc tmp file!
 			}
 			else
 			{
+				printf("outfile '%s'\n", data->coms[i[0]].ios[i[1]].fname);
 				if (fo != -42)
 					close(fo);
 				if (data->coms[i[0]].ios[i[1]].dub)
@@ -66,4 +76,5 @@ int	open_everything(t_data *data)
 		data->coms[i[0]].outfd = fo;
 		i[0]++;
 	}
+	return (0);
 }
