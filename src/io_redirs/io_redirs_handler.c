@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/23 13:58:31 by akozin            #+#    #+#             */
-/*   Updated: 2024/04/25 15:38:14 by akozin           ###   ########.fr       */
+/*   Updated: 2024/04/25 15:54:45 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,10 @@ int	open_everything(t_data *data)
 		while (data->coms[i[0]].ios[i[1]].fname)
 		{
 			if (data->coms[i[0]].ios[i[1]].amb || i[1] == data->coms[i[0]].amb_redir_ind)
+			{
+				printf("ALRIGHT STOP\n");
 				break ; // TODO aight, stop
+			}
 			if (data->coms[i[0]].ios[i[1]].in)
 			{
 				if (fi != -42)
@@ -77,5 +80,6 @@ int	open_everything(t_data *data)
 		}
 		i[0]++;
 	}
-	return (0);
+	printf("btw, amb tok ind is %d\n", data->amb_tok_ind);
+	return (data->amb_tok_ind != -42);
 }

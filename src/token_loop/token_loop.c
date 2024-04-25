@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 14:59:19 by akozin            #+#    #+#             */
-/*   Updated: 2024/04/25 15:39:20 by akozin           ###   ########.fr       */
+/*   Updated: 2024/04/25 15:48:03 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ int	token_loop(t_data *data)
 		count++;
 		cmd_loop(data, current_tokens);
 		open_error = open_everything(data);
-		if (open_error >= 0)
+		if (!open_error)
 			run_cmds(data);
 		else
 			printf("open error = %d\n", open_error);
