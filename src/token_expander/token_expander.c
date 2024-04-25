@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 16:41:25 by akozin            #+#    #+#             */
-/*   Updated: 2024/04/24 13:15:08 by akozin           ###   ########.fr       */
+/*   Updated: 2024/04/25 14:57:52 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,6 @@ static int	inside_dollar_counter(t_data *data, char *t, int i)
 		if (t[i + 1] != '_' && !ft_isalpha(t[i + 1]) && t[i + 1] != '?')
 			return (0);
 		env_v_name = ft_substr(&t[i + 1], 0, var_end(&t[i + 1]) - &t[i + 1]);
-		printf("received env name '%s'\n", env_v_name);
 	}
 	env_v_val = read_env(data, env_v_name);
 	if (!env_v_val)
@@ -34,7 +33,7 @@ static int	inside_dollar_counter(t_data *data, char *t, int i)
 		ret = ft_strlen(env_v_val);
 	else
 		ret = ft_strlen(env_v_val) - ft_strlen(env_v_name);
-	free(env_v_val); // TODO check if it double frees
+	// free(env_v_val); // TODO check if it double frees
 	free(env_v_name);
 	return (ret);
 }
@@ -101,7 +100,7 @@ t_token	*token_expander(t_data *data, t_token *c_toks, int *count)
 		if (exp_t_init(&exp_t, data, c_toks[i].token, nt_prev(new_tokens)))
 			return (NULL);
 		if (dollar_exp_helper(&exp_t, data, c_toks, i) == 2)
-			data->amb_redir_ind = *count + tokenslen(new_tokens);
+			data->amb_redir_ind = i;
 		local_n_t = new_t_split(exp_t);
 		if (!local_n_t)
 			return (NULL);

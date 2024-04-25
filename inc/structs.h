@@ -30,6 +30,7 @@ typedef struct s_inout
 	int		dub;
 	char	*fname;
 	int		expand;
+	int		amb;
 } t_inout;
 
 typedef struct s_com
