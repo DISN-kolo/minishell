@@ -41,6 +41,7 @@ typedef struct s_com
 	int			status;
 	int			infd;
 	int			outfd;
+	int			amb_redir_ind;
 } t_com;
 
 typedef struct s_token
@@ -76,8 +77,8 @@ typedef struct s_data
 	int		std_in;
 	int		status_code;
 	int		errored;
-	int		amb_redir_ind;
-	char	*amb_redir_name;
+	int		amb_tok_ind;
+	char	*amb_tok_name;
 	t_env	*env;
 } t_data;
 

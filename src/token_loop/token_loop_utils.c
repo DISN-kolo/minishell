@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 14:55:17 by akozin            #+#    #+#             */
-/*   Updated: 2024/04/24 15:58:00 by akozin           ###   ########.fr       */
+/*   Updated: 2024/04/25 15:30:10 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,19 +17,30 @@
  * !is_in => we count the >, >>
  * u = the "until" integer, because we only need to count within the command
  */
-static int	ioredirs_counter(t_token *tokens, int u)
+static int	ioredirs_counter(t_com *coms, t_token *tokens, int u)
 {
-	int	i;
-	int	c;
+	int		i;
+	int		c;
+	t_tok_s	prev;
+	int		finished;
 
 	i = 0;
 	c = 0;
+	finished = 0;
+	prev = TOKEN;
 	while (tokens[i].token && i < u)
 	{
 		c += (!ft_strncmp(tokens[i].token, "<", 2)
 					|| !ft_strncmp(tokens[i].token, "<<", 3)
 					|| !ft_strncmp(tokens[i].token, ">", 2)
 					|| !ft_strncmp(tokens[i].token, ">>", 3));
+		if (!finished && (tokens[i].type == REDIR || tokens[i].type == HDOC)
+				&& (prev == REDIR || prev == HDOC))
+		{
+			finished = 1;
+			coms->amb_redir_ind = c - 2;
+		}
+		prev = tokens[i].type;
 		i++;
 	}
 	return (c);
@@ -44,7 +55,9 @@ int	io_coms_alloc(t_com *coms, t_token *tokens, int u)
 {
 	int	iolen;
 
-	iolen = ioredirs_counter(tokens, u);
+
+	coms->amb_redir_ind = -42;
+	iolen = ioredirs_counter(coms, tokens, u);
 	printf("iolen = %d\n", iolen);
 	coms->ios = malloc(sizeof (t_inout) * (iolen + 1));
 	if (!coms->ios)

@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 12:11:35 by akozin            #+#    #+#             */
-/*   Updated: 2024/04/25 13:07:28 by akozin           ###   ########.fr       */
+/*   Updated: 2024/04/25 15:41:35 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ static int	in_filler(t_data *d, int *i, t_token *ts, int *k)
 {
 	printf("in infiller, i0 = %d, k0 = %d\n", i[0], k[0]);
 	d->coms[i[0]].ios[k[0]].in = 1;
-	if (!ts[i[2] + i[3] + 1].token)
+	if (!ts[i[2] + i[3] + 1].token || k[0] == d->coms[i[0]].amb_redir_ind)
 	{
 		d->coms[i[0]].ios[k[0]].fname = ft_strdup("");
 		d->coms[i[0]].ios[k[0]].amb = 1;

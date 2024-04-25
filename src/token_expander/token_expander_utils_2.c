@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/17 13:52:11 by akozin            #+#    #+#             */
-/*   Updated: 2024/04/24 13:25:30 by akozin           ###   ########.fr       */
+/*   Updated: 2024/04/25 15:02:29 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int	dollar_exp_helper(t_token *exp_t, t_data *data, t_token *c_toks, int i)
 	else
 		r = dollar_expander(exp_t, data, c_toks[i].token, TOKEN);
 	if (c_toks[i].type == TOKEN && i > 0 && r == 2)
-		data->amb_redir_name = c_toks[i].token;
+		data->amb_tok_name = c_toks[i].token;
 	return (r);
 }
 
@@ -66,8 +66,8 @@ int	init_te_data_linesave(int *i, t_token **new_tokens, t_data *data)
 {
 	if (data->errored)
 		return (1);
-	data->amb_redir_ind = -42;
-	data->amb_redir_name = NULL;
+	data->amb_tok_ind = -42;
+	data->amb_tok_name = NULL;
 	i = 0;
 	new_tokens = NULL;
 	return (0);
