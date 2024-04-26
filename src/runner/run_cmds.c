@@ -6,7 +6,7 @@
 /*   By: molasz-a <molasz-a@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 13:34:21 by molasz-a          #+#    #+#             */
-/*   Updated: 2024/04/25 01:21:30 by molasz-a         ###   ########.fr       */
+/*   Updated: 2024/04/27 00:02:28 by molasz-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,19 +62,15 @@ static pid_t	normal_pipe(t_data *data, int *end, int i)
 	{
 		if (dup2(end[1], 1) < 0)
 			perror("Dup2 on child normal");
-		if (close(end[0]) < 0)
-			perror("Close end[0] on child");
-		if (close(end[1]) < 0)
-			perror("Close end[1] on child");
+		if (close(end[0]) < 0 || close(end[1]) < 0)
+			perror("Close on child");
 		if (!run_builtin(data, i))
 			find_cmd(data, i);
 	}
 	if (dup2(end[0], 0) < 0)
 		perror("Dup2 on parent normal");
-	if (close(end[1]) < 0)
-		perror("Close end[0] on parent");
-	if (close(end[0]) < 0)
-		perror("Close end[1] on parent");
+	if (close(end[0]) < 0 || close(end[1]) < 0)
+		perror("Close end on parent");
 	return (pid);
 }
 
@@ -107,6 +103,7 @@ int	run_cmds(t_data *data)
 			normal_pipe(data, end, i++);
 		pid = last_pipe(data, i);
 	}
+	close(STDIN_FILENO);
 	i = -1;
 	while (data->coms[++i].com)
 	{
@@ -114,6 +111,6 @@ int	run_cmds(t_data *data)
 			data->status_code = status;
 	}
 	if (dup2(data->std_in, STDIN_FILENO) < 0 || close(data->std_in) < 0)
-		perror("stdin save");
+		perror("Stdin save");
 	return (0);
 }
