@@ -21,11 +21,20 @@ int	dollar_exp_helper(t_token *exp_t, t_data *data, t_token *c_toks, int i)
 		r = dollar_expander(exp_t, data, c_toks[i].token, c_toks[i - 1].type);
 	else
 		r = dollar_expander(exp_t, data, c_toks[i].token, TOKEN);
-	if (c_toks[i].type == TOKEN && i > 0 && r == 2)
+	if (c_toks[i].type == TOKEN && i > 0 && r == 2 &&
+			data->amb_tok_ind == -42)
+	{
 		data->amb_tok_name = c_toks[i].token;
+		data->amb_tok_ind = i;
+	}
 	return (r);
 }
 
+/*
+ * if an expanded token, before its re-splitting, is empty or has un-literal
+ * spaces, this means that it's unsuitable for a redirect.
+ * this goes to dolalr_expander.
+ */
 int	unlit_spaces_probe(t_token *f_me)
 {
 	int	i;

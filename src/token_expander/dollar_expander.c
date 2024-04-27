@@ -51,8 +51,8 @@ static void	fill_lit_exp(int k, t_token *f_me, int in_q, int j)
 {
 	while (k-- > 0)
 	{
-		f_me->literal[j - k] = in_q
-			|| !ft_strchr(" \t\f\v", f_me->token[j - k]);
+		f_me->literal[j + k] = in_q
+			|| !ft_strchr(" \t\f\v", f_me->token[j + k]);
 	}
 }
 
@@ -66,6 +66,10 @@ static char	literal_filler(int in_q, char c, t_token *f_me, int j)
 	return (c);
 }
 
+/*
+ * the amb redir return code of dollar expander is returned
+ * to dollar exp helper
+ */
 int	dollar_expander(t_token *f_me, t_data *data, char *t, t_tok_s prev)
 {
 	int		i;
@@ -92,5 +96,5 @@ int	dollar_expander(t_token *f_me, t_data *data, char *t, t_tok_s prev)
 		i++;
 	}
 	f_me->token[j] = 0;
-	return ((prev == REDIR) * unlit_spaces_probe(f_me)); // TODO errhandl
+	return ((prev == REDIR) * unlit_spaces_probe(f_me));
 }
