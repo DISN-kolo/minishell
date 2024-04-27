@@ -18,26 +18,27 @@
  * 2. the second part (big if ...) fills the io arrays, and moves by
  *   two in order to skip the io filename that's already filled in.
  *
- * k[0] = k
- * k[1] = j
- * k[2] = m
+ * k - i/os counter
+ * j - argv counter
  */
 int	cmd_filler(t_data *data, int *i, t_token *ts)
 {
-	int	k[2];
+	int	k;
+	int	j;
 
-	k[0] = 0;
-	k[1] = 0;
+	k = 0;
+	j = 0;
 	while (++i[2] < i[4])
 	{
+		printf("i[2] = %d, i[2] + i[3] = %d, amb redir token index = %d\n", i[2], i[2]+i[3], data->amb_tok_ind);
 		if (ts[i[2] + i[3]].type == REDIR || ts[i[2] + i[3]].type == HDOC)
 		{
 			if (cmd_filler_internal(data, i, ts, k))
 				return (1);
 		}
 		else
-			data->coms[i[0]].com[k[1]++] = ft_strdup(ts[i[2] + i[3]].token);
+			data->coms[i[0]].com[j++] = ft_strdup(ts[i[2] + i[3]].token);
 	}
-	data->coms[i[0]].ios[k[0]].fname = NULL;
+	data->coms[i[0]].ios[k].fname = NULL;
 	return (0);
 }

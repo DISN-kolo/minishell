@@ -44,7 +44,7 @@ int		open_everything(t_data *data);
 int		cmd_loop(t_data *data, t_token *tokens);
 //+CMD FILLER
 int		cmd_filler(t_data *data, int *i, t_token *ts);
-int		cmd_filler_internal(t_data *data, int *i, t_token *ts, int *k);
+int		cmd_filler_internal(t_data *data, int *i, t_token *ts, int k);
 
 // TOKEN EXPANSION
 t_token	*token_expander(t_data *data, t_token *current_tokens, int *count);

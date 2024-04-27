@@ -78,6 +78,7 @@ typedef struct s_data
 	int		status_code;
 	int		errored;
 	int		amb_tok_ind;
+	int		amb_com_ind;
 	char	*amb_tok_name;
 	t_env	*env;
 } t_data;

@@ -31,9 +31,7 @@ int	token_loop(t_data *data)
 	while (i < cmd_c)
 	{
 		current_tokens = token_expander(data, data->tokens + count, &count);
-		if (data->amb_tok_ind != -42)
-			printf("amb tok on: %i with token: '%s'\n", data->amb_tok_ind, data->tokens[data->amb_tok_ind].token);
-		if (!current_tokens)
+			if (!current_tokens)
 			return (1);
 		count++;
 		cmd_loop(data, current_tokens);

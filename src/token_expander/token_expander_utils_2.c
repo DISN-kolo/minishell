@@ -68,7 +68,7 @@ int	init_te_data_linesave(int *i, t_token **new_tokens, t_data *data)
 		return (1);
 	data->amb_tok_ind = -42;
 	data->amb_tok_name = NULL;
-	i = 0;
-	new_tokens = NULL;
+	*i = 0;
+	*new_tokens = NULL;
 	return (0);
 }
