@@ -26,7 +26,7 @@ int	open_everything(t_data *data)
 	i[0] = 0;
 	while (data->coms[i[0]].com)
 	{
-		printf("i0 = %d\n", i[0]);
+		printf("open everything cycle: i0 = %d\n", i[0]);
 		data->coms[i[0]].infd = 0;
 		data->coms[i[0]].outfd = 1;
 		i[1] = 0;
@@ -34,6 +34,7 @@ int	open_everything(t_data *data)
 		fo = -42;
 		while (data->coms[i[0]].ios[i[1]].fname)
 		{
+			printf("fname = '%s'\n", data->coms[i[0]].ios[i[1]].fname);
 			if (data->coms[i[0]].ios[i[1]].amb || i[1] == data->coms[i[0]].amb_redir_ind)
 			{
 				printf("ALRIGHT STOP\n");
@@ -41,12 +42,13 @@ int	open_everything(t_data *data)
 			}
 			if (data->coms[i[0]].ios[i[1]].in)
 			{
+				printf("in-opening on i[1] = %d\n", i[1]);
 				if (fi != -42)
 					close(fi);
 				if (data->coms[i[0]].ios[i[1]].dub
 						&& !data->coms[i[0]].ios[i[1] + 1].fname)
 					fi = -420;
-//					fi = heredoc_read_expand(i, data); // TODO
+//					fi = heredoc_read_expand(i, data); // TODO can return -2
 				else if (!data->coms[i[0]].ios[i[1]].dub)
 					fi = open(data->coms[i[0]].ios[i[1]].fname, O_RDONLY);
 				if (fi == -1)
@@ -56,6 +58,7 @@ int	open_everything(t_data *data)
 			}
 			else
 			{
+				printf("out-opening on i[1] = %d\n", i[1]);
 				if (fo != -42)
 					close(fo);
 				if (data->coms[i[0]].ios[i[1]].dub)
@@ -80,6 +83,10 @@ int	open_everything(t_data *data)
 		}
 		i[0]++;
 	}
+	printf("in the end, fi = %d\n", fi);
+	printf("in the end, fo = %d\n", fo);
+	printf("in the end, data->coms[last].infd = %d\n", data->coms[i[0] - 1].infd);
+	printf("in the end, data->coms[last].outfd = %d\n", data->coms[i[0] - 1].outfd);
 	printf("btw, amb tok ind is %d\n", data->amb_tok_ind);
 	return (data->amb_tok_ind != -42);
 }
