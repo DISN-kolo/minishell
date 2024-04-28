@@ -24,6 +24,7 @@ int	dollar_exp_helper(t_token *exp_t, t_data *data, t_token *c_toks, int i)
 	if (c_toks[i].type == TOKEN && i > 0 && r == 2 &&
 			data->amb_tok_ind == -42)
 	{
+		printf("amb redir marked\n");
 		data->amb_tok_name = c_toks[i].token;
 		data->amb_tok_ind = i;
 	}

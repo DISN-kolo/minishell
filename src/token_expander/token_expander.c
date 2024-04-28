@@ -100,7 +100,7 @@ t_token	*token_expander(t_data *data, t_token *c_toks, int *count)
 		if (exp_t_init(&exp_t, data, c_toks[i].token, nt_prev(new_tokens)))
 			return (NULL);
 		if (dollar_exp_helper(&exp_t, data, c_toks, i) == 2)
-			printf("amb redir marked\n");
+			printf("deh returned 2\n");
 		local_n_t = new_t_split(exp_t);
 		if (!local_n_t)
 			return (NULL);
