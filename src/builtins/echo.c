@@ -6,7 +6,7 @@
 /*   By: molasz-a <molasz-a@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 13:44:48 by molasz-a          #+#    #+#             */
-/*   Updated: 2024/04/11 13:51:30 by akozin           ###   ########.fr       */
+/*   Updated: 2024/04/29 14:03:09 by molasz-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,6 @@ void	becho(char **args)
 {
 	int	i;
 	int	n;
-	int	wlen;
 
 	i = 0;
 	while (args[i] && is_nflag(args[i]))
@@ -40,15 +39,13 @@ void	becho(char **args)
 	n = 0;
 	if (i)
 		n = 1;
-	while (args[i] && args[i + 1])
+	while (args[i])
 	{
-		wlen = ft_strlen(args[i]);
-		write(1, args[i], wlen);
-		write(1, " ", 1);
+		ft_putstr_fd(args[i], 1);
+		if (args[i + 1])
+			ft_putstr_fd(" ", 1);
 		i++;
 	}
-	if (args[i])
-		write(1, args[i], ft_strlen(args[i]));
 	if (!n)
-		write(1, "\n", 1);
+		ft_putendl_fd("", 1);
 }

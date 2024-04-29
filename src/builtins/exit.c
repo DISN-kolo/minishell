@@ -6,7 +6,7 @@
 /*   By: molasz-a <molasz-a@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 14:40:31 by molasz-a          #+#    #+#             */
-/*   Updated: 2024/04/19 13:18:52 by akozin           ###   ########.fr       */
+/*   Updated: 2024/04/29 15:11:06 by molasz-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,13 +43,11 @@ void	bexit(t_data *data, char **args)
 	if (numeric_str(args[0]))
 	{
 		printf("exit\n");
-		write(2, "minishell: exit: ", 17);
-		write(2, args[0], ft_strlen(args[0]));
-		write(2, ": numeric argument required\n", 28);
+		print_error("minishell: exit", args[0], "numeric argument required");
 		exit_handler(data, 255);
 	}
 	else if (ft_strslen(args) > 1)
-		write(2, "minishell: exit: too many arguments\n", 36);
+		print_error(NULL, "exit", "too many arguments");
 	else
 	{
 		printf("exit\n");

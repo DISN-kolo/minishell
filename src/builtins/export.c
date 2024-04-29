@@ -6,7 +6,7 @@
 /*   By: molasz-a <molasz-a@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 14:09:48 by molasz-a          #+#    #+#             */
-/*   Updated: 2024/04/09 15:41:42 by akozin           ###   ########.fr       */
+/*   Updated: 2024/04/29 15:12:55 by molasz-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,11 +39,7 @@ int	bexport(t_data *data, char **exports)
 	while (exports[i])
 	{
 		if (export_env(data, exports[i]))
-		{
-			write(2, "minishell: export: `", 20);
-			write(2, exports[i], ft_strlen(exports[i]));
-			write(2, "': not a valid identifier\n", 26);
-		}
+			print_error("minishell: export", exports[i], "not a valid identifier");
 		i++;
 	}
 	return (0);

@@ -6,7 +6,7 @@
 /*   By: molasz-a <molasz-a@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 15:04:34 by molasz-a          #+#    #+#             */
-/*   Updated: 2024/04/10 11:24:16 by molasz-a         ###   ########.fr       */
+/*   Updated: 2024/04/29 15:13:51 by molasz-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	bpwd(t_data *data, char **args)
 	char	*path;
 
 	if (ft_strslen(args))
-		write(2, "pwd: too many arguments\n", 24);
+		ft_putendl_fd("pwd: too many arguments", 2);
 	else
 	{
 		path = getcwd(NULL, 0);

@@ -6,7 +6,7 @@
 /*   By: molasz-a <molasz-a@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 14:13:41 by molasz-a          #+#    #+#             */
-/*   Updated: 2024/04/05 14:32:46 by molasz-a         ###   ########.fr       */
+/*   Updated: 2024/04/29 15:15:10 by molasz-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,11 +74,7 @@ int	bunset(t_data *data, char **keys)
 	while (keys[i])
 	{
 		if (unset_env(data, keys[i]))
-		{
-			write(2, "minishell: unset: `", 19);
-			write(2, keys[i], ft_strlen(keys[i]));
-			write(2, "': not a valid identifier\n", 26);
-		}
+			print_error("minishell: unset", keys[i], "not a valid identifier");
 		i++;
 	}
 	return (0);

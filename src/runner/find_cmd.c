@@ -6,7 +6,7 @@
 /*   By: molasz-a <molasz-a@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 12:23:40 by molasz-a          #+#    #+#             */
-/*   Updated: 2024/04/29 12:40:12 by molasz-a         ###   ########.fr       */
+/*   Updated: 2024/04/29 15:32:33 by molasz-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,12 +46,13 @@ static int	run_cmd(t_data *data, int i, char **env)
 	if (path)
 	{
 		splited_path = ft_split(path, ':');
+		free(path);
 		if (!splited_path)
 			return (1);
 		if (find_path(data, splited_path, i, env))
 			free_double(splited_path);
-	}	
-	print_error(data->coms[i].com[0], "command not found");
+	}
+	print_error(NULL, data->coms[i].com[0], "command not found");
 	return (1);
 }
 
@@ -60,12 +61,12 @@ static int	run_absolute(t_data *data, int i, char **env)
 	if (!access(data->coms[i].com[0], F_OK))
 	{
 		if (access(data->coms[i].com[0], X_OK))
-			print_error(data->coms[i].com[0], "Permission denied");
+			print_error(NULL, data->coms[i].com[0], "Permission denied");
 		else if (execve(data->coms[i].com[0], data->coms[i].com, env))
-			print_error(data->coms[i].com[0], "is a directory");
+			print_error(NULL, data->coms[i].com[0], "is a directory");
 	}
 	else
-		print_error(data->coms[i].com[0], "No such file or directory");
+		print_error(NULL, data->coms[i].com[0], "No such file or directory");
 	return (1);
 }
 
@@ -81,12 +82,14 @@ static int	run_relative(t_data *data, int i, char **env)
 	if (!access(path, F_OK))
 	{
 		if (access(path, X_OK))
-			print_error(data->coms[i].com[0], "Permission denied");
+			print_error(NULL, data->coms[i].com[0], "Permission denied");
 		else if (execve(path, data->coms[i].com, env))
-			print_error(data->coms[i].com[0], "is a directory");
+			print_error(NULL, data->coms[i].com[0], "is a directory");
 	}
 	else
-		print_error(data->coms[i].com[0], "No such file or directory");
+		print_error(NULL, data->coms[i].com[0], "No such file or directory");
+	free(path);
+	free(pwd);
 	return (1);
 }
 
@@ -104,6 +107,7 @@ void	find_cmd(t_data *data, int i)
 		err = run_relative(data, i, env);
 	else
 		err = run_cmd(data, i, env);
+	free_double(env);
 	if (err)
 		exit (1);
 }

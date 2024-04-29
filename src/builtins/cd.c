@@ -6,56 +6,82 @@
 /*   By: molasz-a <molasz-a@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 15:29:33 by molasz-a          #+#    #+#             */
-/*   Updated: 2024/04/03 15:53:02 by molasz-a         ###   ########.fr       */
+/*   Updated: 2024/04/29 13:51:33 by molasz-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 
-static int	update_pwd(t_data *data, char *path)
+static int	export_pwd(t_data *data, char *key, char *value)
 {
-	char	*pwd;
+	char	*export;
 
-	pwd = ft_strjoin("PWD=", path);
-	if (!pwd)
+	export = ft_strjoin3(key, "=", value);
+	if (!export)
 		return (1);
-	if (export_env(data, pwd))
-		return (1);
-	free(pwd);
+	export_env(data, export);
+	free(export);
 	return (0);
 }
 
-static void	update_path(t_data *data, char *path, char *arg)
+static void	update_path(t_data *data, char *path)
 {
+	char	*pwd;
+
 	if (chdir(path) < 0)
 	{
-		write(2, "cd: no such file or directory: ", 31);
-		write(2, arg, ft_strlen(arg));
-		write(2, "\n", 1);
+		ft_putstr_fd("cd: no such file or directory: ", 2);
+		ft_putendl_fd(path, 2);
 	}
 	else
-		update_pwd(data, path);
+	{
+		pwd = read_env(data, "PWD");
+		if (!pwd)
+			return ;
+		export_pwd(data, "OLDPWD", pwd);
+		free(pwd);
+		pwd = getcwd(NULL, 0);
+		if (!pwd)
+			return ;
+		export_pwd(data, "PWD", pwd);
+		free(pwd);
+	}
+}
+
+static void	cd_home(t_data *data)
+{
+	char	*home;
+
+	home = read_env(data, "HOME");
+	if (home)
+	{
+		update_path(data, home);
+		free(home);
+	}
+	else
+		print_error(NULL, "cd", "HOME not set");
+}
+
+static void	cd_oldpwd(t_data *data)
+{
+	char	*pwd;
+
+	pwd = read_env(data, "OLDPWD");
+	if (pwd)
+	{
+		update_path(data, pwd);
+		free(pwd);
+	}
+	else
+		print_error(NULL, "cd", "OLDPWD not set");
 }
 
 void	bcd(t_data *data, char **args)
 {
-	char	*dir;
-	char	*path;
-
 	if (!args[0])
-		update_path(data, read_env(data, "HOME"), NULL);
-	else if (args[0][0] == '/')
-		update_path(data, args[0], args[0]);
+		cd_home(data);
+	else if (!ft_strncmp(args[0], "-", 2))
+		cd_oldpwd(data);
 	else
-	{
-		dir = ft_strjoin(read_env(data, "PWD"), "/");
-		if (!dir)
-			return ;
-		path = ft_strjoin(dir, args[0]);
-		if (!path)
-			return ;
-		update_path(data, path, args[0]);
-		free(dir);
-		free(path);
-	}
+		update_path(data, args[0]);
 }
