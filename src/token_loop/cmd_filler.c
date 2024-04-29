@@ -38,7 +38,7 @@ int	cmd_filler(t_data *data, int *i, t_token *ts)
 		}
 		if (ts[i[2] + i[3]].type == REDIR || ts[i[2] + i[3]].type == HDOC)
 		{
-			if (cmd_filler_internal(data, i, ts, k))
+			if (cmd_filler_internal(data, i, ts, &k))
 				return (1);
 		}
 		else
