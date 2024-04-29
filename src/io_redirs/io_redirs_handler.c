@@ -52,7 +52,7 @@ int	open_everything(t_data *data)
 				else if (!data->coms[i[0]].ios[i[1]].dub)
 					fi = open(data->coms[i[0]].ios[i[1]].fname, O_RDONLY);
 				if (fi == -1)
-					return (-2); // TODO non-fatal error. move on to the next command
+					return (-2); // TODO non-fatal error, such as "no such file or directory"
 				else if (fi == -2)
 					return (-1); // TODO fatal error(?). someone screwed our heredoc tmp file!
 			}
@@ -83,10 +83,6 @@ int	open_everything(t_data *data)
 		}
 		i[0]++;
 	}
-	printf("in the end, fi = %d\n", fi);
-	printf("in the end, fo = %d\n", fo);
-	printf("in the end, data->coms[last].infd = %d\n", data->coms[i[0] - 1].infd);
-	printf("in the end, data->coms[last].outfd = %d\n", data->coms[i[0] - 1].outfd);
-	printf("btw, amb tok ind is %d\n", data->amb_tok_ind);
-	return (data->amb_tok_ind != -42);
+	printf("btw, amb tok ind was %d\n", data->amb_tok_ind);
+	return (data->amb_tok_ind != -42); // TODO better error code for amb redir
 }

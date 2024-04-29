@@ -12,6 +12,13 @@
 
 #include "../../inc/minishell.h"
 
+static int	is_str_redir(char *s)
+{
+	if (!ft_strncmp(s, "<", 2) || !ft_strncmp(s, "<<", 3)
+			|| !ft_strncmp(s, ">", 2) || !ft_strncmp(s, ">>", 3))
+		return (1);
+	return (0);
+}
 /*
  * is_in ==> we count the <, <<
  * !is_in => we count the >, >>
@@ -30,10 +37,7 @@ static int	ioredirs_counter(t_com *coms, t_token *tokens, int u)
 	prev = TOKEN;
 	while (tokens[i].token && i < u)
 	{
-		c += (!ft_strncmp(tokens[i].token, "<", 2)
-					|| !ft_strncmp(tokens[i].token, "<<", 3)
-					|| !ft_strncmp(tokens[i].token, ">", 2)
-					|| !ft_strncmp(tokens[i].token, ">>", 3));
+		c += is_str_redir(tokens[i].token);
 		if (!finished && (tokens[i].type == REDIR || tokens[i].type == HDOC)
 				&& (prev == REDIR || prev == HDOC))
 		{
@@ -43,6 +47,8 @@ static int	ioredirs_counter(t_com *coms, t_token *tokens, int u)
 		prev = tokens[i].type;
 		i++;
 	}
+	if (!finished && (prev == REDIR || prev == HDOC))
+		coms->amb_redir_ind = c - 2;
 	return (c);
 }
 
@@ -54,7 +60,6 @@ static int	ioredirs_counter(t_com *coms, t_token *tokens, int u)
 int	io_coms_alloc(t_com *coms, t_token *tokens, int u)
 {
 	int	iolen;
-
 
 	coms->amb_redir_ind = -42;
 	iolen = ioredirs_counter(coms, tokens, u);

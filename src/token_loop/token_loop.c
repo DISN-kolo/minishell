@@ -39,8 +39,10 @@ int	token_loop(t_data *data)
 		if (!open_error)
 			run_cmds(data);
 		else
-			printf("open error = %d\n", open_error);
+			printf("in token loop, open error = %d\n", open_error);
 		i++;
 	}
+	for (int l = 0; data->coms[l].com; l++)
+		printf("command %2d, fi: %2d, fo: %2d\n", l, data->coms[l].infd, data->coms[l].outfd);
 	return (0);
 }
