@@ -24,6 +24,8 @@ int	open_everything(t_data *data)
 	int	flags;
 
 	i[0] = 0;
+	if (!data->coms)
+		return (-3); // 0 coms in a comm, like '< asd'
 	while (data->coms[i[0]].com)
 	{
 		printf("open everything cycle: i0 = %d\n", i[0]);

@@ -38,6 +38,8 @@ int	token_loop(t_data *data)
 		open_error = open_everything(data);
 		if (!open_error)
 			run_cmds(data);
+		else if (open_error == -3)
+			break ; // no command entered but there are redirs or something
 		else
 			printf("in token loop, open error = %d\n", open_error);
 		for (int l = 0; data->coms[l].com; l++)
