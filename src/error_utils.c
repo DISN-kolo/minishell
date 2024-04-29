@@ -6,7 +6,7 @@
 /*   By: molasz-a <molasz-a@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/29 12:12:58 by molasz-a          #+#    #+#             */
-/*   Updated: 2024/04/29 13:08:43 by molasz-a         ###   ########.fr       */
+/*   Updated: 2024/04/29 16:01:46 by molasz-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,4 +22,11 @@ void	print_error(char * cmd, char *var, char *error)
 	ft_putstr_fd(var, 2);
 	ft_putstr_fd(": ", 2);
 	ft_putendl_fd(error, 2);
+}
+
+void	print_perror(char *msg, int error)
+{
+	perror(msg);
+	if (error >= 0)
+		exit(error);
 }

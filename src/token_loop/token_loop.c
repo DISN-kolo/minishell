@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 14:59:19 by akozin            #+#    #+#             */
-/*   Updated: 2024/04/24 13:43:00 by molasz-a         ###   ########.fr       */
+/*   Updated: 2024/04/29 16:12:01 by molasz-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,15 +14,14 @@
 
 int	check_operators(t_data *data, int *count)
 {
+	printf("OP: %d\n", data->tokens[*count - 1].type);
 	if ((data->tokens[*count - 1].type == AND && data->status_code)
 		|| (data->tokens[*count - 1].type == OR && !data->status_code))
 	{
-		while (data->tokens[*count].token
-			&& !(data->tokens[*count].token[0] == '&'
-			|| data->tokens[*count].token[0] == '|'))
+		while (data->tokens[*count].token && !(data->tokens[*count].type == AND
+				|| data->tokens[*count].type == OR))
 			*count += 1;
 		*count += 1;
-		printf("A: %s\n", data->tokens[*count].token);
 		return (1);
 	}
 	return (0);
@@ -50,7 +49,7 @@ int	token_loop(t_data *data)
 			return (1);
 		count++;
 		cmd_loop(data, current_tokens);
-		run_cmds(data);
+		run_cmds(data); //TODO control errors
 		if (i + 1 < cmd_c && check_operators(data, &count))
 			i++;
 	}

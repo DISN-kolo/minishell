@@ -6,7 +6,7 @@
 /*   By: molasz-a <molasz-a@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 13:34:21 by molasz-a          #+#    #+#             */
-/*   Updated: 2024/04/29 14:06:26 by molasz-a         ###   ########.fr       */
+/*   Updated: 2024/04/29 16:07:14 by molasz-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,12 +41,12 @@ static pid_t	one_cmd(t_data *data)
 	{
 		pid = fork();
 		if (pid < 0)
-			perror("Fork one");
+			return (print_perror("Fork one", -1), -1);
 		else if (!pid)
 			find_cmd(data, 0);
 		return (pid);
 	}
-	return (0);
+	return (-1);
 }
 
 static pid_t	normal_pipe(t_data *data, int *end, int i)
@@ -54,23 +54,23 @@ static pid_t	normal_pipe(t_data *data, int *end, int i)
 	pid_t	pid;
 
 	if (pipe(end) < 0)
-		perror("Pipe");
+		return (print_perror("Pipe", -1), -1);
 	pid = fork();
 	if (pid < 0)
-		perror("Fork normal");
+		return (print_perror("Fork normal", -1), -1);
 	else if (!pid)
 	{
 		if (dup2(end[1], 1) < 0)
-			perror("Dup2 on child normal");
+			print_perror("Dup2 on child normal", 1);
 		if (close(end[0]) < 0 || close(end[1]) < 0)
-			perror("Close on child");
+			print_perror("Close on child", 1);
 		if (!run_builtin(data, i))
 			find_cmd(data, i);
 	}
 	if (dup2(end[0], 0) < 0)
-		perror("Dup2 on parent normal");
+		return (print_perror("Dup2 on parent normal", -1), -1);
 	if (close(end[0]) < 0 || close(end[1]) < 0)
-		perror("Close end on parent");
+		return (print_perror("Close end on parent", -1), -1);
 	return (pid);
 }
 
@@ -80,7 +80,7 @@ static pid_t	last_pipe(t_data *data, int i)
 
 	pid = fork();
 	if (pid < 0)
-		perror("Fork last");
+		return (print_perror("Fork last", -1), -1);
 	else if (!pid && !run_builtin(data, i))
 		find_cmd(data, i);
 	return (pid);
@@ -111,6 +111,6 @@ int	run_cmds(t_data *data)
 			data->status_code = status;
 	}
 	if (dup2(data->std_in, STDIN_FILENO) < 0 || close(data->std_in) < 0)
-		perror("Stdin save");
+		return (print_perror("Dup stdin", -1), 1);
 	return (0);
 }

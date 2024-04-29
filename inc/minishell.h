@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 16:20:41 by akozin            #+#    #+#             */
-/*   Updated: 2024/04/29 13:08:55 by molasz-a         ###   ########.fr       */
+/*   Updated: 2024/04/29 15:59:13 by molasz-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,5 +93,6 @@ void	free_coms(t_data *data);
 
 // ERROR UTILS
 void	print_error(char *cmd, char *var, char *error);
+void	print_perror(char *msg, int error);
 
 #endif
