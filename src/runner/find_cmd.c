@@ -6,7 +6,7 @@
 /*   By: molasz-a <molasz-a@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 12:23:40 by molasz-a          #+#    #+#             */
-/*   Updated: 2024/04/23 12:36:26 by molasz-a         ###   ########.fr       */
+/*   Updated: 2024/04/29 12:40:12 by molasz-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,16 +50,22 @@ static int	run_cmd(t_data *data, int i, char **env)
 			return (1);
 		if (find_path(data, splited_path, i, env))
 			free_double(splited_path);
-	}
-	write(2, "Error: command not found\n", 25);
+	}	
+	print_error(data->coms[i].com[0], "command not found");
 	return (1);
 }
 
 static int	run_absolute(t_data *data, int i, char **env)
 {
-	if (!access(data->coms[i].com[0], F_OK)
-		&& execve(data->coms[i].com[0], data->coms[i].com, env))
-		write(2, "Absolute path error on execve\n", 30);
+	if (!access(data->coms[i].com[0], F_OK))
+	{
+		if (access(data->coms[i].com[0], X_OK))
+			print_error(data->coms[i].com[0], "Permission denied");
+		else if (execve(data->coms[i].com[0], data->coms[i].com, env))
+			print_error(data->coms[i].com[0], "is a directory");
+	}
+	else
+		print_error(data->coms[i].com[0], "No such file or directory");
 	return (1);
 }
 
@@ -72,8 +78,15 @@ static int	run_relative(t_data *data, int i, char **env)
 	path = ft_strjoin3(pwd, "/", data->coms[i].com[0]);
 	if (!path)
 		return (1);
-	if (!access(path, F_OK) && execve(path, data->coms[i].com, env))
-		write(2, "Relative path error on execve\n", 30);
+	if (!access(path, F_OK))
+	{
+		if (access(path, X_OK))
+			print_error(data->coms[i].com[0], "Permission denied");
+		else if (execve(path, data->coms[i].com, env))
+			print_error(data->coms[i].com[0], "is a directory");
+	}
+	else
+		print_error(data->coms[i].com[0], "No such file or directory");
 	return (1);
 }
 

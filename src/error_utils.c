@@ -1,25 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   find_cmd_utils.c                                   :+:      :+:    :+:   */
+/*   error_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: molasz-a <molasz-a@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/04/18 16:44:13 by molasz-a          #+#    #+#             */
-/*   Updated: 2024/04/29 12:40:08 by molasz-a         ###   ########.fr       */
+/*   Created: 2024/04/29 12:12:58 by molasz-a          #+#    #+#             */
+/*   Updated: 2024/04/29 12:14:51 by molasz-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-int	is_path(char *str)
-{
-	int	i;
+#include "../inc/minishell.h"
 
-	i = 0;
-	while (str[i])
-	{
-		if (str[i] == '/')
-			return (1);
-		i++;
-	}
-	return (0);
+void	print_error(char *var, char *error)
+{
+	ft_putstr_fd("minishell: ", 2);
+	ft_putstr_fd(var, 2);
+	ft_putstr_fd(": ", 2);
+	ft_putendl_fd(error, 2);
 }

@@ -6,7 +6,7 @@
 #    By: akozin <akozin@student.42barcelona.com>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/18 16:38:42 by akozin            #+#    #+#              #
-#    Updated: 2024/04/18 17:03:12 by molasz-a         ###   ########.fr        #
+#    Updated: 2024/04/29 12:15:56 by molasz-a         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -57,7 +57,8 @@ SRCNAMES = main.c \
 			builtins/env.c \
 			builtins/exit.c \
 			enviroment.c \
-			free_utils.c
+			free_utils.c \
+			error_utils.c
 
 SRCS = $(SRCNAMES)
 OBJS = $(addprefix obj/, $(SRCS:.c=.o))
