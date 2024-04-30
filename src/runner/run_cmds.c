@@ -6,13 +6,13 @@
 /*   By: molasz-a <molasz-a@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 13:34:21 by molasz-a          #+#    #+#             */
-/*   Updated: 2024/04/29 16:07:14 by molasz-a         ###   ########.fr       */
+/*   Updated: 2024/04/30 12:41:51 by molasz-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 
-static int	run_builtin(t_data *data, int i)
+static int	run_builtin(t_data *data, int i, int ex)
 {
 	if (!ft_strncmp_case(data->coms[i].com[0], "cd", 3))
 		bcd(data, data->coms[i].com + 1);
@@ -30,6 +30,8 @@ static int	run_builtin(t_data *data, int i)
 		bunset(data, data->coms[i].com + 1);
 	else
 		return (0);
+	if (ex)
+		exit(0);
 	return (1);
 }
 
@@ -37,7 +39,7 @@ static pid_t	one_cmd(t_data *data)
 {
 	pid_t	pid;
 
-	if (!run_builtin(data, 0))
+	if (!run_builtin(data, 0, 0))
 	{
 		pid = fork();
 		if (pid < 0)
@@ -64,7 +66,7 @@ static pid_t	normal_pipe(t_data *data, int *end, int i)
 			print_perror("Dup2 on child normal", 1);
 		if (close(end[0]) < 0 || close(end[1]) < 0)
 			print_perror("Close on child", 1);
-		if (!run_builtin(data, i))
+		if (!run_builtin(data, i, 1))
 			find_cmd(data, i);
 	}
 	if (dup2(end[0], 0) < 0)
@@ -81,7 +83,7 @@ static pid_t	last_pipe(t_data *data, int i)
 	pid = fork();
 	if (pid < 0)
 		return (print_perror("Fork last", -1), -1);
-	else if (!pid && !run_builtin(data, i))
+	else if (!pid && !run_builtin(data, i, 1))
 		find_cmd(data, i);
 	return (pid);
 }
