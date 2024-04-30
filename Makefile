@@ -6,7 +6,7 @@
 #    By: akozin <akozin@student.42barcelona.com>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/18 16:38:42 by akozin            #+#    #+#              #
-#    Updated: 2024/04/29 12:15:56 by molasz-a         ###   ########.fr        #
+#    Updated: 2024/04/30 12:05:45 by akozin           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -34,10 +34,13 @@ SRCNAMES = main.c \
 			tokenize/tokenize_split.c \
 			tokenize/tokenize_err_probe.c \
 			get_heredocs.c \
+			heredoc_processing/heredoc_rl.c \
+			heredoc_processing/heredoc_filename_creator.c \
 			token_loop/token_loop.c \
 			token_loop/token_loop_utils.c \
 			token_loop/cmd_loop.c \
 			token_loop/cmd_filler.c \
+			token_loop/cmd_filler_utils.c \
 			token_expander/token_expander.c \
 			token_expander/token_expander_utils.c \
 			token_expander/token_expander_utils_2.c \
@@ -45,6 +48,7 @@ SRCNAMES = main.c \
 			token_expander/new_token_splitter.c \
 			token_expander/new_token_splitter_utils.c \
 			expand_vars.c \
+			io_redirs/io_redirs_handler.c \
 			runner/run_cmds.c \
 			runner/find_cmd.c \
 			runner/find_cmd_utils.c \
@@ -69,7 +73,8 @@ RM = rm -rf
 all:		folders make_libs $(NAME)
 
 folders:
-	mkdir -p obj/tokenize obj/builtins obj/token_expander obj/runner obj/token_loop
+	mkdir -p obj/tokenize obj/builtins obj/token_expander obj/runner obj/token_loop \
+		obj/heredoc_processing obj/io_redirs
 
 
 make_libs: $(RL)

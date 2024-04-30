@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 16:26:06 by akozin            #+#    #+#             */
-/*   Updated: 2024/04/18 17:27:03 by akozin           ###   ########.fr       */
+/*   Updated: 2024/04/24 13:17:37 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ static int	fill_token(t_token *f_me, char *t, t_data *data, int *j)
 
 	k = 0;
 	if (*(t - 1) == '~')
-		env_v_name = ft_substr("HOME", 0, 5);
+		env_v_name = ft_strdup("HOME");
 	else
 		env_v_name = ft_substr(t, 0, var_end(t) - t);
 	env_v_val = read_env(data, env_v_name);
@@ -51,8 +51,8 @@ static void	fill_lit_exp(int k, t_token *f_me, int in_q, int j)
 {
 	while (k-- > 0)
 	{
-		f_me->literal[j - k] = in_q
-			|| !ft_strchr(" \t\f\v", f_me->token[j - k]);
+		f_me->literal[j + k] = in_q
+			|| !ft_strchr(" \t\f\v", f_me->token[j + k]);
 	}
 }
 
@@ -66,6 +66,10 @@ static char	literal_filler(int in_q, char c, t_token *f_me, int j)
 	return (c);
 }
 
+/*
+ * the amb redir return code of dollar expander is returned
+ * to dollar exp helper
+ */
 int	dollar_expander(t_token *f_me, t_data *data, char *t, t_tok_s prev)
 {
 	int		i;
@@ -79,7 +83,7 @@ int	dollar_expander(t_token *f_me, t_data *data, char *t, t_tok_s prev)
 	while (t[i])
 	{
 		determine_q(&in_q, t[i]);
-		if (((in_q != 1 && t[i] == '$' && (t[i + 1] == '_'
+		if (((in_q != 1 && t[i] == '$' && (t[i + 1] == '_' || t[i + 1] == '?'
 						|| ft_isalpha(t[i + 1]))) || (t[i] == '~' && !i
 					&& ft_strchr(" \t\f\v/", t[1]))) && prev != HDOC)
 		{
@@ -92,5 +96,5 @@ int	dollar_expander(t_token *f_me, t_data *data, char *t, t_tok_s prev)
 		i++;
 	}
 	f_me->token[j] = 0;
-	return (prev == REDIR && unlit_spaces_probe(f_me)); // TODO errhandl
+	return ((prev == REDIR) * unlit_spaces_probe(f_me));
 }

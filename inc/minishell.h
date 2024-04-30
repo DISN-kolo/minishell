@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 16:20:41 by akozin            #+#    #+#             */
-/*   Updated: 2024/04/29 15:59:13 by molasz-a         ###   ########.fr       */
+/*   Updated: 2024/04/30 12:05:25 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 # include <stdlib.h>
 # include <errno.h>
 # include <sys/wait.h>
+# include <fcntl.h>
 
 # include "../libft/libft.h"
 # include "./structs.h"
@@ -38,13 +39,16 @@ void	get_heredocs(t_data *data);
 
 // TOKEN LOOP UTILS
 int		io_coms_alloc(t_com *coms, t_token *tokens, int u);
+int		open_everything(t_data *data);
 //+CMD LOOP
 int		cmd_loop(t_data *data, t_token *tokens);
 //+CMD FILLER
-void	cmd_filler(t_data *data, int *i, t_token *ts);
+int		cmd_filler(t_data *data, int *i, t_token *ts);
+int		cmd_filler_internal(t_data *data, int *i, t_token *ts, int *k);
 
 // TOKEN EXPANSION
 t_token	*token_expander(t_data *data, t_token *current_tokens, int *count);
+int		init_te_data_linesave(int *i, t_token **new_tokens, t_data *data);
 int		dollar_exp_helper(t_token *exp_t, t_data *data, t_token *c_toks, int i);
 int		dollar_expander(t_token *f_me, t_data *data, char *t, t_tok_s prev);
 void	determine_q(int *in_q, char c);
@@ -56,6 +60,11 @@ t_token	*new_t_split(t_token t);
 t_token	*tokens_join_free(t_token *t1, t_token *t2);
 int		tokenslen(t_token *t);
 char	*strchars_lit(t_token *t, int k, char *sep);
+
+// HEREDOC PROCESSIN'
+int		process_heredocs(t_data *data);
+char	*gen_h_fname(int com, int hdoc);
+char	*ft_strjoin_free(char *b1, char *b2);
 
 // EXPAND & PARSE
 void	parse_exec(t_data *data);
