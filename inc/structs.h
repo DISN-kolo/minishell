@@ -6,7 +6,7 @@
 /*   By: molasz-a <molasz-a@student.42barcelona.co  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 19:37:44 by molasz-a          #+#    #+#             */
-/*   Updated: 2024/04/24 19:38:50 by molasz-a         ###   ########.fr       */
+/*   Updated: 2024/04/30 12:15:14 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,19 +28,27 @@ typedef enum e_tok_s
 	OR
 }	t_tok_s;
 
+/*
+ * expand -- for hdoc only!
+ */
 typedef struct s_inout
 {
+	int		in;
 	int		dub;
 	char	*fname;
-}	t_inout;
+	int		expand;
+	int		amb;
+} t_inout;
 
 typedef struct s_com
 {
 	char		**com;
-	t_inout		*ins;
-	t_inout		*outs;
+	t_inout		*ios;
 	int			status;
-}	t_com;
+	int			infd;
+	int			outfd;
+	int			amb_redir_ind;
+} t_com;
 
 typedef struct s_token
 {
@@ -75,6 +83,8 @@ typedef struct s_data
 	int		std_in;
 	int		status_code;
 	int		errored;
+	int		amb_tok_ind;
+	char	*amb_tok_name;
 	t_env	*env;
 }	t_data;
 

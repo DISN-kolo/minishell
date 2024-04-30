@@ -6,7 +6,7 @@
 /*   By: molasz-a <molasz-a@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/28 13:10:50 by molasz-a          #+#    #+#             */
-/*   Updated: 2024/04/11 13:07:40 by akozin           ###   ########.fr       */
+/*   Updated: 2024/04/22 13:12:49 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,10 @@ void	free_coms(t_data *data)
 		return ;
 	i = 0;
 	while (data->coms[i].com)
+	{
 		free_double(data->coms[i].com);
+		i++;
+	}
 	free(data->coms);
 	data->coms = NULL;
 }
