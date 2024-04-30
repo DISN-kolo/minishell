@@ -6,7 +6,7 @@
 #    By: akozin <akozin@student.42barcelona.com>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/18 16:38:42 by akozin            #+#    #+#              #
-#    Updated: 2024/04/30 14:09:49 by akozin           ###   ########.fr        #
+#    Updated: 2024/04/30 15:19:24 by akozin           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -53,6 +53,7 @@ SRCNAMES = main.c \
 			expand_vars.c \
 			io_redirs/io_redirs_handler.c \
 			io_redirs/heredoc_read_expand.c \
+			io_redirs/heredoc_line_dollar_subst.c \
 			runner/run_cmds.c \
 			runner/find_cmd.c \
 			runner/find_cmd_utils.c \

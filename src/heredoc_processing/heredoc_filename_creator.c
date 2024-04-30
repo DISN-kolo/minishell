@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 13:27:50 by akozin            #+#    #+#             */
-/*   Updated: 2024/04/22 15:05:48 by akozin           ###   ########.fr       */
+/*   Updated: 2024/04/30 16:05:37 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,14 +23,14 @@ char	*ft_strjoin_free(char *b1, char *b2)
 	return (t);
 }
 
-char	*gen_h_fname(int com, int hdoc)
+char	*gen_h_fname(int *i)
 {
 	char	*fname;
 	char	*c_num;
 	char	*h_num;
 	
-	c_num = ft_itoa(com);
-	h_num = ft_itoa(hdoc);
+	c_num = ft_itoa(i[0]);
+	h_num = ft_itoa(i[1]);
 	fname = ft_strjoin("/tmp/.hdoc_temp_", c_num);
 	fname = ft_strjoin_free(fname, "_");
 	fname = ft_strjoin_free(fname, h_num);

@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 14:13:57 by akozin            #+#    #+#             */
-/*   Updated: 2024/04/30 14:01:52 by akozin           ###   ########.fr       */
+/*   Updated: 2024/04/30 16:05:05 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ int	process_heredocs(t_data *data)
 			if (!data->hds[i[0]][i[1] + 1].str)
 			{
 				printf("data->hds[%2d][%2d].str = '%s', exp: %d\n", i[0], i[1], data->hds[i[0]][i[1]].str, data->hds[i[0]][i[1]].expand);
-				fname = gen_h_fname(i[0], i[1]);
+				fname = gen_h_fname(i);
 				if (access(fname, F_OK) == 0)
 					printf("why do we have the %s file already?\n", fname);
 				fd = open(fname, O_WRONLY | O_CREAT | O_TRUNC);

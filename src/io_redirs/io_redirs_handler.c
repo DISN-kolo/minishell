@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/23 13:58:31 by akozin            #+#    #+#             */
-/*   Updated: 2024/04/30 12:57:02 by akozin           ###   ########.fr       */
+/*   Updated: 2024/04/30 16:13:46 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ int	open_everything(t_data *data)
 				if (data->coms[i[0]].ios[i[1]].dub
 						&& !data->coms[i[0]].ios[i[1] + 1].fname)
 //					fi = -420;
-					fi = heredoc_read_expand(i, data); // TODO can return -2
+					fi = heredoc_read_expand(data); // TODO can return -2
 				else if (data->coms[i[0]].ios[i[1]].dub)
 					data->hd_counter++;
 				else

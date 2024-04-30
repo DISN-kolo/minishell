@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 16:26:06 by akozin            #+#    #+#             */
-/*   Updated: 2024/04/24 13:17:37 by akozin           ###   ########.fr       */
+/*   Updated: 2024/04/30 15:10:18 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ static int	fill_token(t_token *f_me, char *t, t_data *data, int *j)
 		env_v_name = ft_substr(t, 0, var_end(t) - t);
 	env_v_val = read_env(data, env_v_name);
 	if (!env_v_val)
-		return ((*j)--, 0);
+		return (free(env_v_name), (*j)--, 0);
 	while (env_v_val[k])
 	{
 		f_me->token[*j] = env_v_val[k];
