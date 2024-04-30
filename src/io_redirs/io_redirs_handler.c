@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/23 13:58:31 by akozin            #+#    #+#             */
-/*   Updated: 2024/04/25 15:54:45 by akozin           ###   ########.fr       */
+/*   Updated: 2024/04/30 12:57:02 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,12 @@
 /*
  * rewrite this with the new ios array of ins and outs at the same time
  * TODO
+ * i[0] - com c
+ * i[1] - io c
  */
 int	open_everything(t_data *data)
 {
-	int	i[3];
+	int	i[2];
 	int	fi;
 	int	fo;
 	int	flags;
@@ -49,9 +51,11 @@ int	open_everything(t_data *data)
 					close(fi);
 				if (data->coms[i[0]].ios[i[1]].dub
 						&& !data->coms[i[0]].ios[i[1] + 1].fname)
-					fi = -420;
-//					fi = heredoc_read_expand(i, data); // TODO can return -2
-				else if (!data->coms[i[0]].ios[i[1]].dub)
+//					fi = -420;
+					fi = heredoc_read_expand(i, data); // TODO can return -2
+				else if (data->coms[i[0]].ios[i[1]].dub)
+					data->hd_counter++;
+				else
 					fi = open(data->coms[i[0]].ios[i[1]].fname, O_RDONLY);
 				if (fi == -1)
 					return (-2); // TODO non-fatal error, such as "no such file or directory"

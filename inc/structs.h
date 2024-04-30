@@ -6,7 +6,7 @@
 /*   By: molasz-a <molasz-a@student.42barcelona.co  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 19:37:44 by molasz-a          #+#    #+#             */
-/*   Updated: 2024/04/30 12:15:14 by akozin           ###   ########.fr       */
+/*   Updated: 2024/04/30 12:39:39 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,7 @@ typedef struct s_data
 	t_token	*tokens;
 	t_com	*coms;
 	t_hdoc	**hds;
+	int		hd_counter;
 	int		std_in;
 	int		status_code;
 	int		errored;

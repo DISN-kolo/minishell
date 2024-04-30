@@ -6,14 +6,17 @@
 #    By: akozin <akozin@student.42barcelona.com>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/18 16:38:42 by akozin            #+#    #+#              #
-#    Updated: 2024/04/30 12:05:45 by akozin           ###   ########.fr        #
+#    Updated: 2024/04/30 14:09:49 by akozin           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-LIBFT = libft/
+LIBFT = libs/libft/
 LIBFT_A = $(addprefix $(LIBFT), libft.a)
 
-RL = readline/
+GNL = libs/gnl/
+GNL_A = $(addprefix $(GNL), libgnl.a)
+
+RL = libs/readline/
 RL_A = $(addprefix $(RL), libreadline.a)
 RLHIST_A = $(addprefix $(RL), libhistory.a)
 RL_URL = http://git.savannah.gnu.org/cgit/readline.git/snapshot/readline-master.tar.gz
@@ -49,6 +52,7 @@ SRCNAMES = main.c \
 			token_expander/new_token_splitter_utils.c \
 			expand_vars.c \
 			io_redirs/io_redirs_handler.c \
+			io_redirs/heredoc_read_expand.c \
 			runner/run_cmds.c \
 			runner/find_cmd.c \
 			runner/find_cmd_utils.c \
@@ -83,14 +87,15 @@ make_libs: $(RL)
 	fi
 	$(MAKE) -C $(RL)
 	$(MAKE) -C $(LIBFT)
+	$(MAKE) -C $(GNL)
 
 $(RL):
 	curl $(RL_URL) > $(RL_FILE)
 	tar -xf $(RL_FILE) && mv readline-master/ $(RL)
 	rm -rf $(RL_FILE)
 
-$(NAME):	$(OBJS) $(LIBFT_A) $(RL_A) $(RLHIST_A)
-	$(CC) $(CFLAGS) $(DEFS) $(OBJS) $(LIBFT_A) $(RL_A) $(RLHIST_A) -L$(RL) -lreadline -ltermcap -o $(NAME)
+$(NAME):	$(OBJS) $(LIBFT_A) $(GNL_A) $(RL_A) $(RLHIST_A)
+	$(CC) $(CFLAGS) $(DEFS) $(OBJS) $(LIBFT_A) $(GNL_A) $(RL_A) $(RLHIST_A) -L$(RL) -lreadline -ltermcap -o $(NAME)
 
 obj/%.o:	src/%.c Makefile
 	$(CC) $(CFLAGS) $(DEFS) -c $< -MMD -o $@
@@ -99,11 +104,13 @@ obj/%.o:	src/%.c Makefile
 
 clean:
 	$(MAKE) clean -C $(LIBFT)
+	$(MAKE) clean -C $(GNL)
 	$(MAKE) clean -C $(RL)
 	$(RM) obj
 
 fclean:
 	$(MAKE) fclean -C $(LIBFT)
+	$(MAKE) fclean -C $(GNL)
 	$(MAKE) clean -C $(RL)
 	$(RM) obj $(NAME)
 

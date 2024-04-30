@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 16:20:41 by akozin            #+#    #+#             */
-/*   Updated: 2024/04/30 12:05:25 by akozin           ###   ########.fr       */
+/*   Updated: 2024/04/30 14:02:01 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 # include <sys/wait.h>
 # include <fcntl.h>
 
-# include "../libft/libft.h"
+# include "../libs/libft/libft.h"
 # include "./structs.h"
 
 // GENERAL
@@ -65,6 +65,7 @@ char	*strchars_lit(t_token *t, int k, char *sep);
 int		process_heredocs(t_data *data);
 char	*gen_h_fname(int com, int hdoc);
 char	*ft_strjoin_free(char *b1, char *b2);
+int		heredoc_read_expand(int *i, t_data *data);
 
 // EXPAND & PARSE
 void	parse_exec(t_data *data);

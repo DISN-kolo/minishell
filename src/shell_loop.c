@@ -6,13 +6,13 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 16:15:48 by akozin            #+#    #+#             */
-/*   Updated: 2024/04/24 12:28:03 by akozin           ###   ########.fr       */
+/*   Updated: 2024/04/30 14:01:39 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
-#include "../readline/readline.h"
-#include "../readline/history.h"
+#include "../libs/readline/readline.h"
+#include "../libs/readline/history.h"
 
 void	shell_loop(t_data *data)
 {
@@ -30,6 +30,7 @@ void	shell_loop(t_data *data)
 		}
 		add_history(s);
 		tokenize_line(s, data);
+		data->hd_counter = 0;
 		free(s);
 		get_heredocs(data);
 		process_heredocs(data); // TODO

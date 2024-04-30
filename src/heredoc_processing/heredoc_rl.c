@@ -6,13 +6,13 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 14:13:57 by akozin            #+#    #+#             */
-/*   Updated: 2024/04/24 12:21:34 by akozin           ###   ########.fr       */
+/*   Updated: 2024/04/30 14:01:52 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
-#include "../../readline/readline.h"
-#include "../../readline/history.h"
+#include "../../libs/readline/readline.h"
+#include "../../libs/readline/history.h"
 
 static int	grab_and_write_hdoc(int fd, char *eof)
 {
