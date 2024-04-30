@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/20 15:05:46 by akozin            #+#    #+#             */
-/*   Updated: 2024/04/30 14:13:34 by akozin           ###   ########.fr       */
+/*   Updated: 2024/04/30 14:37:37 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,22 +137,3 @@ char	*get_next_line(int fd)
 	return (ret);
 }
 /* shout-outs to jdecorte-be on github */
-
-#include <fcntl.h>
-#include <stdio.h>
-
-int	main(void)
-{
-	int fd = open("read_error.txt", O_RDONLY);
-	//int fd = open("testfile", O_RDONLY);
-	if (fd == -1)
-		return (-1);
-	printf("%s", get_next_line(fd));
-	printf("%s", get_next_line(fd));
-	printf("%s", get_next_line(fd));
-	//printf("%s", get_next_line(21312));
-	printf("%s", get_next_line(fd));
-	printf("%s", get_next_line(fd));
-	close(fd);
-	return (0);
-}

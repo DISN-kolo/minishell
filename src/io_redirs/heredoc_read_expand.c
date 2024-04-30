@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/30 12:33:56 by akozin            #+#    #+#             */
-/*   Updated: 2024/04/30 14:31:07 by akozin           ###   ########.fr       */
+/*   Updated: 2024/04/30 14:37:07 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 int	heredoc_read_expand(int *i, t_data *data)
 {
 	char	*fname;
-	char	curline;
+	char	*curline;
 	int		hdfd;
 
 	fname = gen_h_fname(i[0], data->hd_counter);
@@ -24,6 +24,10 @@ int	heredoc_read_expand(int *i, t_data *data)
 	hdfd = open(fname, O_RDONLY);
 	curline = get_next_line(hdfd);
 	while (curline)
-
+	{
+		printf("gnl from %s: '%s'\n", fname, curline);
+		free(curline);
+		curline = get_next_line(hdfd);
+	}
 	return (-2);
 }
