@@ -6,7 +6,7 @@
 /*   By: molasz-a <molasz-a@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 15:04:34 by molasz-a          #+#    #+#             */
-/*   Updated: 2024/04/29 15:13:51 by molasz-a         ###   ########.fr       */
+/*   Updated: 2024/05/01 12:42:14 by molasz-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,10 +23,10 @@ void	bpwd(t_data *data, char **args)
 		path = getcwd(NULL, 0);
 		if (path)
 		{
-			printf("%s\n", path);
+			ft_putendl_fd(path, 1);
 			free(path);
 		}
 		else
-			printf("%s\n", read_env(data, "PWD"));
+			ft_putendl_fd(read_env(data, "PWD"), 1);
 	}
 }

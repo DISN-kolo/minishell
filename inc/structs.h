@@ -6,7 +6,7 @@
 /*   By: molasz-a <molasz-a@student.42barcelona.co  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 19:37:44 by molasz-a          #+#    #+#             */
-/*   Updated: 2024/04/30 12:15:14 by akozin           ###   ########.fr       */
+/*   Updated: 2024/05/01 14:35:12 by molasz-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,7 @@ typedef struct s_data
 	t_com	*coms;
 	t_hdoc	**hds;
 	int		std_in;
+	int		std_out;
 	int		status_code;
 	int		errored;
 	int		amb_tok_ind;
