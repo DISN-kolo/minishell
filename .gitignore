@@ -58,7 +58,7 @@ dkms.conf
 minishell
 
 # Readline
-readline/
+libs/readline/
 
 # tests
 out*
