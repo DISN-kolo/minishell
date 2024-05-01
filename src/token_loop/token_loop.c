@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 14:59:19 by akozin            #+#    #+#             */
-/*   Updated: 2024/04/30 12:03:10 by akozin           ###   ########.fr       */
+/*   Updated: 2024/05/01 17:10:03 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	check_operators(t_data *data, int *count)
 {
-	printf("OP: %d\n", data->tokens[*count - 1].type);
+	//printf("OP: %d\n", data->tokens[*count - 1].type);
 	if ((data->tokens[*count - 1].type == AND && data->status_code)
 		|| (data->tokens[*count - 1].type == OR && !data->status_code))
 	{
