@@ -58,11 +58,9 @@ static int	hd_expansion_counter(t_data *data, char *t)
 {
 	int	ret;
 	int	i;
-	int	in_q;
 
 	ret = 0;
 	i = 0;
-	in_q = 0;
 	while (t[i])
 	{
 		if (t[i] == '$' && (t[i + 1] == '_' || t[i + 1] == '?'
