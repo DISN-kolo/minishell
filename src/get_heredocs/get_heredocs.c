@@ -6,11 +6,11 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 13:12:42 by akozin            #+#    #+#             */
-/*   Updated: 2024/04/22 13:16:42 by akozin           ###   ########.fr       */
+/*   Updated: 2024/05/01 14:48:10 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../inc/minishell.h"
+#include "../../inc/minishell.h"
 
 static int	alloc_heredocs(t_data *data)
 {
@@ -99,6 +99,7 @@ static void	fill_heredocs(t_data *data)
 		if (!ft_strncmp(data->tokens[i].token, "<<", 3))
 		{
 			data->hds[j][hd_c].str = get_hd_str(data->tokens[i + 1]);
+			data->hds[j][hd_c].latest = is_latest_hd(&data->tokens[i + 1]);
 			data->hds[j][hd_c++].expand = (strchars(data->tokens[i + 1].token,
 						"'\"") == NULL);
 		}

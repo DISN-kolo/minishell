@@ -6,7 +6,7 @@
 /*   By: molasz-a <molasz-a@student.42barcelona.co  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 19:37:44 by molasz-a          #+#    #+#             */
-/*   Updated: 2024/04/30 12:39:39 by akozin           ###   ########.fr       */
+/*   Updated: 2024/05/01 14:12:44 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,7 @@ typedef struct s_env
 typedef struct s_hdoc
 {
 	char	*str;
+	int		latest;
 	int		expand;
 }	t_hdoc;
 

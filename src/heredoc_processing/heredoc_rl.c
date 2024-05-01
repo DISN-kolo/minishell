@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 14:13:57 by akozin            #+#    #+#             */
-/*   Updated: 2024/04/30 16:05:05 by akozin           ###   ########.fr       */
+/*   Updated: 2024/05/01 15:06:12 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ int	process_heredocs(t_data *data)
 		i[1] = 0;
 		while (data->hds[i[0]][i[1]].str)
 		{
-			if (!data->hds[i[0]][i[1] + 1].str)
+			if (data->hds[i[0]][i[1]].latest)
 			{
 				printf("data->hds[%2d][%2d].str = '%s', exp: %d\n", i[0], i[1], data->hds[i[0]][i[1]].str, data->hds[i[0]][i[1]].expand);
 				fname = gen_h_fname(i);

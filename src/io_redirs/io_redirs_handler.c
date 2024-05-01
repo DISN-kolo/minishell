@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/23 13:58:31 by akozin            #+#    #+#             */
-/*   Updated: 2024/04/30 16:37:59 by akozin           ###   ########.fr       */
+/*   Updated: 2024/05/01 15:32:50 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,13 @@
  * TODO
  * i[0] - com c
  * i[1] - io c
+ *
+ * j -- hd coords
  */
 int	open_everything(t_data *data)
 {
 	int	i[2];
+	int	j[2];
 	int	fi;
 	int	fo;
 	int	flags;
@@ -38,7 +41,7 @@ int	open_everything(t_data *data)
 		fo = -42;
 		while (data->coms[i[0]].ios[i[1]].fname)
 		{
-			printf("fname = '%s'\n", data->coms[i[0]].ios[i[1]].fname);
+			printf("\t'fname' = '%s'\n", data->coms[i[0]].ios[i[1]].fname);
 			if (data->coms[i[0]].ios[i[1]].amb || i[1] == data->coms[i[0]].amb_redir_ind)
 			{
 				printf("ALRIGHT STOP\n");
@@ -46,18 +49,18 @@ int	open_everything(t_data *data)
 			}
 			if (data->coms[i[0]].ios[i[1]].in)
 			{
-				printf("in-opening on i[1] = %d\n", i[1]);
+				printf("\tin-opening on i[1] = %d\n", i[1]);
 				if (fi != -42)
 					close(fi);
-				if (data->coms[i[0]].ios[i[1]].dub
-						&& !data->coms[i[0]].ios[i[1] + 1].fname)
+				if (data->coms[i[0]].ios[i[1]].dub)
 				{
+					printf("HD detected\n");
 //					fi = -420;
+					hd_coords(j, data->hd_counter, data);
+					if (data->hds[j[0]][j[1]].latest)
+						fi = heredoc_read_expand(data); // TODO can return -2
 					data->hd_counter++;
-					fi = heredoc_read_expand(data); // TODO can return -2
 				}
-				else if (data->coms[i[0]].ios[i[1]].dub)
-					data->hd_counter++;
 				else
 					fi = open(data->coms[i[0]].ios[i[1]].fname, O_RDONLY);
 				if (fi == -1)
@@ -67,7 +70,7 @@ int	open_everything(t_data *data)
 			}
 			else
 			{
-				printf("out-opening on i[1] = %d\n", i[1]);
+				printf("\tout-opening on i[1] = %d\n", i[1]);
 				if (fo != -42)
 					close(fo);
 				if (data->coms[i[0]].ios[i[1]].dub)
@@ -92,6 +95,6 @@ int	open_everything(t_data *data)
 		}
 		i[0]++;
 	}
-	printf("btw, amb tok ind was %d\n", data->amb_tok_ind);
+	printf("exiting io redirs hadler with amb tok ind: %d\n", data->amb_tok_ind);
 	return (data->amb_tok_ind != -42); // TODO better error code for amb redir
 }

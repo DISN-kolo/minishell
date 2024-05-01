@@ -53,6 +53,7 @@ dkms.conf
 
 # Vim swap files
 *.swp
+*.swo
 
 # Final bin
 minishell

@@ -6,13 +6,14 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/30 12:33:56 by akozin            #+#    #+#             */
-/*   Updated: 2024/04/30 16:36:23 by akozin           ###   ########.fr       */
+/*   Updated: 2024/05/01 15:34:03 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 #include "../../libs/gnl/get_next_line.h"
-static void	hd_coords(int *hdi, int n, t_data *data)
+
+void	hd_coords(int *hdi, int n, t_data *data)
 {
 	int	x;
 
@@ -64,5 +65,5 @@ int	heredoc_read_expand(t_data *data)
 	}
 	if (curline)
 		free(curline);
-	return (-2);
+	return (hdfd);
 }
