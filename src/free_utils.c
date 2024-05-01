@@ -6,7 +6,7 @@
 /*   By: molasz-a <molasz-a@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/28 13:10:50 by molasz-a          #+#    #+#             */
-/*   Updated: 2024/04/22 13:12:49 by akozin           ###   ########.fr       */
+/*   Updated: 2024/05/01 17:03:22 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,10 @@ void	data_cleaner(t_data *data)
 	{
 		while (data->coms[i].com)
 		{
+			if (data->coms[i].infd != -42 && close(data->coms[i].infd) < 0)
+				print_perror("Close infd data cleaner", -1);
+			if (data->coms[i].outfd != -42 && close(data->coms[i].outfd) < 0)
+				print_perror("Close outfd data cleaner", -1);
 			free_double(data->coms[i].com);
 			data->coms[i].com = NULL;
 			i++;
