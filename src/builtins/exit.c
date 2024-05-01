@@ -6,7 +6,7 @@
 /*   By: molasz-a <molasz-a@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 14:40:31 by molasz-a          #+#    #+#             */
-/*   Updated: 2024/04/29 15:11:06 by molasz-a         ###   ########.fr       */
+/*   Updated: 2024/05/01 12:42:48 by molasz-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,12 +37,12 @@ void	bexit(t_data *data, char **args)
 {
 	if (!args || !args[0])
 	{
-		printf("exit\n");
+		ft_putendl_fd("exit", 1);
 		exit_handler(data, 0);
 	}
 	if (numeric_str(args[0]))
 	{
-		printf("exit\n");
+		ft_putendl_fd("exit", 1);
 		print_error("minishell: exit", args[0], "numeric argument required");
 		exit_handler(data, 255);
 	}
@@ -50,7 +50,7 @@ void	bexit(t_data *data, char **args)
 		print_error(NULL, "exit", "too many arguments");
 	else
 	{
-		printf("exit\n");
+		ft_putendl_fd("exit", 1);
 		exit_handler(data, ft_atoi(args[0]));
 	}
 }

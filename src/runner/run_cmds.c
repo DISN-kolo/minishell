@@ -6,13 +6,13 @@
 /*   By: molasz-a <molasz-a@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 13:34:21 by molasz-a          #+#    #+#             */
-/*   Updated: 2024/04/30 12:04:05 by akozin           ###   ########.fr       */
+/*   Updated: 2024/05/01 15:50:09 by molasz-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 
-static int	run_builtin(t_data *data, int i)
+static int	run_builtin(t_data *data, int i, int ex)
 {
 	if (!ft_strncmp_case(data->coms[i].com[0], "cd", 3))
 		bcd(data, data->coms[i].com + 1);
@@ -30,6 +30,8 @@ static int	run_builtin(t_data *data, int i)
 		bunset(data, data->coms[i].com + 1);
 	else
 		return (0);
+	if (ex)
+		exit(0);
 	return (1);
 }
 
@@ -37,7 +39,11 @@ static pid_t	one_cmd(t_data *data)
 {
 	pid_t	pid;
 
-	if (!run_builtin(data, 0))
+	if (data->coms[0].infd != -42 && dup2(data->coms[0].infd, 0) < 0)
+		return (print_perror("Dup in one cmd redirect", -1), -1);
+	if (data->coms[0].outfd != -42 && dup2(data->coms[0].outfd, 1) < 0)
+		return (print_perror("Dup out one cmd redirect", -1), -1);
+	if (!run_builtin(data, 0, 0))
 	{
 		pid = fork();
 		if (pid < 0)
@@ -60,15 +66,20 @@ static pid_t	normal_pipe(t_data *data, int *end, int i)
 		return (print_perror("Fork normal", -1), -1);
 	else if (!pid)
 	{
-		if (dup2(end[1], 1) < 0)
-			print_perror("Dup2 on child normal", 1);
+		if (data->coms[i].outfd != -42 && dup2(data->coms[i].outfd, 1) < 0)
+			print_perror("Dup out on child redirect", 1);
+		else if (data->coms[i].outfd == -42 && dup2(end[1], 1) < 0)
+			print_perror("Dup out on child pipe", 1);
 		if (close(end[0]) < 0 || close(end[1]) < 0)
-			print_perror("Close on child", 1);
-		if (!run_builtin(data, i))
+			print_perror("Close end on child", 1);
+		if (!run_builtin(data, i, 1))
 			find_cmd(data, i);
 	}
-	if (dup2(end[0], 0) < 0)
-		return (print_perror("Dup2 on parent normal", -1), -1);
+	close(0);
+	if (data->coms[i + 1].infd != -42 && dup2(data->coms[i + 1].infd, 0) < 0)
+		return (print_perror("Dup in on parent redirect", -1), -1);
+	else if (data->coms[i + 1].infd == -42 && dup2(end[0], 0) < 0)
+		return (print_perror("Dup in on parent pipe", -1), -1);
 	if (close(end[0]) < 0 || close(end[1]) < 0)
 		return (print_perror("Close end on parent", -1), -1);
 	return (pid);
@@ -78,11 +89,14 @@ static pid_t	last_pipe(t_data *data, int i)
 {
 	pid_t	pid;
 
+	if (data->coms[i].outfd != -42 && dup2(data->coms[i].outfd, 1) < 0)
+		return (print_perror("Dup out one cmd redirect", -1), -1);
 	pid = fork();
 	if (pid < 0)
 		return (print_perror("Fork last", -1), -1);
-	else if (!pid && !run_builtin(data, i))
+	else if (!pid && !run_builtin(data, i, 1))
 		find_cmd(data, i);
+	close(0);
 	return (pid);
 }
 
@@ -93,7 +107,8 @@ int	run_cmds(t_data *data)
 	int		status;
 	pid_t	pid;
 
-	data->std_in = dup(STDIN_FILENO);
+	data->std_in = dup(0);
+	data->std_out = dup(1);
 	if (!data->coms)
 		return (1);
 	if (!data->coms[1].com)
@@ -105,14 +120,15 @@ int	run_cmds(t_data *data)
 			normal_pipe(data, end, i++);
 		pid = last_pipe(data, i);
 	}
-	close(STDIN_FILENO);
 	i = -1;
 	while (data->coms[++i].com)
 	{
 		if (waitpid(-1, &status, 0) == pid)
 			data->status_code = status;
 	}
-	if (dup2(data->std_in, STDIN_FILENO) < 0 || close(data->std_in) < 0)
+	if (dup2(data->std_out, 1) < 0 || close(data->std_out) < 0)
+		return (print_perror("Dup stout", -1), 1);
+	if (dup2(data->std_in, 0) < 0 || close(data->std_in) < 0)
 		return (print_perror("Dup stdin", -1), 1);
 	return (0);
 }
