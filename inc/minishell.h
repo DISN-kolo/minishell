@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 16:20:41 by akozin            #+#    #+#             */
-/*   Updated: 2024/05/01 15:23:08 by akozin           ###   ########.fr       */
+/*   Updated: 2024/05/02 16:04:31 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 # include <errno.h>
 # include <sys/wait.h>
 # include <fcntl.h>
+# include <signal.h>
 
 # include "../libs/libft/libft.h"
 # include "./structs.h"
@@ -26,6 +27,11 @@
 // GENERAL
 void	shell_loop(t_data *data);
 int		token_loop(t_data *data);
+
+// SIGHANDLEAGE
+int		g_err;
+void	handle_s_normal(int sig);
+void	handle_s_hered(int sig);
 
 // TOKENIZE
 void	tokenize_line(char *s, t_data *data);

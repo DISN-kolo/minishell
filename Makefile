@@ -6,7 +6,7 @@
 #    By: akozin <akozin@student.42barcelona.com>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/18 16:38:42 by akozin            #+#    #+#              #
-#    Updated: 2024/05/01 14:54:01 by akozin           ###   ########.fr        #
+#    Updated: 2024/05/02 16:10:31 by akozin           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -32,6 +32,7 @@ DEFS = -DREADLINE_LIBRARY
 
 SRCNAMES = main.c \
 			shell_loop.c \
+			signals/sighandlers.c \
 			tokenize/tokenize.c \
 			tokenize/tokenize_count.c \
 			tokenize/tokenize_split.c \
@@ -80,7 +81,7 @@ all:		folders make_libs $(NAME)
 
 folders:
 	mkdir -p obj/tokenize obj/builtins obj/token_expander obj/runner obj/token_loop \
-		obj/heredoc_processing obj/io_redirs obj/get_heredocs
+		obj/heredoc_processing obj/io_redirs obj/get_heredocs obj/signals
 
 
 make_libs: $(RL)
