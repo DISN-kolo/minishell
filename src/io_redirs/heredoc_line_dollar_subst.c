@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/30 14:49:51 by akozin            #+#    #+#             */
-/*   Updated: 2024/04/30 15:18:55 by akozin           ###   ########.fr       */
+/*   Updated: 2024/05/02 11:57:28 by molasz-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,11 +58,9 @@ static int	hd_expansion_counter(t_data *data, char *t)
 {
 	int	ret;
 	int	i;
-	int	in_q;
 
 	ret = 0;
 	i = 0;
-	in_q = 0;
 	while (t[i])
 	{
 		if (t[i] == '$' && (t[i + 1] == '_' || t[i + 1] == '?'
