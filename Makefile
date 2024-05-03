@@ -6,7 +6,7 @@
 #    By: akozin <akozin@student.42barcelona.com>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/18 16:38:42 by akozin            #+#    #+#              #
-#    Updated: 2024/05/02 21:52:22 by molasz-a         ###   ########.fr        #
+#    Updated: 2024/05/03 12:19:26 by molasz-a         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -40,7 +40,8 @@ SRCNAMES = main.c \
 			get_heredocs/get_heredocs_utils.c \
 			heredoc_processing/heredoc_rl.c \
 			heredoc_processing/heredoc_filename_creator.c \
-			operators/split_operators.c \
+			operators/operators_tree.c \
+			operators/tree_utils.c \
 			token_loop/token_loop.c \
 			token_loop/token_loop_utils.c \
 			token_loop/cmd_loop.c \

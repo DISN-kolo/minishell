@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 16:20:41 by akozin            #+#    #+#             */
-/*   Updated: 2024/05/02 22:00:33 by molasz-a         ###   ########.fr       */
+/*   Updated: 2024/05/03 12:18:06 by molasz-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ void	get_heredocs(t_data *data);
 int		is_latest_hd(t_token *ts);
 
 // OPERATORS
+int		operators_tree(t_data *data);
 t_cmdtree	*cmdtree_create(t_token *tokens);
 
 // TOKEN LOOP UTILS

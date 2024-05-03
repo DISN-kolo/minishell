@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/17 13:52:11 by akozin            #+#    #+#             */
-/*   Updated: 2024/04/25 15:02:29 by akozin           ###   ########.fr       */
+/*   Updated: 2024/05/03 13:23:35 by molasz-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ int	dollar_exp_helper(t_token *exp_t, t_data *data, t_token *c_toks, int i)
 {
 	int	r;
 
-	c_toks[i].type = determine_type(c_toks[i].token);
+	// c_toks[i].type = determine_type(c_toks[i].token); [MOVED TO tokenize_line]
 	if (i > 0)
 		r = dollar_expander(exp_t, data, c_toks[i].token, c_toks[i - 1].type);
 	else

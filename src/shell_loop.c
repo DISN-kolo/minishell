@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 16:15:48 by akozin            #+#    #+#             */
-/*   Updated: 2024/05/02 12:03:20 by molasz-a         ###   ########.fr       */
+/*   Updated: 2024/05/03 12:18:35 by molasz-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ void	shell_loop(t_data *data)
 		data->hd_counter = 0;
 		get_heredocs(data);
 		process_heredocs(data); // TODO
-		split_operators(data);
+		operators_tree(data);
 		if (token_loop(data))
 			write(2, "run error\n", 10); //TODO err handeling
 		data_cleaner(data);
