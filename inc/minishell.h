@@ -29,7 +29,7 @@ void	shell_loop(t_data *data);
 int		token_loop(t_data *data);
 
 // SIGHANDLEAGE
-int		g_err;
+extern int		g_err;
 void	handle_s_normal(int sig);
 void	handle_s_hered(int sig);
 
