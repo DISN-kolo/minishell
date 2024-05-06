@@ -6,7 +6,7 @@
 /*   By: molasz-a <molasz-a@student.42barcelona.co  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 19:37:44 by molasz-a          #+#    #+#             */
-/*   Updated: 2024/05/03 16:00:29 by molasz-a         ###   ########.fr       */
+/*   Updated: 2024/05/06 11:58:11 by molasz-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,7 @@ typedef struct s_cmdtree
 	struct s_cmdtree	*left;
 	struct s_cmdtree	*right;
 	t_token				*tokens;
+	int					brackets;
 }	t_cmdtree;
 
 typedef struct s_data
