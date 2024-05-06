@@ -19,10 +19,14 @@ static int	grab_and_write_hdoc(int fd, char *eof)
 	int		eoflen;
 	char	*hline;
 
+	signal(SIGINT, handle_s_hered);
+	signal(SIGTSTP, NULL);
 	eoflen = ft_strlen(eof);
 	hline = readline("> ");
 	while (hline && ft_strncmp(hline, eof, eoflen + 1))
 	{
+		if (g_err == 1)
+			return (1);
 		if (write(fd, hline, ft_strlen(hline)) == -1)
 			return (1);
 		if (write(fd, "\n", 1) == -1)
@@ -37,10 +41,15 @@ static int	fake_heredoc(char *eof)
 	int		eoflen;
 	char	*hline;
 
+	signal(SIGINT, handle_s_hered);
 	eoflen = ft_strlen(eof);
 	hline = readline("> ");
 	while (hline && ft_strncmp(hline, eof, eoflen + 1))
+	{
+		if (g_err == 1)
+			return (1);
 		hline = readline("> ");
+	}
 	return (0);
 }
 /*

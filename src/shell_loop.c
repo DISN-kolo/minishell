@@ -27,6 +27,7 @@ void	shell_loop(t_data *data)
 	{
 		signal(SIGINT, handle_s_normal);
 		signal(SIGQUIT, SIG_IGN);
+		signal(SIGTSTP, SIG_IGN);
 		s = readline("totally-not-bash $ ");
 		if (!s)
 			break ;

@@ -30,7 +30,7 @@ void	handle_s_hered(int sig)
 {
 	if (sig == SIGINT)
 	{
-		write(2, "^C\n", 3);
+		//write(2, "^C\n", 3);
 		g_err = 1;// TODO global error status here
 		// what do we do with it tho lol
 		// like the normal data.errored? data.status_code?
