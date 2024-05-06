@@ -6,13 +6,13 @@
 /*   By: molasz-a <molasz-a@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/29 12:12:58 by molasz-a          #+#    #+#             */
-/*   Updated: 2024/04/29 16:01:46 by molasz-a         ###   ########.fr       */
+/*   Updated: 2024/05/06 16:05:16 by molasz-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
 
-void	print_error(char * cmd, char *var, char *error)
+void	print_error(char *cmd, char *var, char *error)
 {
 	if (cmd)
 		ft_putstr_fd(cmd, 2);

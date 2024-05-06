@@ -6,7 +6,7 @@
 /*   By: molasz-a <molasz-a@student.42barcelona.co  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 19:37:44 by molasz-a          #+#    #+#             */
-/*   Updated: 2024/05/06 11:58:11 by molasz-a         ###   ########.fr       */
+/*   Updated: 2024/05/06 15:47:52 by molasz-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,13 +89,15 @@ typedef struct s_cmdtree
 typedef struct s_data
 {
 	t_token		*tokens;
-	t_cmdtree	*cmds;
+	t_cmdtree	*cmdtree;
 	t_com		*coms;
 	t_hdoc		**hds;
 	int			hd_counter;
 	int			std_in;
 	int			std_out;
 	int			status_code;
+	int			skip_cmd;
+	int			skip_brackets;
 	int			errored;
 	int			amb_tok_ind;
 	char		*amb_tok_name;

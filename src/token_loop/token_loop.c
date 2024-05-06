@@ -6,61 +6,64 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 14:59:19 by akozin            #+#    #+#             */
-/*   Updated: 2024/04/30 12:03:10 by akozin           ###   ########.fr       */
+/*   Updated: 2024/05/06 16:08:15 by molasz-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 
-int	check_operators(t_data *data, int *count)
+int	run_cmd(t_data *data, t_cmdtree *tree)
 {
-	printf("OP: %d\n", data->tokens[*count - 1].type);
-	if ((data->tokens[*count - 1].type == AND && data->status_code)
-		|| (data->tokens[*count - 1].type == OR && !data->status_code))
-	{
-		while (data->tokens[*count].token && !(data->tokens[*count].type == AND
-				|| data->tokens[*count].type == OR))
-			*count += 1;
-		*count += 1;
+	t_token	*tokens;
+	int		open_error;
+
+	tokens = token_expander(data, tree->tokens);
+	if (!tokens)
 		return (1);
+	cmd_loop(data, tokens);
+	open_error = open_everything(data);
+	if (!open_error)
+	{
+		run_cmds(data);
+		if (dup2(data->std_out, 1) < 0 || dup2(data->std_in, 0) < 0)
+			return (print_perror("Dup stdout and stdin", -1), 1);
+	}
+	else if (open_error == -3)
+		return (1); // no command entered but there are redirs or something
+	else
+		printf("in token loop, open error = %d\n", open_error);
+	return (0);
+}
+
+static int	btree_apply_infix(t_data *data, t_cmdtree *root)
+{
+	if (root)
+	{
+		if (btree_apply_infix(data, root->left))
+			return (1);
+		if (root->tokens[0].type != AND && root->tokens[0].type != OR
+			&& !data->skip_cmd && data->skip_brackets <= root->brackets
+			&& run_cmd(data, root))
+			return (1);
+		if (root->tokens[0].type != AND && root->tokens[0].type != OR
+			&& data->skip_cmd && data->skip_brackets >= root->brackets)
+			data->skip_cmd = 0;
+		if ((root->tokens[0].type == AND && data->status_code)
+			|| (root->tokens[0].type == OR && !data->status_code))
+		{
+			data->skip_cmd = 1;
+			data->skip_brackets = root->brackets;
+		}
+		if (btree_apply_infix(data, root->right))
+			return (1);
 	}
 	return (0);
 }
 
 int	token_loop(t_data *data)
 {
-	t_token	*current_tokens;
-	int		cmd_c;
-	int		i;
-	int		count;
-	int		open_error;
-
-	i = -1;
-	cmd_c = 0;
-	while (data->tokens[++i].token)
-		cmd_c += !ft_strncmp(data->tokens[i].token, "||", 3)
-			|| !ft_strncmp(data->tokens[i].token, "&&", 3);
-	cmd_c++;
-	i = -1;
-	count = 0;
-	while (++i < cmd_c)
-	{
-		current_tokens = token_expander(data, data->tokens + count, &count);
-			if (!current_tokens)
-			return (1);
-		count++;
-		cmd_loop(data, current_tokens);
-		open_error = open_everything(data);
-		if (!open_error)
-			run_cmds(data);
-		else if (open_error == -3)
-			break ; // no command entered but there are redirs or something
-		else
-			printf("in token loop, open error = %d\n", open_error);
-		for (int l = 0; data->coms[l].com; l++)
-			printf("command %2d, fi: %2d, fo: %2d\n", l, data->coms[l].infd, data->coms[l].outfd);
-		if (i + 1 < cmd_c && check_operators(data, &count))
-			i++;
-	}
+	if (btree_apply_infix(data, data->cmdtree))
+		return (1); // TODO control errors
+	data->skip_brackets = 0;
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: molasz-a <molasz-a@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 13:34:21 by molasz-a          #+#    #+#             */
-/*   Updated: 2024/05/01 15:50:09 by molasz-a         ###   ########.fr       */
+/*   Updated: 2024/05/06 16:11:47 by molasz-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,16 +55,14 @@ static pid_t	one_cmd(t_data *data)
 	return (-1);
 }
 
-static pid_t	normal_pipe(t_data *data, int *end, int i)
+static int	normal_pipe(t_data *data, int *end, int i, pid_t *pid)
 {
-	pid_t	pid;
-
 	if (pipe(end) < 0)
-		return (print_perror("Pipe", -1), -1);
-	pid = fork();
-	if (pid < 0)
-		return (print_perror("Fork normal", -1), -1);
-	else if (!pid)
+		return (print_perror("Pipe", -1), 1);
+	*pid = fork();
+	if (*pid < 0)
+		return (print_perror("Fork normal", -1), 1);
+	else if (!*pid)
 	{
 		if (data->coms[i].outfd != -42 && dup2(data->coms[i].outfd, 1) < 0)
 			print_perror("Dup out on child redirect", 1);
@@ -79,10 +77,10 @@ static pid_t	normal_pipe(t_data *data, int *end, int i)
 	if (data->coms[i + 1].infd != -42 && dup2(data->coms[i + 1].infd, 0) < 0)
 		return (print_perror("Dup in on parent redirect", -1), -1);
 	else if (data->coms[i + 1].infd == -42 && dup2(end[0], 0) < 0)
-		return (print_perror("Dup in on parent pipe", -1), -1);
+		return (print_perror("Dup in on parent pipe", -1), 1);
 	if (close(end[0]) < 0 || close(end[1]) < 0)
-		return (print_perror("Close end on parent", -1), -1);
-	return (pid);
+		return (print_perror("Close end on parent", -1), 1);
+	return (0);
 }
 
 static pid_t	last_pipe(t_data *data, int i)
@@ -90,7 +88,7 @@ static pid_t	last_pipe(t_data *data, int i)
 	pid_t	pid;
 
 	if (data->coms[i].outfd != -42 && dup2(data->coms[i].outfd, 1) < 0)
-		return (print_perror("Dup out one cmd redirect", -1), -1);
+		return (print_perror("Dup out last cmd redirect", -1), -1);
 	pid = fork();
 	if (pid < 0)
 		return (print_perror("Fork last", -1), -1);
@@ -107,8 +105,6 @@ int	run_cmds(t_data *data)
 	int		status;
 	pid_t	pid;
 
-	data->std_in = dup(0);
-	data->std_out = dup(1);
 	if (!data->coms)
 		return (1);
 	if (!data->coms[1].com)
@@ -117,7 +113,7 @@ int	run_cmds(t_data *data)
 	{
 		i = 0;
 		while (data->coms[i].com && data->coms[i + 1].com)
-			normal_pipe(data, end, i++);
+			normal_pipe(data, end, i++, &pid);
 		pid = last_pipe(data, i);
 	}
 	i = -1;
@@ -126,9 +122,7 @@ int	run_cmds(t_data *data)
 		if (waitpid(-1, &status, 0) == pid)
 			data->status_code = status;
 	}
-	if (dup2(data->std_out, 1) < 0 || close(data->std_out) < 0)
-		return (print_perror("Dup stout", -1), 1);
-	if (dup2(data->std_in, 0) < 0 || close(data->std_in) < 0)
-		return (print_perror("Dup stdin", -1), 1);
+	if (pid < 0)
+		data->status_code = 0;
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: molasz-a <molasz-a@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/03 12:20:47 by molasz-a          #+#    #+#             */
-/*   Updated: 2024/05/06 12:45:15 by molasz-a         ###   ########.fr       */
+/*   Updated: 2024/05/06 16:03:34 by molasz-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ static t_token	*tokens_list(t_token *tokens, int len)
 	return (new_tokens);
 }
 
-static	t_cmdtree	*tree_recurs(t_token *tokens, int brackets) // TODO check leaks
+static	t_cmdtree	*tree_recurs(t_token *tokens, int brackets) // TODO leaks
 {
 	t_cmdtree	*tree;
 	t_token		*new_tokens;
@@ -85,37 +85,10 @@ static	t_cmdtree	*tree_recurs(t_token *tokens, int brackets) // TODO check leaks
 	return (tree);
 }
 
-static void	btree_apply_infix(t_cmdtree *root, void applyf(t_token *, int brackets))
-{
-	if (root)
-	{
-		btree_apply_infix(root->left, applyf);
-		applyf(root->tokens, root->brackets);
-		btree_apply_infix(root->right, applyf);
-	}
-}
-
-static	void	on_print(t_token *tokens, int brackets)
-{
-	int	i;
-
-	printf("TREE (%d):", brackets);
-	i = 0;
-	while (tokens[i].token)
-	{
-		printf("%s, ", tokens[i].token);
-		i++;
-	}
-	printf("\n");
-}
-
 int	operators_tree(t_data *data)
 {
-	t_cmdtree	*tree;
-
-	tree = tree_recurs(data->tokens, 0);
-	if (!tree)
+	data->cmdtree = tree_recurs(data->tokens, 0);
+	if (!data->cmdtree)
 		return (1);
-	btree_apply_infix(tree, on_print);
 	return (0);
 }

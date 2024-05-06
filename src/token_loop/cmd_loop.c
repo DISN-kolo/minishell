@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 16:14:33 by akozin            #+#    #+#             */
-/*   Updated: 2024/04/25 13:38:28 by akozin           ###   ########.fr       */
+/*   Updated: 2024/05/06 13:42:50 by molasz-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,7 @@ static int	cmd_count(t_token *tokens)
 
 	count = 1;
 	i = 0;
-	while (tokens[i].token && ft_strncmp(tokens[i].token, "||", 3)
-		&& ft_strncmp(tokens[i].token, "&&", 3))
+	while (tokens[i].token)
 	{
 		if (tokens[i].type == PIPE)
 			count++;
@@ -67,8 +66,7 @@ static int	com_malloc_safe(t_data *data, int *i)
 }
 
 /*
- * 1. counts the commands until || or && using pipes.
- *   this count is done with cmd_count.
+ * 1. counts the commands using pipes, this count is done with cmd_count.
  * 2. allocs them.
  * 3. iteraties thru them (while ...).
  * 3.1. allocs the array of strings for each command (between pipes).

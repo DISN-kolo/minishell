@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 16:41:25 by akozin            #+#    #+#             */
-/*   Updated: 2024/04/30 15:11:14 by akozin           ###   ########.fr       */
+/*   Updated: 2024/05/06 13:15:01 by molasz-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,7 @@ static int	exp_t_init(t_token *exp_t, t_data *data, char *c_t, t_tok_s prev)
  * the current data->tokens token, then we pass this exp t to the function that
  * creates the local n tokens, dissecting exp t.
  */
-t_token	*token_expander(t_data *data, t_token *c_toks, int *count)
+t_token	*token_expander(t_data *data, t_token *c_toks)
 {
 	int		i;
 	t_token	*new_tokens;
@@ -97,8 +97,7 @@ t_token	*token_expander(t_data *data, t_token *c_toks, int *count)
 
 	if (init_te_data_linesave(&i, &new_tokens, data))
 		return (NULL);
-	while (c_toks[i].token && ft_strncmp(c_toks[i].token, "||", 3)
-		&& ft_strncmp(c_toks[i].token, "&&", 3)) // TODO error returns
+	while (c_toks[i].token) // TODO error returns
 	{
 		if (exp_t_init(&exp_t, data, c_toks[i].token, nt_prev(new_tokens)))
 			return (NULL);
@@ -112,5 +111,5 @@ t_token	*token_expander(t_data *data, t_token *c_toks, int *count)
 			return (NULL);
 		i++;
 	}
-	return (*count += tokenslen(new_tokens), new_tokens);
+	return (new_tokens);
 }
