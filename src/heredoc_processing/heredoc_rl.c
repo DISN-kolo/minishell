@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 14:13:57 by akozin            #+#    #+#             */
-/*   Updated: 2024/05/07 16:46:03 by akozin           ###   ########.fr       */
+/*   Updated: 2024/05/07 17:28:49 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,15 +20,23 @@ static int	grab_and_write_hdoc(int fd, char *eof)
 	char	*hline;
 
 	eoflen = ft_strlen(eof);
-	hline = readline("> ");
-	while (hline && ft_strncmp(hline, eof, eoflen + 1))
+	hline = NULL;
+	while (1)
 	{
-		if (write(fd, hline, ft_strlen(hline)) == -1)
+		if (hline && write(fd, hline, ft_strlen(hline)) == -1)
 			return (1);
-		if (write(fd, "\n", 1) == -1)
+		if (hline && write(fd, "\n", 1) == -1)
 			return (1);
+		if (hline && !ft_strncmp(hline, eof, eoflen + 1))
+			break ;
+		if (hline)
+			free(hline);
 		hline = readline("> ");
+		if (!hline)
+			return (1);
 	}
+	if (hline)
+		free(hline);
 	return (0);
 }
 
@@ -38,9 +46,19 @@ static int	fake_heredoc(char *eof)
 	char	*hline;
 
 	eoflen = ft_strlen(eof);
-	hline = readline("> ");
-	while (hline && ft_strncmp(hline, eof, eoflen + 1))
+	hline = NULL;
+	while (1)
+	{
+		if (hline && !ft_strncmp(hline, eof, eoflen + 1))
+			break ;
+		if (hline)
+			free(hline);
 		hline = readline("> ");
+		if (!hline)
+			return (1);
+	}
+	if (hline)
+		free(hline);
 	return (0);
 }
 
@@ -49,8 +67,6 @@ static int	process_heredoc(t_data *data, int *i)
 	int		fd;
 	char	*fname;
 
-	signal(SIGINT, handle_s_hered);
-	signal(SIGQUIT, SIG_IGN);
 	if (data->hds[i[0]][i[1]].latest)
 	{
 		printf("data->hds[%2d][%2d].str = '%s', exp: %d\n", i[0], i[1], data->hds[i[0]][i[1]].str, data->hds[i[0]][i[1]].expand);
@@ -82,22 +98,22 @@ static int	process_heredoc(t_data *data, int *i)
 
 static int	hd_fork(t_data *data, int *i)
 {
-	int		pid;
-	int		status;
-
-	pid = fork();
-	if (pid == -1)
-		exit(EXIT_FAILURE);
-	if (pid == 0)
-		process_heredoc(data, i);
-	else
-		signal(SIGINT, SIG_IGN);
-	wait(&status);
-	if (WIFEXITED(status))
-		return (WEXITSTATUS(status));
-	else if (WIFSIGNALED(status) && (WTERMSIG(status) == SIGINT))
-		return (EXIT_FAILURE);
-	return (EXIT_FAILURE);
+	signal(SIGINT, handle_s_hered);
+	signal(SIGQUIT, SIG_IGN);
+	i[0] = 0;
+	while (data->hds[i[0]])
+	{
+		i[1] = 0;
+		while (data->hds[i[0]][i[1]].str)
+		{
+			if (process_heredoc(data, i))
+				return (1);
+			i[1]++;
+		}
+		printf("== one heredoc processed...\n");
+		i[0]++;
+	}
+	return (0);
 }
 
 /*
@@ -110,21 +126,22 @@ static int	hd_fork(t_data *data, int *i)
 int	process_heredocs(t_data *data)
 {
 	int		i[2];
+	pid_t	pid;
+	int		status;
 
 	if (data->errored)
 		return (1);
-	i[0] = 0;
-	while (data->hds[i[0]])
-	{
-		i[1] = 0;
-		while (data->hds[i[0]][i[1]].str)
-		{
-			if (hd_fork(data, i))
-				return (1);
-			i[1]++;
-		}
-		printf("== one heredoc processed...\n");
-		i[0]++;
-	}
-	return (0);
+	pid = fork();
+	if (pid == -1)
+		exit(EXIT_FAILURE);
+	if (pid == 0)
+		hd_fork(data, i);
+	else
+		signal(SIGINT, SIG_IGN);
+	waitpid(pid, &status, 0);
+	if (WIFEXITED(status))
+		return (WEXITSTATUS(status));
+	else if (WIFSIGNALED(status) && (WTERMSIG(status) == SIGINT))
+		return (EXIT_FAILURE);
+	return (EXIT_FAILURE);
 }
