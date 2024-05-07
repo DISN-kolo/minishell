@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 16:15:48 by akozin            #+#    #+#             */
-/*   Updated: 2024/05/07 17:12:58 by molasz-a         ###   ########.fr       */
+/*   Updated: 2024/05/07 17:57:23 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,18 @@
 #include "../libs/readline/readline.h"
 #include "../libs/readline/history.h"
 
+/*
+ * ctrl-c = sigint
+ * ctrl-\ = sigquit
+ */
 void	shell_loop(t_data *data)
 {
 	char	*s;
 
 	while (1)
 	{
+		signal(SIGINT, handle_s_normal);
+		signal(SIGQUIT, SIG_IGN);
 		s = readline("totally-not-bash $ ");
 		if (!s)
 			break ;

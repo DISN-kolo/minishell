@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/30 12:33:56 by akozin            #+#    #+#             */
-/*   Updated: 2024/05/01 15:34:03 by akozin           ###   ########.fr       */
+/*   Updated: 2024/05/02 12:50:21 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,5 +65,7 @@ int	heredoc_read_expand(t_data *data)
 	}
 	if (curline)
 		free(curline);
+	close(hdfd);
+	hdfd = open(fname, O_RDONLY);
 	return (hdfd);
 }

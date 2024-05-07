@@ -6,7 +6,7 @@
 /*   By: molasz-a <molasz-a@student.42barcelona.co  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 19:37:44 by molasz-a          #+#    #+#             */
-/*   Updated: 2024/05/06 15:47:52 by molasz-a         ###   ########.fr       */
+/*   Updated: 2024/05/07 18:14:15 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ typedef struct s_inout
 	char	*fname;
 	int		expand;
 	int		amb;
-} t_inout;
+}	t_inout;
 
 typedef struct s_com
 {
@@ -50,7 +50,7 @@ typedef struct s_com
 	int			infd;
 	int			outfd;
 	int			amb_redir_ind;
-} t_com;
+}	t_com;
 
 typedef struct s_token
 {

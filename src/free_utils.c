@@ -6,7 +6,7 @@
 /*   By: molasz-a <molasz-a@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/28 13:10:50 by molasz-a          #+#    #+#             */
-/*   Updated: 2024/05/07 17:37:04 by molasz-a         ###   ########.fr       */
+/*   Updated: 2024/05/07 18:01:08 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,13 @@ void	free_coms(t_com *coms)
 		return ;
 	i = 0;
 	while (coms[i].com)
+	{
+		if (coms[i].infd != -42 && close(coms[i].infd) < 0)
+			print_perror("Close infd data cleaner", -1);
+		if (coms[i].outfd != -42 && close(coms[i].outfd) < 0)
+			print_perror("Close outfd data cleaner", -1);
 		free_double(coms[i++].com);
+	}
 	free(coms);
 }
 

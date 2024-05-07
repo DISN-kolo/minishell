@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/23 13:58:31 by akozin            #+#    #+#             */
-/*   Updated: 2024/05/01 15:32:50 by akozin           ###   ########.fr       */
+/*   Updated: 2024/05/01 16:56:41 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,8 +34,8 @@ int	open_everything(t_data *data)
 	while (data->coms[i[0]].com)
 	{
 		printf("open everything cycle: i0 = %d\n", i[0]);
-		data->coms[i[0]].infd = 0;
-		data->coms[i[0]].outfd = 1;
+		data->coms[i[0]].infd = -42;
+		data->coms[i[0]].outfd = -42;
 		i[1] = 0;
 		fi = -42;
 		fo = -42;
@@ -83,7 +83,8 @@ int	open_everything(t_data *data)
 			}
 			i[1]++;
 		}
-		if (!data->coms[i[0]].ios[i[1]].amb && i[1] != data->coms[i[0]].amb_redir_ind)
+		if (i[1] && !data->coms[i[0]].ios[i[1] - 1].amb
+				&& i[1] != data->coms[i[0]].amb_redir_ind)
 		{
 			data->coms[i[0]].infd = fi;
 			data->coms[i[0]].outfd = fo;
