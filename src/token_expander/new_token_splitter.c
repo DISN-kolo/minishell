@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 16:33:07 by akozin            #+#    #+#             */
-/*   Updated: 2024/04/16 12:07:25 by akozin           ###   ########.fr       */
+/*   Updated: 2024/05/07 17:29:03 by molasz-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,19 +88,20 @@ static void	fill_and_remove_q(size_t wlen, t_token *t, int k, t_token *ret_one)
 	ret_one->token[y] = 0;
 }
 
-static int	new_t_split_internal(t_token *t, int *k, t_token **ret, int *i)
+static int	new_t_split_internal(t_token *t, int *k, t_token *ret, int *i)
 {
 	size_t	wlen;
 
-	(*ret)[*i].type = t->type;
+	ret[*i].type = t->type;
 	if (!strchars_lit(t, *k, " \t\f\v"))
 		wlen = ft_strlen(&(t->token[*k]));
 	else
 		wlen = strchars_lit(t, *k, " \t\f\v") - &(t->token[*k]);
-	(*ret)[*i].token = malloc(wlen + 1);
-	if (!(*ret)[*i].token)
-		return (1); // TODO
-	fill_and_remove_q(wlen, t, *k, &((*ret)[*i]));
+	ret[*i].token = malloc(wlen + 1);
+	ret[*i].literal = NULL;
+	if (!ret[*i].token)
+		return (free_tokens(ret), 1);
+	fill_and_remove_q(wlen, t, *k, ret + *i);
 	(*i)++;
 	*k += wlen;
 	return (0);
@@ -123,7 +124,7 @@ t_token	*new_t_split(t_token t)
 			k++;
 		if (t.token[k])
 		{
-			if (new_t_split_internal(&t, &k, &ret, &i))
+			if (new_t_split_internal(&t, &k, ret, &i))
 				return (NULL);
 		}
 	}

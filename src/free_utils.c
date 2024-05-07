@@ -6,7 +6,7 @@
 /*   By: molasz-a <molasz-a@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/28 13:10:50 by molasz-a          #+#    #+#             */
-/*   Updated: 2024/05/06 13:26:22 by molasz-a         ###   ########.fr       */
+/*   Updated: 2024/05/07 17:37:04 by molasz-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,28 +28,54 @@ void	free_double(char **p)
 	p = NULL;
 }
 
-int	free_ret(t_token **ret)
+void	free_tokens(t_token *tokens)
 {
 	int	i;
 
+	if (!tokens)
+		return ;
 	i = 0;
-	if (!*ret)
-		return (0);
-	while ((*ret)[i].token)
+	while (tokens[i].token)
 	{
-		free((*ret)[i].token);
-		// TODO
-//		if ((*ret)[i].literal)
-//		{
-//			free((*ret)[i].literal);
-//			(*ret)[i].literal = NULL;
-//		}
-		(*ret)[i].token = NULL;
+		free(tokens[i].token);
+		if (tokens[i].literal)
+			free(tokens[i].literal);
 		i++;
 	}
-	free(*ret);
-	*ret = NULL;
-	return (1);
+	free(tokens);
+}
+
+void	free_coms(t_com *coms)
+{
+	int	i;
+
+	if (!coms)
+		return ;
+	i = 0;
+	while (coms[i].com)
+		free_double(coms[i++].com);
+	free(coms);
+}
+
+void	free_tree(t_cmdtree *tree)
+{
+	if (tree)
+	{
+		free_tree(tree->right);
+		free_tree(tree->left);
+		free(tree);
+	}
+}
+
+void	data_cleaner(t_data *data)
+{
+	free_tokens(data->tokens);
+	data->tokens = NULL;
+	free_coms(data->coms);
+	data->coms = NULL;
+	free_tree(data->cmdtree);
+	data->cmdtree = NULL;
+	data->errored = 0;
 }
 
 void	free_env(t_env *env)
@@ -67,42 +93,4 @@ void	free_env(t_env *env)
 			free(env[i].value);
 	}
 	free(env);
-}
-
-void	data_cleaner(t_data *data)
-{
-	int	i;
-
-	if (data->tokens)
-		free_ret(&data->tokens);
-	data->tokens = 0;
-	i = 0;
-	if (data->coms)
-	{
-		while (data->coms[i].com)
-		{
-			free_double(data->coms[i].com);
-			data->coms[i].com = NULL;
-			i++;
-		}
-		free(data->coms);
-	}
-	data->coms = NULL;
-	data->errored = 0;
-}
-
-void	free_coms(t_data *data)
-{
-	int	i;
-
-	if (!data->coms)
-		return ;
-	i = 0;
-	while (data->coms[i].com)
-	{
-		free_double(data->coms[i].com);
-		i++;
-	}
-	free(data->coms);
-	data->coms = NULL;
 }

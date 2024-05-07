@@ -6,7 +6,7 @@
 /*   By: molasz-a <molasz-a@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/03 12:20:47 by molasz-a          #+#    #+#             */
-/*   Updated: 2024/05/06 16:03:34 by molasz-a         ###   ########.fr       */
+/*   Updated: 2024/05/07 16:05:48 by molasz-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,7 @@ static	t_cmdtree	*tree_recurs(t_token *tokens, int brackets) // TODO leaks
 			tree->right = tree_recurs(tokens + i + 1, --brackets);
 		else
 			tree->right = tree_recurs(tokens + i + 1, brackets);
+		free(new_tokens);
 	}
 	else if (!(tokens[0].type == O_BRACKET && tokens[i - 1].type == C_BRACKET))
 		tree->tokens = new_tokens;

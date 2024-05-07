@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 16:20:41 by akozin            #+#    #+#             */
-/*   Updated: 2024/05/06 14:51:39 by molasz-a         ###   ########.fr       */
+/*   Updated: 2024/05/07 16:31:35 by molasz-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,11 +102,11 @@ void	benv(t_data *data);
 void	bexit(t_data *data, char **args);
 
 // FREE UTILS
-void	free_double(char **p);
-void	free_env(t_env *env);
-int		free_ret(t_token **ret);
 void	data_cleaner(t_data *data);
-void	free_coms(t_data *data);
+void	free_double(char **p);
+void	free_tokens(t_token *tokens);
+void	free_coms(t_com *coms);
+void	free_env(t_env *env);
 
 // ERROR UTILS
 void	print_error(char *cmd, char *var, char *error);

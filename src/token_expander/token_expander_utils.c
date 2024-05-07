@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/28 12:01:48 by akozin            #+#    #+#             */
-/*   Updated: 2024/05/03 16:00:07 by molasz-a         ###   ########.fr       */
+/*   Updated: 2024/05/07 17:33:13 by molasz-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,28 +42,29 @@ int	tokenslen(t_token *t)
 t_token	*tokens_join(t_token *t1, t_token *t2)
 {
 	t_token	*ret;
-	int		i;
-	int		j;
+	int		i[2];
 
 	if (!t1 || !t2)
 		return (t2);
 	ret = malloc(sizeof (t_token) * (tokenslen(t1) + tokenslen(t2) + 1));
 	if (!ret)
 		return (NULL);
-	i = 0;
-	j = -1;
-	while (t1[++j].token)
+	i[0] = 0;
+	i[1] = -1;
+	while (t1[++i[1]].token)
 	{
-		ret[i].type = t1[j].type;
-		ret[i++].token = ft_substr(t1[j].token, 0, ft_strlen(t1[j].token));
+		ret[i[0]].type = t1[i[1]].type;
+		ret[i[0]].literal = NULL;
+		ret[i[0]++].token = ft_strdup(t1[i[1]].token);
 	}
-	j = -1;
-	while (t2[++j].token)
+	i[1] = -1;
+	while (t2[++i[1]].token)
 	{
-		ret[i].type = t2[j].type;
-		ret[i++].token = ft_substr(t2[j].token, 0, ft_strlen(t2[j].token));
+		ret[i[0]].type = t2[i[1]].type;
+		ret[i[0]].literal = NULL;
+		ret[i[0]++].token = ft_strdup(t2[i[1]].token);
 	}
-	ret[i].token = 0;
+	ret[i[0]].token = 0;
 	return (ret);
 }
 
@@ -73,8 +74,7 @@ t_token	*tokens_join_free(t_token *t1, t_token *t2)
 
 	ret = tokens_join(t1, t2);
 	if (t1)
-		free_ret(&t1);
-	t1 = NULL;
+		free_tokens(t1);
 	return (ret);
 }
 

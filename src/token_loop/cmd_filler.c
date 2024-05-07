@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 16:17:06 by akozin            #+#    #+#             */
-/*   Updated: 2024/05/06 16:13:36 by molasz-a         ###   ########.fr       */
+/*   Updated: 2024/05/07 17:35:23 by molasz-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,8 @@ int	cmd_filler(t_data *data, int *i, t_token *ts)
 	j = 0;
 	while (++i[2] < i[4])
 	{
-		printf("i[2] = %d, i[2] + i[3] = %d, amb redir token index = %d\n", i[2], i[2]+i[3], data->amb_tok_ind);
+		printf("i[2] = %d, i[2] + i[3] = %d, amb redir token index = %d\n",
+			i[2], i[2] + i[3], data->amb_tok_ind);
 		if (i[2] + i[3] == data->amb_tok_ind - 1)
 		{
 			printf("that's a good place to stop\n");

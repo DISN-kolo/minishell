@@ -6,7 +6,7 @@
 /*   By: molasz-a <molasz-a@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/28 16:48:14 by molasz-a          #+#    #+#             */
-/*   Updated: 2024/04/16 11:05:54 by akozin           ###   ########.fr       */
+/*   Updated: 2024/05/07 16:33:29 by molasz-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,51 +30,66 @@ char	*strchars(char *s, char *sep)
 	return (0);
 }
 
-static int	tokenize_split_strs(char **str, t_token **ret, int *i)
+static int	tokenize_split_strs(char **str, t_token *tokens, int *i)
 {
 	size_t	wlen;
 
-	if (ft_strchr("<>|", **str) || (**str == '&' && *(*str + 1) == '&'))
+	if (ft_strchr("<>|()", **str) || (**str == '&' && *(*str + 1) == '&'))
 	{
-		if (**str == *(*str + 1))
-			wlen = 2;
-		else
+		if (**str != *(*str + 1) || **str == '(' || **str == ')')
 			wlen = 1;
+		else
+			wlen = 2;
 	}
 	else
 	{
-		if (!strchars(*str, " \t\f\v<>|"))
+		if (!strchars(*str, " \t\f\v<>|()"))
 			wlen = ft_strlen(*str);
 		else
-			wlen = strchars(*str, " \t\f\v<>|") - *str;
+			wlen = strchars(*str, " \t\f\v<>|()") - *str;
 	}
-	(*ret)[*i].token = ft_substr(*str, 0, wlen);
-	if (!(*ret)[*i].token)
-		return (free_ret(ret));
+	tokens[*i].token = ft_substr(*str, 0, wlen);
+	if (!tokens[*i].token)
+		return (free_tokens(tokens), 1);
 	(*i)++;
 	*str += wlen;
 	return (0);
 }
 
+static void	init_tokens(t_token *tokens, int len)
+{
+	int	i;
+
+	i = 0;
+	tokens[len].token = NULL;
+	while (i < len)
+	{
+		tokens[i].literal = NULL;
+		i++;
+	}
+}
+
 t_token	*tokenize_split(char *str)
 {
-	t_token	*ret;
+	t_token	*tokens;
+	int		len;
 	int		i;
 
 	i = 0;
-	ret = malloc(sizeof (t_token) * (tokenize_count(str, " \t\f\v") + 1));
-	if (!ret)
+	len = tokenize_count(str, " \t\f\v");
+	tokens = malloc(sizeof (t_token) * (len + 1));
+	if (!tokens)
 		return (NULL);
+	init_tokens(tokens, len);
 	while (*str)
 	{
 		while (ft_strchr(" \t\f\v", *str) && *str)
 			str++;
 		if (*str)
 		{
-			if (tokenize_split_strs(&str, &ret, &i))
+			if (tokenize_split_strs(&str, tokens, &i))
 				return (NULL);
 		}
 	}
-	ret[i].token = NULL;
-	return (ret);
+	return (tokens);
 }

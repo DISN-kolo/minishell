@@ -6,7 +6,7 @@
 /*   By: molasz-a <molasz-a@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 13:34:21 by molasz-a          #+#    #+#             */
-/*   Updated: 2024/05/06 16:11:47 by molasz-a         ###   ########.fr       */
+/*   Updated: 2024/05/07 17:40:47 by molasz-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,8 +105,6 @@ int	run_cmds(t_data *data)
 	int		status;
 	pid_t	pid;
 
-	if (!data->coms)
-		return (1);
 	if (!data->coms[1].com)
 		pid = one_cmd(data);
 	else
@@ -124,5 +122,7 @@ int	run_cmds(t_data *data)
 	}
 	if (pid < 0)
 		data->status_code = 0;
+	free_coms(data->coms);
+	data->coms = NULL;
 	return (0);
 }

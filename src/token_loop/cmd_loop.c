@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 16:14:33 by akozin            #+#    #+#             */
-/*   Updated: 2024/05/06 13:42:50 by molasz-a         ###   ########.fr       */
+/*   Updated: 2024/05/07 15:57:15 by molasz-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ static int	com_malloc_safe(t_data *data, int *i)
 	data->coms[i[0]].com = malloc((i[1] + 1) * sizeof (char *));
 	if (!data->coms[i[0]].com)
 	{
-		free_coms(data);
+		free_coms(data->coms);
 		return (1);
 	}
 	return (0);
@@ -91,15 +91,15 @@ int	cmd_loop(t_data *data, t_token *tokens)
 	while (++i[0] < cmd_c)
 	{
 		if (cmd_len(tokens + i[3], i))
-			return (free_coms(data), 1);
+			return (free_coms(data->coms), 1);
 		if (com_malloc_safe(data, i))
 			return (1);
 		if (io_coms_alloc(&(data->coms[i[0]]), tokens + i[3], i[4]))
-			return (free_coms(data), 1);
+			return (free_coms(data->coms), 1);
 		data->coms[i[0]].com[i[1]] = NULL;
 		i[2] = -1;
 		if (cmd_filler(data, i, tokens))
-			return (free_coms(data), 1);
+			return (free_coms(data->coms), 1);
 		i[3] += i[2] + 1;
 	}
 	return (0);
