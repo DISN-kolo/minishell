@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 14:13:57 by akozin            #+#    #+#             */
-/*   Updated: 2024/05/01 15:06:12 by akozin           ###   ########.fr       */
+/*   Updated: 2024/05/07 12:28:57 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ static int	grab_and_write_hdoc(int fd, char *eof)
 	char	*hline;
 
 	signal(SIGINT, handle_s_hered);
-	signal(SIGTSTP, NULL);
+	signal(SIGQUIT, SIG_IGN);
 	eoflen = ft_strlen(eof);
 	hline = readline("> ");
 	while (hline && ft_strncmp(hline, eof, eoflen + 1))
@@ -42,6 +42,7 @@ static int	fake_heredoc(char *eof)
 	char	*hline;
 
 	signal(SIGINT, handle_s_hered);
+	signal(SIGQUIT, SIG_IGN);
 	eoflen = ft_strlen(eof);
 	hline = readline("> ");
 	while (hline && ft_strncmp(hline, eof, eoflen + 1))

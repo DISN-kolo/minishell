@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 16:20:41 by akozin            #+#    #+#             */
-/*   Updated: 2024/05/02 16:04:31 by akozin           ###   ########.fr       */
+/*   Updated: 2024/05/07 12:30:45 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ int		token_loop(t_data *data);
 extern int		g_err;
 void	handle_s_normal(int sig);
 void	handle_s_hered(int sig);
+void	default_sigs(void);
 
 // TOKENIZE
 void	tokenize_line(char *s, t_data *data);

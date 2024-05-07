@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 16:15:48 by akozin            #+#    #+#             */
-/*   Updated: 2024/05/02 16:01:32 by akozin           ###   ########.fr       */
+/*   Updated: 2024/05/07 12:26:53 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@
 /*
  * ctrl-c = sigint
  * ctrl-\ = sigquit
- * ctrl-z = sigstop
  */
 void	shell_loop(t_data *data)
 {
@@ -27,7 +26,6 @@ void	shell_loop(t_data *data)
 	{
 		signal(SIGINT, handle_s_normal);
 		signal(SIGQUIT, SIG_IGN);
-		signal(SIGTSTP, SIG_IGN);
 		s = readline("totally-not-bash $ ");
 		if (!s)
 			break ;
