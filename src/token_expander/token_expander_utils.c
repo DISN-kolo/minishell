@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/28 12:01:48 by akozin            #+#    #+#             */
-/*   Updated: 2024/05/07 17:33:13 by molasz-a         ###   ########.fr       */
+/*   Updated: 2024/05/08 12:00:08 by molasz-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,24 +76,4 @@ t_token	*tokens_join_free(t_token *t1, t_token *t2)
 	if (t1)
 		free_tokens(t1);
 	return (ret);
-}
-
-t_tok_s	determine_type(char *t)
-{
-	if (!ft_strncmp(t, "|", 2))
-		return (PIPE);
-	if (!ft_strncmp(t, "<", 2) || !ft_strncmp(t, ">", 2)
-		|| !ft_strncmp(t, ">>", 3))
-		return (REDIR);
-	if (!ft_strncmp(t, "<<", 3))
-		return (HDOC);
-	if (!ft_strncmp(t, "&&", 3))
-		return (AND);
-	if (!ft_strncmp(t, "||", 3))
-		return (OR);
-	if (!ft_strncmp(t, "(", 2))
-		return (O_BRACKET);
-	if (!ft_strncmp(t, ")", 2))
-		return (C_BRACKET);
-	return (TOKEN);
 }

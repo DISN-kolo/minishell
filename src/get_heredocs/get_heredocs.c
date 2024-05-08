@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 13:12:42 by akozin            #+#    #+#             */
-/*   Updated: 2024/05/01 14:48:10 by akozin           ###   ########.fr       */
+/*   Updated: 2024/05/08 12:42:00 by molasz-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ static char	*get_hd_str(t_token t)
 
 	ret = malloc(hd_str_count(t.token));
 	if (!ret)
-		return (NULL); // TODO ? or is it ok
+		return (NULL);
 	i = -1;
 	j = 0;
 	in_q = 0;
@@ -85,7 +85,7 @@ static char	*get_hd_str(t_token t)
 	return (ret);
 }
 
-static void	fill_heredocs(t_data *data)
+static int	fill_heredocs(t_data *data)
 {
 	int	j;
 	int	i;
@@ -96,24 +96,26 @@ static void	fill_heredocs(t_data *data)
 	hd_c = 0;
 	while (data->tokens[++i].token)
 	{
-		if (!ft_strncmp(data->tokens[i].token, "<<", 3))
+		if (data->tokens[i].type == HDOC)
 		{
 			data->hds[j][hd_c].str = get_hd_str(data->tokens[i + 1]);
-			data->hds[j][hd_c].latest = is_latest_hd(&data->tokens[i + 1]);
-			data->hds[j][hd_c++].expand = (strchars(data->tokens[i + 1].token,
-						"'\"") == NULL);
+			if (!data->hds[j][hd_c].str)
+				return (1);
+			data->hds[j][hd_c].expand = strchars(data->tokens[i + 1].token,
+					"'\"") == NULL;
+			data->hds[j][hd_c++].latest = is_latest_hd(&data->tokens[i + 1]);
 		}
-		if (!ft_strncmp(data->tokens[i].token, "||", 3)
-			|| !ft_strncmp(data->tokens[i].token, "&&", 3))
+		if (data->tokens[i].type == OR || data->tokens[i].type == AND)
 		{
 			data->hds[j++][hd_c].str = NULL;
 			hd_c = 0;
 		}
 	}
 	data->hds[j][hd_c].str = NULL;
+	return (0);
 }
 
-void	get_heredocs(t_data *data)
+int	get_heredocs(t_data *data)
 {
 	int	i;
 	int	cmd_c;
@@ -125,10 +127,8 @@ void	get_heredocs(t_data *data)
 			|| !ft_strncmp(data->tokens[i].token, "&&", 3);
 	cmd_c++;
 	data->hds = malloc(sizeof (t_hdoc *) * (cmd_c + 1));
-	if (!data->hds)
-		return ; // TODO
-	if (alloc_heredocs(data))
-		return ; // TODO
-	fill_heredocs(data);
+	if (!data->hds || alloc_heredocs(data) || fill_heredocs(data))
+		return (1);
 	data->hds[cmd_c] = NULL;
+	return (0);
 }

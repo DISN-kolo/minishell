@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/17 13:52:11 by akozin            #+#    #+#             */
-/*   Updated: 2024/05/07 17:34:40 by molasz-a         ###   ########.fr       */
+/*   Updated: 2024/05/08 12:02:04 by molasz-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,8 +73,6 @@ t_tok_s	nt_prev(t_token *new_tokens)
 
 int	init_te_data_linesave(int *i, t_token **new_tokens, t_data *data)
 {
-	if (data->errored)
-		return (1);
 	data->amb_tok_ind = -42;
 	data->amb_tok_name = NULL;
 	*i = 0;

@@ -6,7 +6,7 @@
 #    By: akozin <akozin@student.42barcelona.com>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/18 16:38:42 by akozin            #+#    #+#              #
-#    Updated: 2024/05/07 18:00:33 by akozin           ###   ########.fr        #
+#    Updated: 2024/05/08 12:29:01 by molasz-a         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -35,7 +35,6 @@ SRCNAMES = main.c \
 			signals/sighandlers.c \
 			tokenize/tokenize.c \
 			tokenize/tokenize_count.c \
-			tokenize/tokenize_split.c \
 			tokenize/tokenize_err_probe.c \
 			get_heredocs/get_heredocs.c \
 			get_heredocs/get_heredocs_utils.c \
@@ -54,7 +53,6 @@ SRCNAMES = main.c \
 			token_expander/dollar_expander.c \
 			token_expander/new_token_splitter.c \
 			token_expander/new_token_splitter_utils.c \
-			expand_vars.c \
 			io_redirs/io_redirs_handler.c \
 			io_redirs/heredoc_read_expand.c \
 			io_redirs/heredoc_line_dollar_subst.c \
@@ -70,6 +68,7 @@ SRCNAMES = main.c \
 			builtins/env.c \
 			builtins/exit.c \
 			enviroment.c \
+			token_utils.c \
 			free_utils.c \
 			error_utils.c
 

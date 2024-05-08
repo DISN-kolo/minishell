@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 14:13:57 by akozin            #+#    #+#             */
-/*   Updated: 2024/05/07 18:11:11 by akozin           ###   ########.fr       */
+/*   Updated: 2024/05/08 12:55:25 by molasz-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,21 +129,16 @@ int	process_heredocs(t_data *data)
 	pid_t	pid;
 	int		status;
 
-	if (data->errored)
-		return (1);
 	pid = fork();
 	if (pid == -1)
-		exit(EXIT_FAILURE);
+		return(print_perror("Fork heredocs"), 1);
 	if (pid == 0)
 		hd_fork(data, i);
-	else
-		signal(SIGINT, SIG_IGN);
-//	waitpid(pid, &status, 0);
+	signal(SIGINT, SIG_IGN);
 	wait(&status);
-//	printf("PID %d\n", status);
 	if (WIFEXITED(status))
 		return (WEXITSTATUS(status));
 	else if (WIFSIGNALED(status) && (WTERMSIG(status) == SIGINT))
-		return (EXIT_FAILURE);
-	return (EXIT_FAILURE);
+		return (1);
+	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 16:20:41 by akozin            #+#    #+#             */
-/*   Updated: 2024/05/07 18:14:00 by akozin           ###   ########.fr       */
+/*   Updated: 2024/05/08 12:44:44 by molasz-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,25 +24,28 @@
 # include "../libs/libft/libft.h"
 # include "./structs.h"
 
+extern int	g_err;
+
 // GENERAL
 void		shell_loop(t_data *data);
 int			token_loop(t_data *data);
 
-// SIGHANDLEAGE
-extern int			g_err;
+// SIGNALS
 void		handle_s_normal(int sig);
 void		handle_s_hered(int sig);
 void		default_sigs(void);
 
 // TOKENIZE
-void		tokenize_line(char *s, t_data *data);
-t_token		*tokenize_split(char *s);
-char		*strchars(char *s, char *sep);
+int			tokenize(char *s, t_data *data);
 int			tokenize_count(char *s, char *sep);
 int			tokenize_err_probe(t_token *tokens);
 
-// HEREDOC GRABBIN'
-void		get_heredocs(t_data *data);
+// TOKEN UTILS
+t_tok_s		determine_type(char *t);
+char		*strchars(char *s, char *sep);
+
+// GET HEREDOC
+int			get_heredocs(t_data *data);
 int			is_latest_hd(t_token *ts);
 
 // OPERATORS
@@ -65,7 +68,6 @@ int			dollar_exp_helper(t_token *exp_t, t_data *data,
 				t_token *c_toks, int i);
 int			dollar_expander(t_token *f_me, t_data *data, char *t, t_tok_s prev);
 void		determine_q(int *in_q, char c);
-t_tok_s		determine_type(char *t);
 t_tok_s		nt_prev(t_token *new_tokens);
 int			unlit_spaces_probe(t_token *f_me);
 char		*var_end(char *s);
@@ -77,7 +79,6 @@ char		*strchars_lit(t_token *t, int k, char *sep);
 // HEREDOC PROCESSIN'
 int			process_heredocs(t_data *data);
 char		*gen_h_fname(int *i);
-char		*ft_strjoin_free(char *b1, char *b2);
 int			heredoc_read_expand(t_data *data);
 void		hd_coords(int *hdi, int n, t_data *data);
 char		*hd_dollar_expander(char *l, t_data *data);

@@ -6,21 +6,29 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 13:27:50 by akozin            #+#    #+#             */
-/*   Updated: 2024/04/30 16:05:37 by akozin           ###   ########.fr       */
+/*   Updated: 2024/05/08 12:52:09 by molasz-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 
-char	*ft_strjoin_free(char *b1, char *b2)
+static void	on_error_free(char *c_num, char *h_num)
 {
-	char	*t;
+	if (c_num)
+		free(c_num);
+	if (h_num)
+		free(h_num);
+}
 
-	t = ft_strjoin(b1, b2);
-	if (b1)
-		free(b1);
-	b1 = NULL;
-	return (t);
+static char	*ft_strjoin_free(char *s1, char *s2)
+{
+	char	*str;
+
+	str = ft_strjoin(s1, s2);
+	if (!str)
+		return (free(s1), NULL);
+	free(s1);
+	return (str);
 }
 
 char	*gen_h_fname(int *i)
@@ -28,14 +36,20 @@ char	*gen_h_fname(int *i)
 	char	*fname;
 	char	*c_num;
 	char	*h_num;
-	
+
 	c_num = ft_itoa(i[0]);
+	if (!c_num)
+		return (NULL);
 	h_num = ft_itoa(i[1]);
-	fname = ft_strjoin("/tmp/.hdoc_temp_", c_num);
-	fname = ft_strjoin_free(fname, "_");
+	if (!h_num)
+		return (free(c_num), NULL);
+	fname = ft_strjoin3("/tmp/.hdoc_temp_", c_num, "-");
+	if (!fname)
+		return (on_error_free(c_num, h_num), NULL);
 	fname = ft_strjoin_free(fname, h_num);
+	if (!fname)
+		return (on_error_free(c_num, h_num), NULL);
 	free(c_num);
 	free(h_num);
-	printf("%s\n", fname);
 	return (fname);
 }

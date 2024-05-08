@@ -6,7 +6,7 @@
 /*   By: molasz-a <molasz-a@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/28 13:10:50 by molasz-a          #+#    #+#             */
-/*   Updated: 2024/05/07 18:01:08 by akozin           ###   ########.fr       */
+/*   Updated: 2024/05/08 12:29:59 by molasz-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,15 +73,29 @@ void	free_tree(t_cmdtree *tree)
 	}
 }
 
+void	free_heredocs(t_hdoc **heredocs)
+{
+	int	i;
+
+	i = 0;
+	while (heredocs[i]->str)
+		free(heredocs[i]->str);
+}
+
 void	data_cleaner(t_data *data)
 {
 	free_tokens(data->tokens);
 	data->tokens = NULL;
-	free_coms(data->coms);
-	data->coms = NULL;
+	free_heredocs(data->hds);
+	data->hds = NULL;
 	free_tree(data->cmdtree);
 	data->cmdtree = NULL;
-	data->errored = 0;
+	free_coms(data->coms);
+	data->coms = NULL;
+	data->hd_counter = 0;
+	data->status_code = 0;
+	data->skip_cmd = 0;
+	data->skip_brackets = 0;
 }
 
 void	free_env(t_env *env)

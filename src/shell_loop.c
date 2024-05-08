@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 16:15:48 by akozin            #+#    #+#             */
-/*   Updated: 2024/05/07 17:57:23 by akozin           ###   ########.fr       */
+/*   Updated: 2024/05/08 12:54:53 by molasz-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,24 @@
 #include "../libs/readline/readline.h"
 #include "../libs/readline/history.h"
 
-/*
- * ctrl-c = sigint
- * ctrl-\ = sigquit
- */
+static int	loop_calls(t_data *data, char *s)
+{
+	add_history(s);
+	if (tokenize(s, data))
+		return (1);
+	if (get_heredocs(data))
+		return (1);
+	if (process_heredocs(data))
+		return (1);
+	if (operators_tree(data))
+		return (1);
+	if (token_loop(data))
+		return (1);
+	return (0);
+}
+
+// ctrl-c = sigint
+// ctrl-\ = sigquit
 void	shell_loop(t_data *data)
 {
 	char	*s;
@@ -29,20 +43,9 @@ void	shell_loop(t_data *data)
 		s = readline("totally-not-bash $ ");
 		if (!s)
 			break ;
-		if (!s[0])
-		{
-			free(s);
-			continue ;
-		}
-		add_history(s);
-		tokenize_line(s, data);
+		if (loop_calls(data, s))
+			ft_putendl_fd("Run error", 2);
 		free(s);
-		data->hd_counter = 0;
-		get_heredocs(data);
-		process_heredocs(data); // TODO
-		operators_tree(data);
-		if (token_loop(data))
-			write(2, "run error\n", 10); //TODO err handeling
 		data_cleaner(data);
 	}
 	bexit(data, NULL);

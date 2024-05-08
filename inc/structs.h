@@ -6,7 +6,7 @@
 /*   By: molasz-a <molasz-a@student.42barcelona.co  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 19:37:44 by molasz-a          #+#    #+#             */
-/*   Updated: 2024/05/07 18:14:15 by akozin           ###   ########.fr       */
+/*   Updated: 2024/05/08 11:39:46 by molasz-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,6 @@ typedef struct s_data
 	int			status_code;
 	int			skip_cmd;
 	int			skip_brackets;
-	int			errored;
 	int			amb_tok_ind;
 	char		*amb_tok_name;
 	t_env		*env;
