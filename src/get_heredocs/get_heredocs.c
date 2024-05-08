@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 13:12:42 by akozin            #+#    #+#             */
-/*   Updated: 2024/05/08 12:42:00 by molasz-a         ###   ########.fr       */
+/*   Updated: 2024/05/08 15:35:03 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,10 +23,9 @@ static int	alloc_heredocs(t_data *data)
 	heredocs_c = 0;
 	while (data->tokens[++i].token)
 	{
-		if (!ft_strncmp(data->tokens[i].token, "<<", 3))
+		if (data->tokens[i].type == HDOC)
 			heredocs_c++;
-		if (!ft_strncmp(data->tokens[i].token, "||", 3)
-			|| !ft_strncmp(data->tokens[i].token, "&&", 3))
+		if (data->tokens[i].type == OR || data->tokens[i].token == AND)
 		{
 			data->hds[j] = malloc(sizeof (t_hdoc) * (heredocs_c + 1));
 			if (!data->hds[j++])
@@ -123,8 +122,7 @@ int	get_heredocs(t_data *data)
 	i = -1;
 	cmd_c = 0;
 	while (data->tokens[++i].token)
-		cmd_c += !ft_strncmp(data->tokens[i].token, "||", 3)
-			|| !ft_strncmp(data->tokens[i].token, "&&", 3);
+		cmd_c += data->tokens[i].type == OR || data->tokens[i].type == AND;
 	cmd_c++;
 	data->hds = malloc(sizeof (t_hdoc *) * (cmd_c + 1));
 	if (!data->hds || alloc_heredocs(data) || fill_heredocs(data))
