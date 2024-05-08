@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/01 14:45:13 by akozin            #+#    #+#             */
-/*   Updated: 2024/05/08 12:33:17 by molasz-a         ###   ########.fr       */
+/*   Updated: 2024/05/08 16:59:41 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,11 +19,9 @@ int	is_latest_hd(t_token *ts)
 	i = 0;
 	while (ts[i].token)
 	{
-		if (!ft_strncmp(ts[i].token, "|", 2)
-			|| !ft_strncmp(ts[i].token, "||", 3)
-			|| !ft_strncmp(ts[i].token, "&&", 3))
+		if (ts[i].type == PIPE || ts[i].type == OR || ts[i].type == AND)
 			return (1);
-		if (!ft_strncmp(ts[i].token, "<<", 3))
+		else if (ts[i].type == HDOC)
 			return (0);
 		i++;
 	}

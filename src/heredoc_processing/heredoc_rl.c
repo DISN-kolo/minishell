@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 14:13:57 by akozin            #+#    #+#             */
-/*   Updated: 2024/05/08 15:46:36 by akozin           ###   ########.fr       */
+/*   Updated: 2024/05/08 17:39:43 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,17 +23,17 @@ static int	grab_and_write_hdoc(int fd, char *eof)
 	hline = NULL;
 	while (1)
 	{
+		if (hline && !ft_strncmp(hline, eof, eoflen + 1))
+			break ;
 		if (hline && write(fd, hline, ft_strlen(hline)) == -1)
 			return (1);
 		if (hline && write(fd, "\n", 1) == -1)
 			return (1);
-		if (hline && !ft_strncmp(hline, eof, eoflen + 1))
-			break ;
 		if (hline)
 			free(hline);
 		hline = readline("> ");
 		if (!hline)
-			return (1);
+			return (0);
 	}
 	if (hline)
 		free(hline);
@@ -93,7 +93,7 @@ static int	process_heredoc(t_data *data, int *i)
 		printf("fake heredoc failed\n");
 		exit(1);
 	}
-	exit(0);
+	return (0);
 }
 
 static int	hd_fork(t_data *data, int *i)
@@ -138,8 +138,16 @@ int	process_heredocs(t_data *data)
 		signal(SIGINT, SIG_IGN);
 	wait(&status);
 	if (WIFEXITED(status))
+	{
+		printf("WIFEXITED(%d)\n\n", status);
+		if (status == 256)
+			data->status_code = 1;
 		return (WEXITSTATUS(status));
+	}
 	else if (WIFSIGNALED(status) && (WTERMSIG(status) == SIGINT))
+	{
+		printf("WIFSIGNALED\n\n\n\n");
 		return (1);
+	}
 	return (0);
 }
