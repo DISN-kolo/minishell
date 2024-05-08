@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 14:13:57 by akozin            #+#    #+#             */
-/*   Updated: 2024/05/08 13:03:46 by akozin           ###   ########.fr       */
+/*   Updated: 2024/05/08 15:46:36 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,7 +134,8 @@ int	process_heredocs(t_data *data)
 		return(print_perror("Fork heredocs", 1), 1);
 	if (pid == 0)
 		hd_fork(data, i);
-	signal(SIGINT, SIG_IGN);
+	else
+		signal(SIGINT, SIG_IGN);
 	wait(&status);
 	if (WIFEXITED(status))
 		return (WEXITSTATUS(status));

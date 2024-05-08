@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 13:12:42 by akozin            #+#    #+#             */
-/*   Updated: 2024/05/08 15:37:57 by akozin           ###   ########.fr       */
+/*   Updated: 2024/05/08 15:40:01 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,9 +100,9 @@ static int	fill_heredocs(t_data *data)
 			data->hds[j][hd_c].str = get_hd_str(data->tokens[i + 1]);
 			if (!data->hds[j][hd_c].str)
 				return (1);
-			data->hds[j][hd_c].expand = strchars(data->tokens[i + 1].token,
+			data->hds[j][hd_c].latest = is_latest_hd(&data->tokens[i + 1]);
+			data->hds[j][hd_c++].expand = strchars(data->tokens[i + 1].token,
 					"'\"") == NULL;
-			data->hds[j][hd_c++].latest = is_latest_hd(&data->tokens[i + 1]);
 		}
 		if (data->tokens[i].type == OR || data->tokens[i].type == AND)
 		{
