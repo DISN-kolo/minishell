@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 13:12:42 by akozin            #+#    #+#             */
-/*   Updated: 2024/05/08 15:35:03 by akozin           ###   ########.fr       */
+/*   Updated: 2024/05/08 15:37:57 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ static int	alloc_heredocs(t_data *data)
 	{
 		if (data->tokens[i].type == HDOC)
 			heredocs_c++;
-		if (data->tokens[i].type == OR || data->tokens[i].token == AND)
+		if (data->tokens[i].type == OR || data->tokens[i].type == AND)
 		{
 			data->hds[j] = malloc(sizeof (t_hdoc) * (heredocs_c + 1));
 			if (!data->hds[j++])
