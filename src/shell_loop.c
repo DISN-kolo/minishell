@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 16:15:48 by akozin            #+#    #+#             */
-/*   Updated: 2024/05/08 16:22:17 by akozin           ###   ########.fr       */
+/*   Updated: 2024/05/08 17:02:59 by molasz-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@ static int	loop_calls(t_data *data, char *s)
 	add_history(s);
 	if (tokenize(s, data))
 		return (1);
+	if (!data->tokens[0].token)
+		return (0);
 	if (get_heredocs(data))
 		return (1);
 	if (process_heredocs(data))
@@ -44,7 +46,7 @@ void	shell_loop(t_data *data)
 		if (!s)
 			break ;
 		if (loop_calls(data, s))
-			ft_putendl_fd("Run error", 2);
+			ft_putendl_fd("System error", 2);
 		free(s);
 		data_cleaner(data);
 	}

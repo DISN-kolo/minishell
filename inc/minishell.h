@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 16:20:41 by akozin            #+#    #+#             */
-/*   Updated: 2024/05/08 12:44:44 by molasz-a         ###   ########.fr       */
+/*   Updated: 2024/05/08 18:34:00 by molasz-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,5 +120,6 @@ void		free_env(t_env *env);
 // ERROR UTILS
 void		print_error(char *cmd, char *var, char *error);
 void		print_perror(char *msg, int error);
+void		tokenize_error(char *token);
 
 #endif

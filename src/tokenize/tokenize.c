@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 17:16:20 by akozin            #+#    #+#             */
-/*   Updated: 2024/05/08 12:04:25 by molasz-a         ###   ########.fr       */
+/*   Updated: 2024/05/08 17:46:34 by molasz-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,10 +81,11 @@ int	tokenize(char *s, t_data *data)
 	int	i;
 
 	data->tokens = tokenize_split(s);
-	i = -1;
-	if (!data->tokens || tokenize_err_probe(data->tokens))
+	if (!data->tokens)
 		return (1);
+	i = -1;
 	while (data->tokens[++i].token)
 		data->tokens[i].type = determine_type(data->tokens[i].token);
+	tokenize_err_probe(data->tokens);
 	return (0);
 }
