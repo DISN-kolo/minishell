@@ -6,7 +6,7 @@
 /*   By: molasz-a <molasz-a@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/28 13:10:50 by molasz-a          #+#    #+#             */
-/*   Updated: 2024/05/08 12:29:59 by molasz-a         ###   ########.fr       */
+/*   Updated: 2024/05/08 16:23:37 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,10 +76,19 @@ void	free_tree(t_cmdtree *tree)
 void	free_heredocs(t_hdoc **heredocs)
 {
 	int	i;
+	int	j;
 
+	if (!heredocs)
+		return ;
 	i = 0;
-	while (heredocs[i]->str)
-		free(heredocs[i]->str);
+	while (heredocs[i])
+	{
+		j = 0;
+		while (heredocs[i][j].str)
+			free(heredocs[i][j++].str);
+		free(heredocs[i++]);
+	}
+	free(heredocs);
 }
 
 void	data_cleaner(t_data *data)
