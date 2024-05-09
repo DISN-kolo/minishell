@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/30 12:33:56 by akozin            #+#    #+#             */
-/*   Updated: 2024/05/09 13:24:06 by akozin           ###   ########.fr       */
+/*   Updated: 2024/05/09 15:29:27 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,8 @@ int	heredoc_read_expand(t_data *data)
 	if (data->hds[hdi[0]][hdi[1]].expand)
 	{
 		fname = ft_strjoin_free(fname, "_exp");
-		susfd = open(fname, O_WRONLY, O_CREAT | O_TRUNC);
+		susfd = open(fname, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+		printf("susfd = %d\n", susfd);
 	}
 	curline = get_next_line(hdfd);
 	while (curline)
@@ -68,7 +69,7 @@ int	heredoc_read_expand(t_data *data)
 			curline = hd_dollar_expander(curline, data);
 			printf("sussed:\n'%s'\n", curline);
 			if (write(susfd, curline, ft_strlen(curline)) == -1)
-				return (-1);
+				return (printf("write failed in heredoc sust\n"), -1);
 		}
 		free(curline);
 		curline = get_next_line(hdfd);

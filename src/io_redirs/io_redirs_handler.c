@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/23 13:58:31 by akozin            #+#    #+#             */
-/*   Updated: 2024/05/01 16:56:41 by akozin           ###   ########.fr       */
+/*   Updated: 2024/05/09 15:18:12 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,7 @@ int	open_everything(t_data *data)
 					hd_coords(j, data->hd_counter, data);
 					if (data->hds[j[0]][j[1]].latest)
 						fi = heredoc_read_expand(data); // TODO can return -2
+					printf("and the returned fi (if returned at all) was %d\n", fi);
 					data->hd_counter++;
 				}
 				else
