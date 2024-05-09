@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 16:15:48 by akozin            #+#    #+#             */
-/*   Updated: 2024/05/09 14:34:50 by molasz-a         ###   ########.fr       */
+/*   Updated: 2024/05/09 15:24:04 by molasz-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ static t_error	loop_calls(t_data *data, char *s)
 {
 	t_error	error;
 
+	data->stop_hdoc = -1;
 	add_history(s);
 	error = tokenize(s, data);
 	if (error >= MALLOC_ERR)
