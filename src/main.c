@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 12:06:29 by akozin            #+#    #+#             */
-/*   Updated: 2024/05/08 11:39:48 by molasz-a         ###   ########.fr       */
+/*   Updated: 2024/05/09 13:25:36 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ static int	init_data(t_data *data, char **envp)
 	data->cmdtree = NULL;
 	data->coms = NULL;
 	data->hds = NULL;
+	data->hd_counter = 0;
 	data->status_code = 0;
 	data->skip_cmd = 0;
 	data->skip_brackets = 0;

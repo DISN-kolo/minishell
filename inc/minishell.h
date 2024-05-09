@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 16:20:41 by akozin            #+#    #+#             */
-/*   Updated: 2024/05/08 12:44:44 by molasz-a         ###   ########.fr       */
+/*   Updated: 2024/05/09 13:10:33 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,5 +120,8 @@ void		free_env(t_env *env);
 // ERROR UTILS
 void		print_error(char *cmd, char *var, char *error);
 void		print_perror(char *msg, int error);
+
+// MISC
+char		*ft_strjoin_free(char *s1, char *s2);
 
 #endif
