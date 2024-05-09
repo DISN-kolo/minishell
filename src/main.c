@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 12:06:29 by akozin            #+#    #+#             */
-/*   Updated: 2024/05/08 11:39:48 by molasz-a         ###   ########.fr       */
+/*   Updated: 2024/05/09 14:02:09 by molasz-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ static int	init_data(t_data *data, char **envp)
 	data->status_code = 0;
 	data->skip_cmd = 0;
 	data->skip_brackets = 0;
+	data->stop_hdoc = -1;
 	data->std_in = dup(0);
 	data->std_out = dup(1);
 	if (data->std_in < 0 || data->std_out < 0)

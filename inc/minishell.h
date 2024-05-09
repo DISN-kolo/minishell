@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 16:20:41 by akozin            #+#    #+#             */
-/*   Updated: 2024/05/08 18:34:00 by molasz-a         ###   ########.fr       */
+/*   Updated: 2024/05/09 13:07:35 by molasz-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,16 +36,16 @@ void		handle_s_hered(int sig);
 void		default_sigs(void);
 
 // TOKENIZE
-int			tokenize(char *s, t_data *data);
+t_error		tokenize(char *s, t_data *data);
 int			tokenize_count(char *s, char *sep);
-int			tokenize_err_probe(t_token *tokens);
+int			tokenize_err_probe(t_data *data, t_token *tokens);
 
 // TOKEN UTILS
 t_tok_s		determine_type(char *t);
 char		*strchars(char *s, char *sep);
 
 // GET HEREDOC
-int			get_heredocs(t_data *data);
+t_error		get_heredocs(t_data *data);
 int			is_latest_hd(t_token *ts);
 
 // OPERATORS

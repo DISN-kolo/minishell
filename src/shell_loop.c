@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 16:15:48 by akozin            #+#    #+#             */
-/*   Updated: 2024/05/08 17:02:59 by molasz-a         ###   ########.fr       */
+/*   Updated: 2024/05/09 14:34:50 by molasz-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,21 +14,38 @@
 #include "../libs/readline/readline.h"
 #include "../libs/readline/history.h"
 
-static int	loop_calls(t_data *data, char *s)
+static void	handle_errors(t_error error)
 {
+	if (error == MALLOC_ERR)
+		print_perror("MALLOC error", -1);
+	else if (error == FORK_ERR)
+		print_perror("FORK error", -1);
+}
+
+static t_error	loop_calls(t_data *data, char *s)
+{
+	t_error	error;
+
 	add_history(s);
-	if (tokenize(s, data))
-		return (1);
+	error = tokenize(s, data);
+	if (error >= MALLOC_ERR)
+		return (error);
 	if (!data->tokens[0].token)
-		return (0);
-	if (get_heredocs(data))
-		return (1);
-	if (process_heredocs(data))
-		return (1);
-	if (operators_tree(data))
-		return (1);
-	if (token_loop(data))
-		return (1);
+		return (NULL_ERR);
+	error = get_heredocs(data);
+	if (error >= MALLOC_ERR)
+		return (error);
+	error = process_heredocs(data);
+	if (error >= MALLOC_ERR)
+		return (error);
+	if (data->stop_hdoc != -1)
+		return (NULL_ERR);
+	error = operators_tree(data);
+	if (error >= MALLOC_ERR)
+		return (error);
+	error = token_loop(data);
+	if (error >= MALLOC_ERR)
+		return (error);
 	return (0);
 }
 
@@ -36,6 +53,7 @@ static int	loop_calls(t_data *data, char *s)
 // ctrl-\ = sigquit
 void	shell_loop(t_data *data)
 {
+	t_error	error;
 	char	*s;
 
 	while (1)
@@ -45,8 +63,8 @@ void	shell_loop(t_data *data)
 		s = readline("totally-not-bash $ ");
 		if (!s)
 			break ;
-		if (loop_calls(data, s))
-			ft_putendl_fd("System error", 2);
+		error = loop_calls(data, s);
+		handle_errors(error);
 		free(s);
 		data_cleaner(data);
 	}

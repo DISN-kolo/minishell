@@ -6,7 +6,7 @@
 /*   By: molasz-a <molasz-a@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/29 12:12:58 by molasz-a          #+#    #+#             */
-/*   Updated: 2024/05/08 18:33:44 by molasz-a         ###   ########.fr       */
+/*   Updated: 2024/05/09 12:40:29 by molasz-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void	print_perror(char *msg, int error)
 
 void	tokenize_error(char *token)
 {
-	ft_putstr_fd("minishell: syntax error near unexpected token '", 2);
+	ft_putstr_fd("minishell: syntax error near unexpected token `", 2);
 	ft_putstr_fd(token, 2);
 	ft_putendl_fd("'", 2);
 }
