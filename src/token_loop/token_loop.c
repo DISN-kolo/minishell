@@ -6,21 +6,21 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 14:59:19 by akozin            #+#    #+#             */
-/*   Updated: 2024/05/07 17:57:06 by akozin           ###   ########.fr       */
+/*   Updated: 2024/05/10 12:20:56 by molasz-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 
-int	run_cmd(t_data *data, t_cmdtree *tree)
+int	run_tokens(t_data *data, t_token *tokens)
 {
-	t_token	*tokens;
+	t_token	*new_tokens;
 	int		open_error;
 
-	tokens = token_expander(data, tree->tokens);
-	if (!tokens)
+	new_tokens = token_expander(data, tokens);
+	if (!new_tokens)
 		return (1);
-	cmd_loop(data, tokens);
+	cmd_loop(data, new_tokens);
 	open_error = open_everything(data);
 	if (!open_error)
 	{
@@ -35,35 +35,27 @@ int	run_cmd(t_data *data, t_cmdtree *tree)
 	return (0);
 }
 
-static int	btree_apply_infix(t_data *data, t_cmdtree *root)
+int	token_recursive_loop(t_data *data, t_token *tokens)
 {
-	if (root)
+	t_token	**token_list;
+	int	i;
+
+	token_list = create_tokens_list(tokens);
+	if (!token_list)
+		return (1);
+	i = 0;
+	while (token_list[i])
 	{
-		if (btree_apply_infix(data, root->left))
-			return (1);
-		if (root->tokens[0].type != AND && root->tokens[0].type != OR
-			&& !data->skip_cmd && data->skip_brackets <= root->brackets
-			&& run_cmd(data, root))
-			return (1);
-		if (root->tokens[0].type != AND && root->tokens[0].type != OR
-			&& data->skip_cmd && data->skip_brackets >= root->brackets)
-			data->skip_cmd = 0;
-		if ((root->tokens[0].type == AND && data->status_code)
-			|| (root->tokens[0].type == OR && !data->status_code))
-		{
-			data->skip_cmd = 1;
-			data->skip_brackets = root->brackets;
-		}
-		if (btree_apply_infix(data, root->right))
-			return (1);
+		if (run_tokens(data, token_list[i]))
+			return (free_tokens_list(token_list), 1);
 	}
+	free_tokens_list(token_list);
 	return (0);
 }
 
 int	token_loop(t_data *data)
 {
-	if (btree_apply_infix(data, data->cmdtree))
-		return (1); // TODO control errors
-	data->skip_brackets = 0;
+	if (token_recursive_loop(data, data->tokens))
+		return (MALLOC_ERR);
 	return (0);
 }

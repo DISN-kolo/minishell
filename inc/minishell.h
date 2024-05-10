@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 16:20:41 by akozin            #+#    #+#             */
-/*   Updated: 2024/05/09 13:07:35 by molasz-a         ###   ########.fr       */
+/*   Updated: 2024/05/10 12:09:21 by molasz-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,8 +49,7 @@ t_error		get_heredocs(t_data *data);
 int			is_latest_hd(t_token *ts);
 
 // OPERATORS
-int			operators_tree(t_data *data);
-t_cmdtree	*cmdtree_create(t_token *tokens);
+t_token		**create_tokens_list(t_token *tokens);
 
 // TOKEN LOOP UTILS
 int			io_coms_alloc(t_com *coms, t_token *tokens, int u);
@@ -114,6 +113,7 @@ void		bexit(t_data *data, char **args);
 void		data_cleaner(t_data *data);
 void		free_double(char **p);
 void		free_tokens(t_token *tokens);
+void		free_tokens_list(t_token **tokens);
 void		free_coms(t_com *coms);
 void		free_env(t_env *env);
 

@@ -6,7 +6,7 @@
 /*   By: molasz-a <molasz-a@student.42barcelona.co  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 19:37:44 by molasz-a          #+#    #+#             */
-/*   Updated: 2024/05/09 12:53:12 by molasz-a         ###   ########.fr       */
+/*   Updated: 2024/05/10 11:26:12 by molasz-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,18 +80,10 @@ typedef struct s_hdoc
 	int		expand;
 }	t_hdoc;
 
-typedef struct s_cmdtree
-{
-	struct s_cmdtree	*left;
-	struct s_cmdtree	*right;
-	t_token				*tokens;
-	int					brackets;
-}	t_cmdtree;
-
 typedef struct s_data
 {
 	t_token		*tokens;
-	t_cmdtree	*cmdtree;
+	t_token		**token_list;
 	t_com		*coms;
 	t_hdoc		**hds;
 	int			hd_counter;

@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 12:06:29 by akozin            #+#    #+#             */
-/*   Updated: 2024/05/09 14:02:09 by molasz-a         ###   ########.fr       */
+/*   Updated: 2024/05/10 11:27:11 by molasz-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int	g_err;
 static int	init_data(t_data *data, char **envp)
 {
 	data->tokens = NULL;
-	data->cmdtree = NULL;
+	data->token_list = NULL;
 	data->coms = NULL;
 	data->hds = NULL;
 	data->status_code = 0;
