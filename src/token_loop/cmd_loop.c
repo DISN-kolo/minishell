@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 16:14:33 by akozin            #+#    #+#             */
-/*   Updated: 2024/05/07 15:57:15 by molasz-a         ###   ########.fr       */
+/*   Updated: 2024/05/10 13:54:16 by molasz-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,14 +15,20 @@
 static int	cmd_count(t_token *tokens)
 {
 	int	count;
+	int	brackets;
 	int	i;
 
 	count = 1;
+	brackets = 0;
 	i = 0;
 	while (tokens[i].token)
 	{
-		if (tokens[i].type == PIPE)
+		if (!brackets && tokens[i].type == PIPE)
 			count++;
+		else if (tokens[i].type == O_BRACKET)
+			brackets++;
+		else if (tokens[i].type == C_BRACKET)
+			brackets--;
 		i++;
 	}
 	return (count);
@@ -36,15 +42,21 @@ static int	cmd_len(t_token *tokens, int *i)
 {
 	int	j;
 	int	count;
+	int	brackets;
 
 	j = 0;
 	count = 0;
-	while (tokens[j].token && tokens[j].type != PIPE)
+	brackets = 0;
+	while (tokens[j].token && (tokens[j].type != PIPE && !brackets))
 	{
 		count += (tokens[j].type == TOKEN);
 		j += (tokens[j].type == REDIR || tokens[j].type == HDOC);
 		if (!tokens[j].token)
 			break ;
+		else if (tokens[j].type == O_BRACKET)
+			brackets++;
+		else if (tokens[j].type == C_BRACKET)
+			brackets--;
 		j++;
 	}
 	if (count == 0)
@@ -76,31 +88,32 @@ static int	com_malloc_safe(t_data *data, int *i)
  *     for that, they're allocated first in io_coms_alloc, and then
  *     pasted into within com_filler func.
  */
-int	cmd_loop(t_data *data, t_token *tokens)
+t_com	*cmd_loop(t_data *data, t_token *tokens)
 {
-	int	cmd_c;
-	int	i[5];
+	t_com	*cmds;
+	int		cmd_c;
+	int		i[5];
 
 	cmd_c = cmd_count(tokens);
-	data->coms = malloc((cmd_c + 1) * sizeof (t_com));
-	if (!data->coms)
-		return (1);
-	data->coms[cmd_c].com = NULL;
+	cmds = malloc((cmd_c + 1) * sizeof (t_com));
+	if (!cmds)
+		return (NULL);
+	cmds[cmd_c].com = NULL;
 	i[0] = -1;
 	i[3] = 0;
 	while (++i[0] < cmd_c)
 	{
 		if (cmd_len(tokens + i[3], i))
-			return (free_coms(data->coms), 1);
+			return (free_coms(cmds), NULL);
 		if (com_malloc_safe(data, i))
-			return (1);
-		if (io_coms_alloc(&(data->coms[i[0]]), tokens + i[3], i[4]))
-			return (free_coms(data->coms), 1);
-		data->coms[i[0]].com[i[1]] = NULL;
+			return (NULL);
+		if (io_coms_alloc(cmds + i[0], tokens + i[3], i[4]))
+			return (free_coms(cmds), NULL);
+		cmds[i[0]].com[i[1]] = NULL;
 		i[2] = -1;
 		if (cmd_filler(data, i, tokens))
-			return (free_coms(data->coms), 1);
+			return (free_coms(cmds), NULL);
 		i[3] += i[2] + 1;
 	}
-	return (0);
+	return (cmds);
 }

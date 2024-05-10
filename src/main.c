@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 12:06:29 by akozin            #+#    #+#             */
-/*   Updated: 2024/05/10 11:27:11 by molasz-a         ###   ########.fr       */
+/*   Updated: 2024/05/10 12:43:17 by molasz-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,12 +17,9 @@ int	g_err;
 static int	init_data(t_data *data, char **envp)
 {
 	data->tokens = NULL;
-	data->token_list = NULL;
 	data->coms = NULL;
 	data->hds = NULL;
 	data->status_code = 0;
-	data->skip_cmd = 0;
-	data->skip_brackets = 0;
 	data->stop_hdoc = -1;
 	data->std_in = dup(0);
 	data->std_out = dup(1);

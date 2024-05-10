@@ -6,7 +6,7 @@
 /*   By: molasz-a <molasz-a@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/03 12:20:47 by molasz-a          #+#    #+#             */
-/*   Updated: 2024/05/10 12:09:40 by molasz-a         ###   ########.fr       */
+/*   Updated: 2024/05/10 12:56:43 by molasz-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,11 +54,6 @@ static t_token	*tokens_list(t_token *tokens, int len)
 	t_token	*new_tokens;
 	int		i;
 
-	if (tokens[0].type == O_BRACKET && tokens[len - 1].type == C_BRACKET)
-	{
-		tokens++;
-		len -= 2;
-	}
 	new_tokens = malloc((len + 1) * sizeof (t_token));
 	if (!new_tokens)
 		return (NULL);

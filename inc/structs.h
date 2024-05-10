@@ -6,7 +6,7 @@
 /*   By: molasz-a <molasz-a@student.42barcelona.co  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 19:37:44 by molasz-a          #+#    #+#             */
-/*   Updated: 2024/05/10 11:26:12 by molasz-a         ###   ########.fr       */
+/*   Updated: 2024/05/10 12:43:06 by molasz-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,15 +83,12 @@ typedef struct s_hdoc
 typedef struct s_data
 {
 	t_token		*tokens;
-	t_token		**token_list;
 	t_com		*coms;
 	t_hdoc		**hds;
 	int			hd_counter;
 	int			std_in;
 	int			std_out;
 	int			status_code;
-	int			skip_cmd;
-	int			skip_brackets;
 	int			stop_hdoc;
 	int			amb_tok_ind;
 	char		*amb_tok_name;
