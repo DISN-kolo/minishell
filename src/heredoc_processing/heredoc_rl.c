@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 14:13:57 by akozin            #+#    #+#             */
-/*   Updated: 2024/05/13 12:37:35 by akozin           ###   ########.fr       */
+/*   Updated: 2024/05/13 16:11:24 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ static int	process_heredoc(t_data *data, int *i)
 	if (data->hds[i[0]][i[1]].latest)
 	{
 		fname = gen_h_fname(i);
-		fd = open(fname, O_WRONLY | O_CREAT | O_TRUNC);
+		fd = open(fname, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 		if (fd == -1)
 			exit(1);
 		if (grab_and_write_hdoc(fd, data->hds[i[0]][i[1]].str))

@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/23 13:58:31 by akozin            #+#    #+#             */
-/*   Updated: 2024/05/13 15:17:44 by akozin           ###   ########.fr       */
+/*   Updated: 2024/05/13 15:44:49 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,20 +16,20 @@ static int	infile_handling(t_data *data, int *i, int *fio)
 {
 	int	j[2];
 
-	if (fio[1] != -42)
-		close(fio[1]);
+	if (fio[0] != -42)
+		close(fio[0]);
 	if (data->coms[i[0]].ios[i[1]].dub)
 	{
 		hd_coords(j, data->hd_counter, data);
 		if (data->hds[j[0]][j[1]].latest)
-			fio[1] = heredoc_read_expand(data); // TODO can return -2
+			fio[0] = heredoc_read_expand(data); // TODO can return -2
 		data->hd_counter++;
 	}
 	else
-		fio[1] = open(data->coms[i[0]].ios[i[1]].fname, O_RDONLY);
-	if (fio[1] == -1)
+		fio[0] = open(data->coms[i[0]].ios[i[1]].fname, O_RDONLY);
+	if (fio[0] == -1)
 		return (-2); // TODO non-fatal error, such as "no such file or directory"
-	else if (fio[1] == -2)
+	else if (fio[0] == -2)
 		return (-1); // TODO fatal error(?). someone screwed our heredoc tmp file!
 	return (0);
 }
