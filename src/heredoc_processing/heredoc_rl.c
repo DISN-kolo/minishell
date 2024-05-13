@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 14:13:57 by akozin            #+#    #+#             */
-/*   Updated: 2024/05/13 16:11:24 by akozin           ###   ########.fr       */
+/*   Updated: 2024/05/13 16:39:55 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,16 +87,12 @@ static int	wifstuff(int status, t_data *data)
 {
 	if (WIFEXITED(status))
 	{
-		printf("WIFEXITED(%d)\n\n", status);
 		if (status == 256)
 			data->status_code = 1;
 		return (WEXITSTATUS(status));
 	}
 	else if (WIFSIGNALED(status) && (WTERMSIG(status) == SIGINT))
-	{
-		printf("WIFSIGNALED\n\n\n\n");
 		return (1);
-	}
 	return (0);
 }
 
