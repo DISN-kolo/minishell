@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/30 12:33:56 by akozin            #+#    #+#             */
-/*   Updated: 2024/05/09 15:29:27 by akozin           ###   ########.fr       */
+/*   Updated: 2024/05/13 15:22:21 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,24 +52,20 @@ int	heredoc_read_expand(t_data *data)
 
 	hd_coords(hdi, data->hd_counter, data);
 	fname = gen_h_fname(hdi);
-	printf("HEREDOC fname: '%s', on %d (which is %2d %2d)\n", fname, data->hd_counter, hdi[0], hdi[1]);
 	hdfd = open(fname, O_RDONLY);
 	if (data->hds[hdi[0]][hdi[1]].expand)
 	{
 		fname = ft_strjoin_free(fname, "_exp");
 		susfd = open(fname, O_WRONLY | O_CREAT | O_TRUNC, 0644);
-		printf("susfd = %d\n", susfd);
 	}
 	curline = get_next_line(hdfd);
 	while (curline)
 	{
-		printf("gnl from(or almost) %s:\n'%s'\n", fname, curline);
 		if (data->hds[hdi[0]][hdi[1]].expand)
 		{
 			curline = hd_dollar_expander(curline, data);
-			printf("sussed:\n'%s'\n", curline);
 			if (write(susfd, curline, ft_strlen(curline)) == -1)
-				return (printf("write failed in heredoc sust\n"), -1);
+				return (print_perror("Write failed in hdoc sust\n", -1), -1); // TODO check err code
 		}
 		free(curline);
 		curline = get_next_line(hdfd);
@@ -80,5 +76,6 @@ int	heredoc_read_expand(t_data *data)
 	if (data->hds[hdi[0]][hdi[1]].expand)
 		close(susfd);
 	hdfd = open(fname, O_RDONLY);
+	free(fname);
 	return (hdfd);
 }

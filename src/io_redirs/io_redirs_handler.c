@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/23 13:58:31 by akozin            #+#    #+#             */
-/*   Updated: 2024/05/13 15:07:26 by akozin           ###   ########.fr       */
+/*   Updated: 2024/05/13 15:17:44 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,8 +106,9 @@ int	open_everything(t_data *data)
 		while (data->coms[i[0]].ios[i[1]].fname)
 		{
 			if (data->coms[i[0]].ios[i[1]].amb
-					|| i[1] == data->coms[i[0]].amb_redir_ind)
-				break ; // TODO aight, stop
+				|| i[1] == data->coms[i[0]].amb_redir_ind)
+				break ;
+			// TODO aight, stop
 			retcode = io_decide_handle(data, i, fio);
 			if (retcode)
 				return (retcode);
