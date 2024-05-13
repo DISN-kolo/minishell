@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 16:20:41 by akozin            #+#    #+#             */
-/*   Updated: 2024/05/09 13:10:33 by akozin           ###   ########.fr       */
+/*   Updated: 2024/05/13 12:18:39 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,7 @@ char		*strchars_lit(t_token *t, int k, char *sep);
 int			process_heredocs(t_data *data);
 char		*gen_h_fname(int *i);
 int			heredoc_read_expand(t_data *data);
+int			fake_heredoc(char *eof);
 void		hd_coords(int *hdi, int n, t_data *data);
 char		*hd_dollar_expander(char *l, t_data *data);
 

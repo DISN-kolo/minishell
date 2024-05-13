@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 14:13:57 by akozin            #+#    #+#             */
-/*   Updated: 2024/05/09 12:31:57 by akozin           ###   ########.fr       */
+/*   Updated: 2024/05/13 12:21:23 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,28 +40,6 @@ static int	grab_and_write_hdoc(int fd, char *eof)
 	return (0);
 }
 
-static int	fake_heredoc(char *eof)
-{
-	int		eoflen;
-	char	*hline;
-
-	eoflen = ft_strlen(eof);
-	hline = NULL;
-	while (1)
-	{
-		if (hline && !ft_strncmp(hline, eof, eoflen + 1))
-			break ;
-		if (hline)
-			free(hline);
-		hline = readline("> ");
-		if (!hline)
-			return (1);
-	}
-	if (hline)
-		free(hline);
-	return (0);
-}
-
 static int	process_heredoc(t_data *data, int *i)
 {
 	int		fd;
@@ -69,30 +47,20 @@ static int	process_heredoc(t_data *data, int *i)
 
 	if (data->hds[i[0]][i[1]].latest)
 	{
-		printf("data->hds[%2d][%2d].str = '%s', exp: %d\n", i[0], i[1], data->hds[i[0]][i[1]].str, data->hds[i[0]][i[1]].expand);
 		fname = gen_h_fname(i);
-		if (access(fname, F_OK) == 0)
-			printf("why do we have the %s file already?\n", fname);
 		fd = open(fname, O_WRONLY | O_CREAT | O_TRUNC);
 		if (fd == -1)
-		{
-			printf("open errorred on %s\n", fname);
 			exit(1);
-		}
 		if (grab_and_write_hdoc(fd, data->hds[i[0]][i[1]].str))
 		{
 			close(fd);
-			printf("write failed\n");
 			exit(1);
 		}
 		close(fd);
 		free(fname);
 	}
 	else if (fake_heredoc(data->hds[i[0]][i[1]].str))
-	{
-		printf("fake heredoc failed\n");
 		exit(1);
-	}
 	return (0);
 }
 
@@ -110,10 +78,26 @@ static int	hd_fork(t_data *data, int *i)
 				exit(1);
 			i[1]++;
 		}
-		printf("== one heredoc processed...\n");
 		i[0]++;
 	}
 	exit(0);
+}
+
+static int	wifstuff(int status, t_data *data)
+{
+	if (WIFEXITED(status))
+	{
+		printf("WIFEXITED(%d)\n\n", status);
+		if (status == 256)
+			data->status_code = 1;
+		return (WEXITSTATUS(status));
+	}
+	else if (WIFSIGNALED(status) && (WTERMSIG(status) == SIGINT))
+	{
+		printf("WIFSIGNALED\n\n\n\n");
+		return (1);
+	}
+	return (0);
 }
 
 /*
@@ -129,25 +113,15 @@ int	process_heredocs(t_data *data)
 	pid_t	pid;
 	int		status;
 
+	if (!data->hds[0])
+		return (0);
 	pid = fork();
 	if (pid == -1)
-		return(print_perror("Fork heredocs", 1), 1);
+		return (print_perror("Fork heredocs", 1), 1);
 	if (pid == 0)
 		hd_fork(data, i);
 	else
 		signal(SIGINT, SIG_IGN);
 	wait(&status);
-	if (WIFEXITED(status))
-	{
-		printf("WIFEXITED(%d)\n\n", status);
-		if (status == 256)
-			data->status_code = 1;
-		return (WEXITSTATUS(status));
-	}
-	else if (WIFSIGNALED(status) && (WTERMSIG(status) == SIGINT))
-	{
-		printf("WIFSIGNALED\n\n\n\n");
-		return (1);
-	}
-	return (0);
+	return (wifstuff(status, data));
 }
