@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 14:13:57 by akozin            #+#    #+#             */
-/*   Updated: 2024/05/13 12:21:23 by akozin           ###   ########.fr       */
+/*   Updated: 2024/05/13 12:37:35 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,8 +113,6 @@ int	process_heredocs(t_data *data)
 	pid_t	pid;
 	int		status;
 
-	if (!data->hds[0])
-		return (0);
 	pid = fork();
 	if (pid == -1)
 		return (print_perror("Fork heredocs", 1), 1);
