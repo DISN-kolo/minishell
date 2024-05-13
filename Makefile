@@ -6,7 +6,7 @@
 #    By: akozin <akozin@student.42barcelona.com>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/18 16:38:42 by akozin            #+#    #+#              #
-#    Updated: 2024/05/13 12:18:06 by akozin           ###   ########.fr        #
+#    Updated: 2024/05/13 13:41:40 by akozin           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -55,6 +55,7 @@ SRCNAMES = main.c \
 			token_expander/new_token_splitter.c \
 			token_expander/new_token_splitter_utils.c \
 			io_redirs/io_redirs_handler.c \
+			io_redirs/io_redirs_handler_utils.c \
 			io_redirs/heredoc_read_expand.c \
 			io_redirs/heredoc_line_dollar_subst.c \
 			runner/run_cmds.c \

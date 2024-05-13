@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 16:20:41 by akozin            #+#    #+#             */
-/*   Updated: 2024/05/13 12:18:39 by akozin           ###   ########.fr       */
+/*   Updated: 2024/05/13 13:42:22 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,7 @@ t_cmdtree	*cmdtree_create(t_token *tokens);
 // TOKEN LOOP UTILS
 int			io_coms_alloc(t_com *coms, t_token *tokens, int u);
 int			open_everything(t_data *data);
+void		fifo_closure(int *fio);
 //+CMD LOOP
 int			cmd_loop(t_data *data, t_token *tokens);
 //+CMD FILLER
