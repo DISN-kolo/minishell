@@ -6,7 +6,7 @@
 /*   By: molasz-a <molasz-a@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/28 13:10:50 by molasz-a          #+#    #+#             */
-/*   Updated: 2024/05/10 13:35:24 by molasz-a         ###   ########.fr       */
+/*   Updated: 2024/05/14 14:23:29 by molasz-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,8 @@ void	free_coms(t_com *coms)
 			print_perror("Close infd data cleaner", -1);
 		if (coms[i].outfd != -42 && close(coms[i].outfd) < 0)
 			print_perror("Close outfd data cleaner", -1);
-		free_double(coms[i++].com);
+		free_double(coms[i].com);
+		i++;
 	}
 	free(coms);
 }
@@ -100,8 +101,8 @@ void	data_cleaner(t_data *data)
 	//data->tokens = NULL;
 	free_heredocs(data->hds);
 	data->hds = NULL;
-	free_coms(data->coms);
-	data->coms = NULL;
+	//free_coms(data->coms);
+	//data->coms = NULL;
 	data->hd_counter = 0;
 	data->status_code = 0;
 }
