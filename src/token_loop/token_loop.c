@@ -6,11 +6,30 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 14:59:19 by akozin            #+#    #+#             */
-/*   Updated: 2024/05/10 14:11:20 by molasz-a         ###   ########.fr       */
+/*   Updated: 2024/05/14 13:11:17 by molasz-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
+
+static int	setup_tokens(t_data *data, t_token *tokens)
+{
+	t_token	*new_tokens;
+	int		open_error;
+
+	new_tokens = token_expander(data, tokens);
+	if (!new_tokens)
+		return (1);
+	cmd_loop(data, new_tokens);
+	open_error = open_everything(data);
+	if (!open_error)
+		return (run_cmds(data, tokens));
+	else if (open_error == -3)
+		return (1); // no command entered but there are redirs or something
+	else
+		printf("in token loop, open error = %d\n", open_error);
+	return (0);
+}
 
 int	token_recursive_loop(t_data *data, t_token *tokens)
 {
@@ -25,7 +44,7 @@ int	token_recursive_loop(t_data *data, t_token *tokens)
 	{
 		if (token_list[i][0].type == AND || token_list[i][0].type == OR)
 			continue ;
-		if (run_cmds(data, token_list[i]))
+		if (setup_tokens(data, token_list[i]))
 			return (free_tokens_list(token_list), 1);
 	}
 	free_tokens_list(token_list);

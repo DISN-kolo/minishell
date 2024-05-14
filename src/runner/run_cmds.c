@@ -6,7 +6,7 @@
 /*   By: molasz-a <molasz-a@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 13:34:21 by molasz-a          #+#    #+#             */
-/*   Updated: 2024/05/10 14:13:30 by molasz-a         ###   ########.fr       */
+/*   Updated: 2024/05/14 13:16:28 by molasz-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,44 +35,25 @@ static int	run_builtin(t_data *data, int i, int ex)
 	return (1);
 }
 
-static int	setup_tokens(t_data *data, t_token *tokens)
-{
-	t_token	*new_tokens;
-	int		open_error;
-
-	printf("TOKENS %s\n", tokens[0].token);
-	new_tokens = token_expander(data, tokens);
-	if (!new_tokens)
-		return (1);
-	cmd_loop(data, new_tokens);
-	open_error = open_everything(data);
-	if (!open_error)
-		run_cmds(data);
-	else if (open_error == -3)
-		return (1); // no command entered but there are redirs or something
-	else
-		printf("in token loop, open error = %d\n", open_error);
-	return (0);
-}
-
 static pid_t	one_cmd(t_data *data, t_token *tokens)
 {
-	t_com	*cmds;
 	pid_t	pid;
 
 	if (data->coms[0].infd != -42 && dup2(data->coms[0].infd, 0) < 0)
 		return (print_perror("Dup in one cmd redirect", -1), -1);
 	if (data->coms[0].outfd != -42 && dup2(data->coms[0].outfd, 1) < 0)
 		return (print_perror("Dup out one cmd redirect", -1), -1);
-	if (tokens[0].type == O_BRACKET)
-		return (token_recursive_loop(data, tokens), -1);
-	if (!run_builtin(data, 0, 0))
+	if (tokens[0].type != O_BRACKET &&!run_builtin(data, 0, 0))
 	{
 		pid = fork();
 		if (pid < 0)
 			return (print_perror("Fork one", -1), -1);
 		else if (!pid)
+		{
+			if (tokens[0].type == O_BRACKET)
+				return (token_recursive_loop(data, tokens), -1);
 			find_cmd(data, 0);
+		}
 		return (pid);
 	}
 	return (-1);
@@ -128,17 +109,17 @@ int	run_cmds(t_data *data, t_token *tokens)
 	int		status;
 	pid_t	pid;
 
-	if (!tokens[1].token)
-		pid = one_cmd(data);
+	if (!data->coms[1].com)
+		pid = one_cmd(data, tokens);
 	else
 	{
 		i = 0;
-		while (tokens[i].token && tokens[i + 1].token)
+		while (data->coms[i].com && data->coms[i + 1].com)
 			normal_pipe(data, end, i++, &pid);
 		pid = last_pipe(data, i);
 	}
 	i = -1;
-	while (tokens[++i].token)
+	while (data->coms[++i].com)
 	{
 		if (waitpid(-1, &status, 0) == pid)
 			data->status_code = status;

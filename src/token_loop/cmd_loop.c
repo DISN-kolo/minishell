@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 16:14:33 by akozin            #+#    #+#             */
-/*   Updated: 2024/05/10 13:54:16 by molasz-a         ###   ########.fr       */
+/*   Updated: 2024/05/14 12:38:00 by molasz-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,32 +88,31 @@ static int	com_malloc_safe(t_data *data, int *i)
  *     for that, they're allocated first in io_coms_alloc, and then
  *     pasted into within com_filler func.
  */
-t_com	*cmd_loop(t_data *data, t_token *tokens)
+int	cmd_loop(t_data *data, t_token *tokens)
 {
-	t_com	*cmds;
 	int		cmd_c;
 	int		i[5];
 
 	cmd_c = cmd_count(tokens);
-	cmds = malloc((cmd_c + 1) * sizeof (t_com));
-	if (!cmds)
-		return (NULL);
-	cmds[cmd_c].com = NULL;
+	data->coms = malloc((cmd_c + 1) * sizeof (t_com));
+	if (!data->coms)
+		return (1);
+	data->coms[cmd_c].com = NULL;
 	i[0] = -1;
 	i[3] = 0;
 	while (++i[0] < cmd_c)
 	{
 		if (cmd_len(tokens + i[3], i))
-			return (free_coms(cmds), NULL);
+			return (free_coms(data->coms), 1);
 		if (com_malloc_safe(data, i))
-			return (NULL);
-		if (io_coms_alloc(cmds + i[0], tokens + i[3], i[4]))
-			return (free_coms(cmds), NULL);
-		cmds[i[0]].com[i[1]] = NULL;
+			return (1);
+		if (io_coms_alloc(data->coms + i[0], tokens + i[3], i[4]))
+			return (free_coms(data->coms), 1);
+		data->coms[i[0]].com[i[1]] = NULL;
 		i[2] = -1;
 		if (cmd_filler(data, i, tokens))
-			return (free_coms(cmds), NULL);
+			return (free_coms(data->coms), 1);
 		i[3] += i[2] + 1;
 	}
-	return (cmds);
+	return (0);
 }

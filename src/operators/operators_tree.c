@@ -6,7 +6,7 @@
 /*   By: molasz-a <molasz-a@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/03 12:20:47 by molasz-a          #+#    #+#             */
-/*   Updated: 2024/05/10 12:56:43 by molasz-a         ###   ########.fr       */
+/*   Updated: 2024/05/14 13:15:48 by molasz-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,11 @@ t_token **create_tokens_list(t_token *tokens)
 	while (++i[0] < len)
 	{
 		i[2] = tokens_len(tokens + i[1]);
+		if (tokens[i[1]].type == O_BRACKET && tokens[i[1] + i[2] - 1].type == C_BRACKET)
+		{
+			i[1]++;
+			i[2] -= 2;
+		}
 		token_list[i[0]] = tokens_list(tokens + i[1], i[2]);
 		if (!token_list[i[0]])
 			return (free_tokens_list(token_list), NULL);
