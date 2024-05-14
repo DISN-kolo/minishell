@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 13:12:42 by akozin            #+#    #+#             */
-/*   Updated: 2024/05/13 17:56:16 by akozin           ###   ########.fr       */
+/*   Updated: 2024/05/14 15:25:00 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,7 +112,7 @@ static int	fill_heredocs(t_data *data)
 	return (0);
 }
 
-int	get_heredocs(t_data *data)
+t_error	get_heredocs(t_data *data)
 {
 	int	i;
 	int	cmd_c;
@@ -124,7 +124,7 @@ int	get_heredocs(t_data *data)
 	cmd_c++;
 	data->hds = malloc(sizeof (t_hdoc *) * (cmd_c + 1));
 	if (!data->hds || alloc_heredocs(data) || fill_heredocs(data))
-		return (1);
+		return (MALLOC_ERR);
 	data->hds[cmd_c] = NULL;
-	return (0);
+	return (NULL_ERR);
 }

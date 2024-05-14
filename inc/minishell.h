@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 16:20:41 by akozin            #+#    #+#             */
-/*   Updated: 2024/05/13 15:07:24 by akozin           ###   ########.fr       */
+/*   Updated: 2024/05/14 15:25:15 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,6 @@ extern int	g_err;
 
 // GENERAL
 void		shell_loop(t_data *data);
-int			token_loop(t_data *data);
 
 // SIGNALS
 void		handle_s_normal(int sig);
@@ -36,23 +35,24 @@ void		handle_s_hered(int sig);
 void		default_sigs(void);
 
 // TOKENIZE
-int			tokenize(char *s, t_data *data);
+t_error		tokenize(char *s, t_data *data);
 int			tokenize_count(char *s, char *sep);
-int			tokenize_err_probe(t_token *tokens);
+int			tokenize_err_probe(t_data *data, t_token *tokens);
 
 // TOKEN UTILS
 t_tok_s		determine_type(char *t);
 char		*strchars(char *s, char *sep);
 
 // GET HEREDOC
-int			get_heredocs(t_data *data);
+t_error		get_heredocs(t_data *data);
 int			is_latest_hd(t_token *ts);
 
 // OPERATORS
-int			operators_tree(t_data *data);
-t_cmdtree	*cmdtree_create(t_token *tokens);
+t_token		**create_tokens_list(t_token *tokens);
 
-// TOKEN LOOP UTILS
+// TOKEN LOOP
+int			token_loop(t_data *data);
+int			token_recursive_loop(t_data *data, t_token *tokens);
 int			io_coms_alloc(t_com *coms, t_token *tokens, int u);
 int			open_everything(t_data *data);
 void		set_or_close_fds(t_data *data, int *i, int *fio);
@@ -91,7 +91,7 @@ int			io_coms_alloc(t_com *coms, t_token *tokens, int u);
 void		expand_vars(char *s, t_data *data);
 
 // EXECUTION
-int			run_cmds(t_data *data);
+int			run_cmds(t_data *data, t_token *tokens);
 void		find_cmd(t_data *data, int i);
 int			is_path(char *str);
 
@@ -116,12 +116,14 @@ void		bexit(t_data *data, char **args);
 void		data_cleaner(t_data *data);
 void		free_double(char **p);
 void		free_tokens(t_token *tokens);
+void		free_tokens_list(t_token **tokens);
 void		free_coms(t_com *coms);
 void		free_env(t_env *env);
 
 // ERROR UTILS
 void		print_error(char *cmd, char *var, char *error);
 void		print_perror(char *msg, int error);
+void		tokenize_error(char *token);
 
 // MISC
 char		*ft_strjoin_free(char *s1, char *s2);

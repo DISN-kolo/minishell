@@ -6,7 +6,7 @@
 /*   By: molasz-a <molasz-a@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 13:34:21 by molasz-a          #+#    #+#             */
-/*   Updated: 2024/05/07 17:40:47 by molasz-a         ###   ########.fr       */
+/*   Updated: 2024/05/14 13:16:28 by molasz-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ static int	run_builtin(t_data *data, int i, int ex)
 	return (1);
 }
 
-static pid_t	one_cmd(t_data *data)
+static pid_t	one_cmd(t_data *data, t_token *tokens)
 {
 	pid_t	pid;
 
@@ -43,13 +43,17 @@ static pid_t	one_cmd(t_data *data)
 		return (print_perror("Dup in one cmd redirect", -1), -1);
 	if (data->coms[0].outfd != -42 && dup2(data->coms[0].outfd, 1) < 0)
 		return (print_perror("Dup out one cmd redirect", -1), -1);
-	if (!run_builtin(data, 0, 0))
+	if (tokens[0].type != O_BRACKET &&!run_builtin(data, 0, 0))
 	{
 		pid = fork();
 		if (pid < 0)
 			return (print_perror("Fork one", -1), -1);
 		else if (!pid)
+		{
+			if (tokens[0].type == O_BRACKET)
+				return (token_recursive_loop(data, tokens), -1);
 			find_cmd(data, 0);
+		}
 		return (pid);
 	}
 	return (-1);
@@ -98,7 +102,7 @@ static pid_t	last_pipe(t_data *data, int i)
 	return (pid);
 }
 
-int	run_cmds(t_data *data)
+int	run_cmds(t_data *data, t_token *tokens)
 {
 	int		i;
 	int		end[2];
@@ -106,7 +110,7 @@ int	run_cmds(t_data *data)
 	pid_t	pid;
 
 	if (!data->coms[1].com)
-		pid = one_cmd(data);
+		pid = one_cmd(data, tokens);
 	else
 	{
 		i = 0;
@@ -122,7 +126,5 @@ int	run_cmds(t_data *data)
 	}
 	if (pid < 0)
 		data->status_code = 0;
-	free_coms(data->coms);
-	data->coms = NULL;
 	return (0);
 }
