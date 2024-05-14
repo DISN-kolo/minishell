@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 16:14:33 by akozin            #+#    #+#             */
-/*   Updated: 2024/05/14 14:31:06 by molasz-a         ###   ########.fr       */
+/*   Updated: 2024/05/14 20:45:24 by molasz-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,15 +54,11 @@ static int	cmd_len(t_token *tokens, int *i)
 		if (!tokens[j].token)
 			break ;
 		else if (tokens[j].type == O_BRACKET)
-		{
-			count++;
 			brackets++;
-		}
 		else if (tokens[j].type == C_BRACKET)
 			brackets--;
 		j++;
 	}
-	printf("COUNT %d %s\n", count, tokens[0].token);
 	if (count == 0)
 		return (1);
 	i[1] = count;
@@ -106,22 +102,16 @@ int	cmd_loop(t_data *data, t_token *tokens)
 	i[3] = 0;
 	while (++i[0] < cmd_c)
 	{
-		printf("A\n");
 		if (cmd_len(tokens + i[3], i))
 			return (free_coms(data->coms), 1);
-		printf("B\n");
 		if (com_malloc_safe(data, i))
 			return (1);
-		printf("C\n");
 		if (io_coms_alloc(data->coms + i[0], tokens + i[3], i[4]))
 			return (free_coms(data->coms), 1);
-		printf("D\n");
 		data->coms[i[0]].com[i[1]] = NULL;
 		i[2] = -1;
-		printf("E\n");
 		if (cmd_filler(data, i, tokens))
 			return (free_coms(data->coms), 1);
-		printf("F\n");
 		i[3] += i[2] + 1;
 	}
 	return (0);

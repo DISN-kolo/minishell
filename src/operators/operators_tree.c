@@ -6,13 +6,13 @@
 /*   By: molasz-a <molasz-a@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/03 12:20:47 by molasz-a          #+#    #+#             */
-/*   Updated: 2024/05/14 14:24:38 by molasz-a         ###   ########.fr       */
+/*   Updated: 2024/05/14 20:35:12 by molasz-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 
-static int	tokens_len(t_token *tokens)
+int	tokens_len(t_token *tokens)
 {
 	int	i;
 	int	brackets;
@@ -32,24 +32,7 @@ static int	tokens_len(t_token *tokens)
 	return (i);
 }
 
-static int	tokens_list_len(t_token *tokens)
-{
-	int	count;
-	int	i;
-
-	count = 0;
-	i = 0;
-	while (tokens[i].token)
-	{
-		i += tokens_len(tokens + i);
-		if (tokens[i].type == AND || tokens[i].type == OR)
-			i++;
-		count++;
-	}
-	return (count * 2 - 1);
-}
-
-static t_token	*tokens_list(t_token *tokens, int len)
+t_token	*tokens_list(t_token *tokens, int len)
 {
 	t_token	*new_tokens;
 	int		i;
@@ -69,6 +52,23 @@ static t_token	*tokens_list(t_token *tokens, int len)
 	return (new_tokens);
 }
 
+static int	tokens_list_len(t_token *tokens)
+{
+	int	count;
+	int	i;
+
+	count = 0;
+	i = 0;
+	while (tokens[i].token)
+	{
+		i += tokens_len(tokens + i);
+		if (tokens[i].type == AND || tokens[i].type == OR)
+			i++;
+		count++;
+	}
+	return (count);
+}
+
 t_token **create_tokens_list(t_token *tokens)
 {
 	t_token	**token_list;
@@ -85,17 +85,12 @@ t_token **create_tokens_list(t_token *tokens)
 	while (++i[0] < len)
 	{
 		i[2] = tokens_len(tokens + i[1]);
-		if (tokens[i[1]].type == O_BRACKET && tokens[i[1] + i[2] - 1].type == C_BRACKET)
-		{
-			i[1]++;
-			i[2] -= 2;
-		}
 		token_list[i[0]] = tokens_list(tokens + i[1], i[2]);
 		if (!token_list[i[0]])
 			return (free_tokens_list(token_list), NULL);
 		i[1] += i[2];
 		if (tokens[i[1]].type == AND || tokens[i[1]].type == OR)
-			token_list[++i[0]] = tokens_list(tokens + i[1]++, 1);
+			i[1]++;
 		if (!token_list[i[0]])
 			return (free_tokens_list(token_list), NULL);
 	}

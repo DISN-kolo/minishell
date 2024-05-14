@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 16:20:41 by akozin            #+#    #+#             */
-/*   Updated: 2024/05/14 12:38:20 by molasz-a         ###   ########.fr       */
+/*   Updated: 2024/05/14 20:12:04 by molasz-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,8 +47,10 @@ char		*strchars(char *s, char *sep);
 t_error		get_heredocs(t_data *data);
 int			is_latest_hd(t_token *ts);
 
-// OPERATORS
+// TOKEN LIST
 t_token		**create_tokens_list(t_token *tokens);
+int			tokens_len(t_token *tokens);
+t_token		*tokens_list(t_token *tokens, int len);
 
 // TOKEN LOOP
 int			token_loop(t_data *data);
@@ -92,6 +94,7 @@ void		expand_vars(char *s, t_data *data);
 int			run_cmds(t_data *data, t_token *tokens);
 void		find_cmd(t_data *data, int i);
 int			is_path(char *str);
+int	run_builtin(t_data *data, int i, int ex);
 
 // ENVIROMENT
 t_env		*alloc_env(char **envp);
