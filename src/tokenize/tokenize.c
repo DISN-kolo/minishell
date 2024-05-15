@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 17:16:20 by akozin            #+#    #+#             */
-/*   Updated: 2024/05/15 16:15:10 by akozin           ###   ########.fr       */
+/*   Updated: 2024/05/15 16:37:37 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ static void	init_tokens(t_token *tokens, int len)
 	}
 }
 
-static t_token	*tokenize_split(char *str)
+static t_token	*tokenize_split(t_data *data, char *str)
 {
 	t_token	*tokens;
 	int		len;
@@ -59,9 +59,11 @@ static t_token	*tokenize_split(char *str)
 
 	i = 0;
 	len = tokenize_count(str, " \t\f\v");
+	if (len == -2)
+		return (data->left_in_q = 1, NULL);
 	tokens = malloc(sizeof (t_token) * (len + 1));
 	if (!tokens)
-		return (NULL);
+		return (printf("in fact, malloc failed\n"), NULL);
 	init_tokens(tokens, len);
 	while (*str)
 	{
@@ -70,7 +72,7 @@ static t_token	*tokenize_split(char *str)
 		if (*str)
 		{
 			if (tokenize_split_strs(&str, tokens, &i))
-				return (NULL);
+				return (printf("malloc went ok. it's hte tokenize split strs\n"), NULL);
 		}
 	}
 	return (tokens);
@@ -80,7 +82,7 @@ t_error	tokenize(char *s, t_data *data)
 {
 	int	i;
 
-	data->tokens = tokenize_split(s);
+	data->tokens = tokenize_split(data, s);
 	if (!data->tokens)
 		return (MALLOC_ERR);
 	i = -1;

@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 14:13:57 by akozin            #+#    #+#             */
-/*   Updated: 2024/05/13 16:39:55 by akozin           ###   ########.fr       */
+/*   Updated: 2024/05/15 16:46:07 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,5 +117,6 @@ int	process_heredocs(t_data *data)
 	else
 		signal(SIGINT, SIG_IGN);
 	wait(&status);
+	printf("\n\n%d\n\n", status);
 	return (wifstuff(status, data));
 }
