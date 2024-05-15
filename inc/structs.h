@@ -6,14 +6,12 @@
 /*   By: molasz-a <molasz-a@student.42barcelona.co  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 19:37:44 by molasz-a          #+#    #+#             */
-/*   Updated: 2024/05/10 12:43:06 by molasz-a         ###   ########.fr       */
+/*   Updated: 2024/05/08 11:39:46 by molasz-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef STRUCTS_H
 # define STRUCTS_H
-
-#include "./errors.h"
 
 /*
  * operators are &&, ||, |
@@ -80,16 +78,26 @@ typedef struct s_hdoc
 	int		expand;
 }	t_hdoc;
 
+typedef struct s_cmdtree
+{
+	struct s_cmdtree	*left;
+	struct s_cmdtree	*right;
+	t_token				*tokens;
+	int					brackets;
+}	t_cmdtree;
+
 typedef struct s_data
 {
 	t_token		*tokens;
+	t_cmdtree	*cmdtree;
 	t_com		*coms;
 	t_hdoc		**hds;
 	int			hd_counter;
 	int			std_in;
 	int			std_out;
 	int			status_code;
-	int			stop_hdoc;
+	int			skip_cmd;
+	int			skip_brackets;
 	int			amb_tok_ind;
 	char		*amb_tok_name;
 	t_env		*env;

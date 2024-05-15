@@ -6,24 +6,28 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 14:59:19 by akozin            #+#    #+#             */
-/*   Updated: 2024/05/14 13:11:17 by molasz-a         ###   ########.fr       */
+/*   Updated: 2024/05/07 17:57:06 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 
-static int	setup_tokens(t_data *data, t_token *tokens)
+int	run_cmd(t_data *data, t_cmdtree *tree)
 {
-	t_token	*new_tokens;
+	t_token	*tokens;
 	int		open_error;
 
-	new_tokens = token_expander(data, tokens);
-	if (!new_tokens)
+	tokens = token_expander(data, tree->tokens);
+	if (!tokens)
 		return (1);
-	cmd_loop(data, new_tokens);
+	cmd_loop(data, tokens);
 	open_error = open_everything(data);
 	if (!open_error)
-		return (run_cmds(data, tokens));
+	{
+		run_cmds(data);
+		if (dup2(data->std_out, 1) < 0 || dup2(data->std_in, 0) < 0)
+			return (print_perror("Dup stdout and stdin", -1), 1);
+	}
 	else if (open_error == -3)
 		return (1); // no command entered but there are redirs or something
 	else
@@ -31,31 +35,35 @@ static int	setup_tokens(t_data *data, t_token *tokens)
 	return (0);
 }
 
-int	token_recursive_loop(t_data *data, t_token *tokens)
+static int	btree_apply_infix(t_data *data, t_cmdtree *root)
 {
-	t_token	**token_list;
-	int	i;
-
-	token_list = create_tokens_list(tokens);
-	if (!token_list)
-		return (1);
-	i = -1;
-	while (token_list[++i])
+	if (root)
 	{
-		if (token_list[i][0].type == AND || token_list[i][0].type == OR)
-			continue ;
-		if (setup_tokens(data, token_list[i]))
-			return (free_tokens_list(token_list), 1);
+		if (btree_apply_infix(data, root->left))
+			return (1);
+		if (root->tokens[0].type != AND && root->tokens[0].type != OR
+			&& !data->skip_cmd && data->skip_brackets <= root->brackets
+			&& run_cmd(data, root))
+			return (1);
+		if (root->tokens[0].type != AND && root->tokens[0].type != OR
+			&& data->skip_cmd && data->skip_brackets >= root->brackets)
+			data->skip_cmd = 0;
+		if ((root->tokens[0].type == AND && data->status_code)
+			|| (root->tokens[0].type == OR && !data->status_code))
+		{
+			data->skip_cmd = 1;
+			data->skip_brackets = root->brackets;
+		}
+		if (btree_apply_infix(data, root->right))
+			return (1);
 	}
-	free_tokens_list(token_list);
 	return (0);
 }
 
 int	token_loop(t_data *data)
 {
-	if (token_recursive_loop(data, data->tokens))
-		return (MALLOC_ERR);
-	if (dup2(data->std_out, 1) < 0 || dup2(data->std_in, 0) < 0)
-		return (print_perror("Dup stdout and stdin", -1), 1);
+	if (btree_apply_infix(data, data->cmdtree))
+		return (1); // TODO control errors
+	data->skip_brackets = 0;
 	return (0);
 }

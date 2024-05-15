@@ -1,24 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   errors.h                                           :+:      :+:    :+:   */
+/*   tree_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: molasz-a <molasz-a@student.42barcel>       +#+  +:+       +#+        */
+/*   By: molasz-a <molasz-a@student.42barcelona.co  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/09 11:58:17 by molasz-a          #+#    #+#             */
-/*   Updated: 2024/05/09 12:51:45 by molasz-a         ###   ########.fr       */
+/*   Created: 2024/05/02 21:55:23 by molasz-a          #+#    #+#             */
+/*   Updated: 2024/05/03 13:52:08 by molasz-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef ERRORS_H
-# define ERRORS_H
+#include "../../inc/minishell.h"
 
-typedef enum e_error
+t_cmdtree	*cmdtree_create(t_token *tokens)
 {
-	NULL_ERR,
-	SYNTAX_ERR,
-	MALLOC_ERR,
-	FORK_ERR,
-}	t_error;
+	t_cmdtree	*tree;
 
-#endif
+	tree = malloc(sizeof(t_cmdtree));
+	if (!tree)
+		return (NULL);
+	tree->tokens = tokens;
+	tree->left = 0;
+	tree->right = 0;
+	return (tree);
+}
