@@ -6,7 +6,7 @@
 /*   By: molasz-a <molasz-a@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 13:34:21 by molasz-a          #+#    #+#             */
-/*   Updated: 2024/05/15 15:05:34 by molasz-a         ###   ########.fr       */
+/*   Updated: 2024/05/15 16:25:03 by molasz-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@ static t_token	*remove_brackets(t_token *tokens)
 	int		len;
 
 	len = tokens_len(tokens);
-	printf("TOK LEN: %d\n", len);
 	return (tokens_list(tokens + 1, len - 2));
 }
 
@@ -54,14 +53,16 @@ static pid_t	one_cmd(t_data *data, t_token *tokens)
 	return (pid);
 }
 
-static int	normal_pipe(t_data *data, t_token *tokens, int *end, int i, pid_t *pid)
+static int	normal_pipe(t_data *data, t_token *tokens, int *end, int i)
 {
+	pid_t	pid;
+
 	if (pipe(end) < 0)
 		return (print_perror("Pipe", -1), 1);
-	*pid = fork();
-	if (*pid < 0)
+	pid = fork();
+	if (pid < 0)
 		return (print_perror("Fork normal", -1), 1);
-	else if (!*pid)
+	else if (!pid)
 	{
 		if (data->coms[i].outfd != -42 && dup2(data->coms[i].outfd, 1) < 0)
 			print_perror("Dup out on child redirect", 1);
@@ -70,7 +71,10 @@ static int	normal_pipe(t_data *data, t_token *tokens, int *end, int i, pid_t *pi
 		if (close(end[0]) < 0 || close(end[1]) < 0)
 			print_perror("Close end on child", 1);
 		if (tokens[0].type == O_BRACKET)
-			return (token_recursive_loop(data, tokens), -1);
+		{
+			token_recursive_loop(data, remove_brackets(tokens));
+			exit(0);
+		}
 		else if (!run_builtin(data, i, 1))
 			find_cmd(data, i);
 	}
@@ -99,6 +103,20 @@ static pid_t	last_pipe(t_data *data, int i)
 	return (pid);
 }
 
+int	cmd_pipes(t_data *data, t_token *tokens, int *end)
+{
+	t_token	**split_tokens;
+	int		i;
+
+	split_tokens = split_pipes(tokens);
+	if (!split_tokens)
+		return (1);
+	i = -1;
+	while (split_tokens[++i + 1])
+		normal_pipe(data, split_tokens[i], end, i);
+	return (last_pipe(data, i));
+}
+
 int	run_cmds(t_data *data, t_token *tokens)
 {
 	int		i;
@@ -109,12 +127,7 @@ int	run_cmds(t_data *data, t_token *tokens)
 	if (!data->coms[1].com)
 		pid = one_cmd(data, tokens);
 	else
-	{
-		i = -1;
-		while (data->coms[++i].com && data->coms[i + 1].com)
-			normal_pipe(data, tokens + i, end, i, &pid);
-		pid = last_pipe(data, i);
-	}
+		cmd_pipes(data, tokens, end);
 	i = -1;
 	while (data->coms[++i].com)
 	{

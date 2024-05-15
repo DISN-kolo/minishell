@@ -6,7 +6,7 @@
 #    By: akozin <akozin@student.42barcelona.com>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/18 16:38:42 by akozin            #+#    #+#              #
-#    Updated: 2024/05/10 11:30:51 by molasz-a         ###   ########.fr        #
+#    Updated: 2024/05/15 16:02:09 by molasz-a         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -58,6 +58,7 @@ SRCNAMES = main.c \
 			runner/run_cmds.c \
 			runner/find_cmd.c \
 			runner/find_cmd_utils.c \
+			runner/split_pipes.c \
 			builtins/echo.c \
 			builtins/cd.c \
 			builtins/pwd.c \

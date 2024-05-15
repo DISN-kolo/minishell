@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 14:59:19 by akozin            #+#    #+#             */
-/*   Updated: 2024/05/15 15:05:31 by molasz-a         ###   ########.fr       */
+/*   Updated: 2024/05/15 16:22:54 by molasz-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ int	token_recursive_loop(t_data *data, t_token *tokens)
 	{
 		if (token_list[i][0].type == AND || token_list[i][0].type == OR)
 			continue ;
+		printf("TOK LIST: %s\n", token_list[i][0].token);
 		if (setup_tokens(data, token_list[i]))
 			return (free_tokens_list(token_list), 1);
 	}

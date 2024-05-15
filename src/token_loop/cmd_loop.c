@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 16:14:33 by akozin            #+#    #+#             */
-/*   Updated: 2024/05/15 15:16:16 by molasz-a         ###   ########.fr       */
+/*   Updated: 2024/05/15 16:07:35 by molasz-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,6 @@ static int	cmd_count(t_token *tokens)
 			brackets--;
 		i++;
 	}
-	printf("CMD COUNT: %d\n", count);
 	return (count);
 }
 
@@ -65,7 +64,6 @@ static int	cmd_len(t_token *tokens, int *i)
 		return (1);
 	i[1] = count;
 	i[4] = j;
-	printf("CMD LEN: %d\n", count);
 	return (0);
 }
 

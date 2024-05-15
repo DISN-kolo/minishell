@@ -6,7 +6,7 @@
 /*   By: molasz-a <molasz-a@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/28 13:10:50 by molasz-a          #+#    #+#             */
-/*   Updated: 2024/05/14 14:23:29 by molasz-a         ###   ########.fr       */
+/*   Updated: 2024/05/15 15:59:59 by molasz-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,8 +90,11 @@ void	free_tokens_list(t_token **tokens)
 		return ;
 	i = 0;
 	while (tokens[i])
-		free_tokens(tokens[i++]);
-	free(tokens[i]);
+	{
+		free_tokens(tokens[i]);
+		free(tokens[i]);
+		i++;
+	}
 	free(tokens);
 }
 

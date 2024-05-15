@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 16:20:41 by akozin            #+#    #+#             */
-/*   Updated: 2024/05/14 20:12:04 by molasz-a         ###   ########.fr       */
+/*   Updated: 2024/05/15 16:01:46 by molasz-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,8 @@ void		expand_vars(char *s, t_data *data);
 int			run_cmds(t_data *data, t_token *tokens);
 void		find_cmd(t_data *data, int i);
 int			is_path(char *str);
-int	run_builtin(t_data *data, int i, int ex);
+int			run_builtin(t_data *data, int i, int ex);
+t_token		**split_pipes(t_token *tokens);
 
 // ENVIROMENT
 t_env		*alloc_env(char **envp);
