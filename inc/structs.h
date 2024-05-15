@@ -6,12 +6,14 @@
 /*   By: molasz-a <molasz-a@student.42barcelona.co  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 19:37:44 by molasz-a          #+#    #+#             */
-/*   Updated: 2024/05/08 11:39:46 by molasz-a         ###   ########.fr       */
+/*   Updated: 2024/05/15 15:59:16 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef STRUCTS_H
 # define STRUCTS_H
+
+# include "./errors.h"
 
 /*
  * operators are &&, ||, |
@@ -99,6 +101,7 @@ typedef struct s_data
 	int			skip_cmd;
 	int			skip_brackets;
 	int			amb_tok_ind;
+	int			stop_hdoc;
 	char		*amb_tok_name;
 	t_env		*env;
 }	t_data;
