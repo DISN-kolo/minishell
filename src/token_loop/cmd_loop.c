@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 16:14:33 by akozin            #+#    #+#             */
-/*   Updated: 2024/05/14 20:45:24 by molasz-a         ###   ########.fr       */
+/*   Updated: 2024/05/15 15:16:16 by molasz-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ static int	cmd_count(t_token *tokens)
 			brackets--;
 		i++;
 	}
+	printf("CMD COUNT: %d\n", count);
 	return (count);
 }
 
@@ -49,8 +50,9 @@ static int	cmd_len(t_token *tokens, int *i)
 	brackets = 0;
 	while (tokens[j].token && (tokens[j].type != PIPE && !brackets))
 	{
-		count += (tokens[j].type == TOKEN);
-		j += (tokens[j].type == REDIR || tokens[j].type == HDOC);
+		count += tokens[j].type == TOKEN;
+		j += (tokens[j].type == REDIR || tokens[j].type == HDOC
+				|| tokens[j].type == O_BRACKET || tokens[j].type == C_BRACKET);
 		if (!tokens[j].token)
 			break ;
 		else if (tokens[j].type == O_BRACKET)
@@ -63,6 +65,7 @@ static int	cmd_len(t_token *tokens, int *i)
 		return (1);
 	i[1] = count;
 	i[4] = j;
+	printf("CMD LEN: %d\n", count);
 	return (0);
 }
 

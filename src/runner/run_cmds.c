@@ -6,7 +6,7 @@
 /*   By: molasz-a <molasz-a@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 13:34:21 by molasz-a          #+#    #+#             */
-/*   Updated: 2024/05/14 20:19:39 by molasz-a         ###   ########.fr       */
+/*   Updated: 2024/05/15 15:05:34 by molasz-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ static t_token	*remove_brackets(t_token *tokens)
 	int		len;
 
 	len = tokens_len(tokens);
+	printf("TOK LEN: %d\n", len);
 	return (tokens_list(tokens + 1, len - 2));
 }
 
@@ -24,25 +25,33 @@ static pid_t	one_cmd(t_data *data, t_token *tokens)
 {
 	pid_t	pid;
 
+	pid = -1;
 	if (data->coms[0].infd != -42 && dup2(data->coms[0].infd, 0) < 0)
 		return (print_perror("Dup in one cmd redirect", -1), -1);
 	if (data->coms[0].outfd != -42 && dup2(data->coms[0].outfd, 1) < 0)
 		return (print_perror("Dup out one cmd redirect", -1), -1);
-	if (tokens[0].type != O_BRACKET &&!run_builtin(data, 0, 0))
+	if (tokens[0].type != O_BRACKET && !run_builtin(data, 0, 0))
 	{
-		printf("HI %s\n", tokens[0].token);
 		pid = fork();
 		if (pid < 0)
 			return (print_perror("Fork one cmd", -1), -1);
 		else if (!pid)
-		{
-			if (tokens[0].type == O_BRACKET)
-				return (token_recursive_loop(data, remove_brackets(tokens)), -1);
 			find_cmd(data, 0);
-		}
 		return (pid);
 	}
-	return (-1);
+	else if (tokens[0].type == O_BRACKET)
+	{
+		pid = fork();
+		if (pid < 0)
+			return (print_perror("Fork one cmd brackets", -1), -1);
+		else if (!pid)
+		{
+			token_recursive_loop(data, remove_brackets(tokens));
+			exit(0);
+		}
+		waitpid(pid, NULL, 0);
+	}
+	return (pid);
 }
 
 static int	normal_pipe(t_data *data, t_token *tokens, int *end, int i, pid_t *pid)
@@ -102,7 +111,6 @@ int	run_cmds(t_data *data, t_token *tokens)
 	else
 	{
 		i = -1;
-		printf("TOKENS: %s %s %s\n", tokens[0].token, tokens[1].token, tokens[2].token);
 		while (data->coms[++i].com && data->coms[i + 1].com)
 			normal_pipe(data, tokens + i, end, i, &pid);
 		pid = last_pipe(data, i);

@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 14:59:19 by akozin            #+#    #+#             */
-/*   Updated: 2024/05/14 14:13:05 by molasz-a         ###   ########.fr       */
+/*   Updated: 2024/05/15 15:05:31 by molasz-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ int	token_recursive_loop(t_data *data, t_token *tokens)
 	t_token	**token_list;
 	int	i;
 
-	printf("%s\n", tokens[0].token);
+	printf("TOKEN LOOP %s\n", tokens[0].token);
 	token_list = create_tokens_list(tokens);
 	if (!token_list)
 		return (1);
@@ -48,7 +48,7 @@ int	token_recursive_loop(t_data *data, t_token *tokens)
 		if (setup_tokens(data, token_list[i]))
 			return (free_tokens_list(token_list), 1);
 	}
-	free_tokens_list(token_list);
+	//free_tokens_list(token_list);
 	return (0);
 }
 

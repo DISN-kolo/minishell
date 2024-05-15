@@ -6,7 +6,7 @@
 /*   By: molasz-a <molasz-a@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 12:23:40 by molasz-a          #+#    #+#             */
-/*   Updated: 2024/05/07 12:30:17 by akozin           ###   ########.fr       */
+/*   Updated: 2024/05/15 13:07:41 by molasz-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ static int	find_path(t_data *data, char **splited_path, int i, char **env)
 	if (splited_path[j])
 	{
 		free_double(splited_path);
+		printf("PATH: %s %s\n", path, data->coms[i].com[0]);
 		if (execve(path, data->coms[i].com, env) < 0)
 			return (free(path), 0);
 	}

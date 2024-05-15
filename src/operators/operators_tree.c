@@ -6,7 +6,7 @@
 /*   By: molasz-a <molasz-a@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/03 12:20:47 by molasz-a          #+#    #+#             */
-/*   Updated: 2024/05/14 20:35:12 by molasz-a         ###   ########.fr       */
+/*   Updated: 2024/05/15 13:10:54 by molasz-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ static int	tokens_list_len(t_token *tokens)
 			i++;
 		count++;
 	}
-	return (count);
+	return (count * 2 - 1);
 }
 
 t_token **create_tokens_list(t_token *tokens)
@@ -90,7 +90,7 @@ t_token **create_tokens_list(t_token *tokens)
 			return (free_tokens_list(token_list), NULL);
 		i[1] += i[2];
 		if (tokens[i[1]].type == AND || tokens[i[1]].type == OR)
-			i[1]++;
+			token_list[i[0]++] = tokens_list(tokens + i[1]++, 1);
 		if (!token_list[i[0]])
 			return (free_tokens_list(token_list), NULL);
 	}

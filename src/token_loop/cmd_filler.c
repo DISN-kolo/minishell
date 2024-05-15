@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 16:17:06 by akozin            #+#    #+#             */
-/*   Updated: 2024/05/14 20:40:00 by molasz-a         ###   ########.fr       */
+/*   Updated: 2024/05/15 12:47:52 by molasz-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,6 @@ int	cmd_filler(t_data *data, int *i, t_token *ts)
 		}
 		else
 			data->coms[i[0]].com[j++] = ft_strdup(ts[i[2] + i[3]].token);
-		printf("= %s\n", data->coms[i[0]].com[j - 1]);
 	}
 	data->coms[i[0]].ios[k].fname = NULL;
 	return (0);
