@@ -6,7 +6,7 @@
 /*   By: molasz-a <molasz-a@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 13:34:21 by molasz-a          #+#    #+#             */
-/*   Updated: 2024/05/16 17:19:37 by akozin           ###   ########.fr       */
+/*   Updated: 2024/05/16 17:46:12 by molasz-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,24 +14,28 @@
 
 static int	run_builtin(t_data *data, int i, int ex)
 {
+	int	error;
+
 	if (!ft_strncmp_case(data->coms[i].com[0], "cd", 3))
-		bcd(data, data->coms[i].com + 1);
+		error = bcd(data, data->coms[i].com + 1);
 	else if (!ft_strncmp_case(data->coms[i].com[0], "echo", 5))
-		becho(data->coms[i].com + 1);
+		error = becho(data->coms[i].com + 1);
 	else if (!ft_strncmp_case(data->coms[i].com[0], "env", 4))
-		benv(data);
+		error = benv(data);
 	else if (!ft_strncmp_case(data->coms[i].com[0], "exit", 5))
-		bexit(data, data->coms[i].com + 1);
+		error = bexit(data, data->coms[i].com + 1);
 	else if (!ft_strncmp_case(data->coms[i].com[0], "export", 7))
-		bexport(data, data->coms[i].com + 1);
+		error = bexport(data, data->coms[i].com + 1);
 	else if (!ft_strncmp_case(data->coms[i].com[0], "pwd", 4))
-		bpwd(data);
+		error = bpwd(data);
 	else if (!ft_strncmp_case(data->coms[i].com[0], "unset", 6))
-		bunset(data, data->coms[i].com + 1);
+		error = bunset(data, data->coms[i].com + 1);
 	else
 		return (0);
 	if (ex)
-		exit(0);
+		exit(error);
+	g_err = error;
+	printf("ERROR: %d, g_err: %d\n", error, g_err);
 	return (1);
 }
 
@@ -124,14 +128,14 @@ int	run_cmds(t_data *data)
 		pid = last_pipe(data, i);
 	}
 	i = -1;
-	while (data->coms[++i].com)
+	while (data->coms[++i].com && pid > 0)
 	{
 		if (waitpid(-1, &status, 0) == pid)
 			g_err = status;
 	}
-	if (WIFEXITED(status))
+	if (pid > 0 && WIFEXITED(status))
 		g_err = WEXITSTATUS(status);
-	else if (WIFSIGNALED(status))
+	else if (pid > 0 && WIFSIGNALED(status))
 	{
 		if (WTERMSIG(status) == SIGQUIT)
 			ft_putstr_fd("Quit: 3\n", 2);
