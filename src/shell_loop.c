@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 16:15:48 by akozin            #+#    #+#             */
-/*   Updated: 2024/05/16 14:08:24 by akozin           ###   ########.fr       */
+/*   Updated: 2024/05/16 15:48:35 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ static int	loop_calls(t_data *data, char *s)
 	error = process_heredocs(data);
 	if (error >= MALLOC_ERR)
 		return (error);
-	if (data->stop_hdoc != -1 || g_err == 1)
+	if (data->stop_hdoc != -1 || data->local_status)
 		return (NULL_ERR);
 	error = token_loop(data);
 	if (error >= MALLOC_ERR)

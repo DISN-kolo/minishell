@@ -6,7 +6,7 @@
 /*   By: molasz-a <molasz-a@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/28 13:10:50 by molasz-a          #+#    #+#             */
-/*   Updated: 2024/05/16 12:50:05 by molasz-a         ###   ########.fr       */
+/*   Updated: 2024/05/16 15:47:52 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,6 +102,7 @@ void	data_cleaner(t_data *data)
 	free_heredocs(data->hds);
 	data->hds = NULL;
 	data->hd_counter = 0;
+	data->local_status = 0;
 }
 
 void	free_env(t_env *env)

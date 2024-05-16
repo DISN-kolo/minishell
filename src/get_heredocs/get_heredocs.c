@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 13:12:42 by akozin            #+#    #+#             */
-/*   Updated: 2024/05/15 16:01:48 by akozin           ###   ########.fr       */
+/*   Updated: 2024/05/16 15:19:21 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ static int	get_hd_str(char **s, t_token t)
 	int		j;
 	int		in_q;
 
-	(*s) = malloc(hd_str_count(t.token));
+	(*s) = malloc(hd_str_count(t.token) + 1);
 	if (!(*s))
 		return (1);
 	i = -1;

@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 14:13:57 by akozin            #+#    #+#             */
-/*   Updated: 2024/05/16 13:06:44 by akozin           ###   ########.fr       */
+/*   Updated: 2024/05/16 15:48:50 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,17 +83,24 @@ static int	hd_fork(t_data *data, int *i)
 	exit(0);
 }
 
-static int	wifstuff(int status)
+//static int	wifstuff(int status)
+static void	wifstuff(t_data *data, int status)
 {
 	if (WIFEXITED(status))
 	{
 		if (status == 256)
+		{
 			g_err = 1;
-		return (WEXITSTATUS(status));
+			data->local_status = 1;
+		}
+	//	return (WEXITSTATUS(status));
 	}
 	else if (WIFSIGNALED(status) && (WTERMSIG(status) == SIGINT))
-		return (1);
-	return (0);
+	{
+		g_err = 1;
+		data->local_status = 1;
+	}
+//	return (0);
 }
 
 /*
@@ -103,20 +110,23 @@ static int	wifstuff(int status)
  * actually we'd only need the last heredoc. so.... an if which avoids
  *+creating files if we don't use them.
  */
-int	process_heredocs(t_data *data)
+t_error	process_heredocs(t_data *data)
 {
 	int		i[2];
 	pid_t	pid;
 	int		status;
 
+	if (data->hds_total_n == 0)
+		return (NULL_ERR);
 	pid = fork();
 	if (pid == -1)
-		return (print_perror("Fork heredocs", 1), 1);
+		return (FORK_ERR);
 	if (pid == 0)
 		hd_fork(data, i);
 	else
 		signal(SIGINT, SIG_IGN);
 	wait(&status);
 	printf("\n\n%d\n\n", status);
-	return (wifstuff(status));
+	wifstuff(data, status);
+	return (NULL_ERR);
 }
