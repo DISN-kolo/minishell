@@ -6,7 +6,7 @@
 /*   By: molasz-a <molasz-a@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 13:34:21 by molasz-a          #+#    #+#             */
-/*   Updated: 2024/05/16 16:25:50 by akozin           ###   ########.fr       */
+/*   Updated: 2024/05/16 16:50:37 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,10 @@ static pid_t	one_cmd(t_data *data)
 		if (pid < 0)
 			return (print_perror("Fork one", -1), -1);
 		else if (!pid)
+		{
+			default_sigs();
 			find_cmd(data, 0);
+		}
 		return (pid);
 	}
 	return (-1);
@@ -64,6 +67,7 @@ static int	normal_pipe(t_data *data, int *end, int i, pid_t *pid)
 		return (print_perror("Fork normal", -1), 1);
 	else if (!*pid)
 	{
+		default_sigs();
 		if (data->coms[i].outfd != -42 && dup2(data->coms[i].outfd, 1) < 0)
 			print_perror("Dup out on child redirect", 1);
 		else if (data->coms[i].outfd == -42 && dup2(end[1], 1) < 0)
@@ -92,8 +96,12 @@ static pid_t	last_pipe(t_data *data, int i)
 	pid = fork();
 	if (pid < 0)
 		return (print_perror("Fork last", -1), -1);
-	else if (!pid && !run_builtin(data, i, 1))
-		find_cmd(data, i);
+	else if (!pid)
+	{
+		default_sigs();
+	   	if (!run_builtin(data, i, 1))
+			find_cmd(data, i);
+	}
 	close(0);
 	return (pid);
 }
@@ -105,6 +113,7 @@ int	run_cmds(t_data *data)
 	int		status;
 	pid_t	pid;
 
+	signal(SIGINT, SIG_IGN);
 	if (!data->coms[1].com)
 		pid = one_cmd(data);
 	else
@@ -125,7 +134,9 @@ int	run_cmds(t_data *data)
 	else if (WIFSIGNALED(status))
 	{
 		if (WTERMSIG(status) == SIGQUIT)
-			ft_putstr_fd("Quit: 3", 2);
+			ft_putstr_fd("Quit: 3\n", 2);
+		else if (WTERMSIG(status) == SIGINT)
+			ft_putstr_fd("\n", 2);
 		g_err = WTERMSIG(status) + 128;
 	}
 	return (free_coms(data->coms), data->coms = NULL, g_err);

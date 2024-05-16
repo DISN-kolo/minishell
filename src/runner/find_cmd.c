@@ -6,7 +6,7 @@
 /*   By: molasz-a <molasz-a@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 12:23:40 by molasz-a          #+#    #+#             */
-/*   Updated: 2024/05/07 12:30:17 by akozin           ###   ########.fr       */
+/*   Updated: 2024/05/16 16:47:29 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,6 @@ void	find_cmd(t_data *data, int i)
 	env = format_env(data);
 	if (!env)
 		exit(1);
-	default_sigs();
 	if (data->coms[i].com[0][0] == '/')
 		err = run_absolute(data, i, env);
 	else if (is_path(data->coms[i].com[0]))
