@@ -6,7 +6,7 @@
 /*   By: molasz-a <molasz-a@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 13:34:21 by molasz-a          #+#    #+#             */
-/*   Updated: 2024/05/16 12:49:22 by molasz-a         ###   ########.fr       */
+/*   Updated: 2024/05/16 16:25:50 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,9 +120,13 @@ int	run_cmds(t_data *data)
 		if (waitpid(-1, &status, 0) == pid)
 			g_err = status;
 	}
-	if (pid < 0)
-		g_err = 0;
-	free_coms(data->coms);
-	data->coms = NULL;
-	return (0);
+	if (WIFEXITED(status))
+		g_err = WEXITSTATUS(status);
+	else if (WIFSIGNALED(status))
+	{
+		if (WTERMSIG(status) == SIGQUIT)
+			ft_putstr_fd("Quit: 3", 2);
+		g_err = WTERMSIG(status) + 128;
+	}
+	return (free_coms(data->coms), data->coms = NULL, g_err);
 }
