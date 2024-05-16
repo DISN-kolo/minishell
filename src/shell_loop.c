@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 16:15:48 by akozin            #+#    #+#             */
-/*   Updated: 2024/05/16 11:55:47 by molasz-a         ###   ########.fr       */
+/*   Updated: 2024/05/16 13:05:05 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,21 +14,35 @@
 #include "../libs/readline/readline.h"
 #include "../libs/readline/history.h"
 
-static void	handle_errors(t_error error)
+static void	handle_errors(t_data *data, t_error error)
 {
-	if (error == MALLOC_ERR)
+	if (data->aux_error == LEFT_Q_ERR)
+		write(2, "minishell: un-closed quotations left\n", 37);
+	else if (error == HDOC_LIMIT_ERR)
+	{
+		write(2, "minishell: maximum here-document count exceeded\n", 48);
+		exit_handler(data, 2);
+	}
+	else if (error == MALLOC_ERR)
 		print_perror("MALLOC error", -1);
 	else if (error == FORK_ERR)
 		print_perror("FORK error", -1);
 }
 
-static t_error	loop_calls(t_data *data, char *s)
+static void	small_lcs_init(t_data *data, char *s)
+{
+	data->stop_hdoc = -1;
+	data->aux_error = NULL_ERR;
+	if (s && s[0])
+		add_history(s);
+}
+
+static int	loop_calls(t_data *data, char *s)
 {
 	t_error	error;
 
-	data->stop_hdoc = -1;
-	add_history(s);
 	error = tokenize(s, data);
+	small_lcs_init(data, s);
 	if (error >= MALLOC_ERR)
 		return (error);
 	if (!data->tokens[0].token)
@@ -39,7 +53,7 @@ static t_error	loop_calls(t_data *data, char *s)
 	error = process_heredocs(data);
 	if (error >= MALLOC_ERR)
 		return (error);
-	if (data->stop_hdoc != -1)
+	if (data->stop_hdoc != -1 || g_err == 1)
 		return (NULL_ERR);
 	error = token_loop(data);
 	if (error >= MALLOC_ERR)
@@ -62,7 +76,7 @@ void	shell_loop(t_data *data)
 		if (!s)
 			break ;
 		error = loop_calls(data, s);
-		handle_errors(error);
+		handle_errors(data, error);
 		free(s);
 		data_cleaner(data);
 	}

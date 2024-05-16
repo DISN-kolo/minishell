@@ -6,14 +6,14 @@
 /*   By: molasz-a <molasz-a@student.42barcelona.co  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 19:37:44 by molasz-a          #+#    #+#             */
-/*   Updated: 2024/05/16 12:48:36 by molasz-a         ###   ########.fr       */
+/*   Updated: 2024/05/16 13:04:47 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef STRUCTS_H
 # define STRUCTS_H
 
-#include "./errors.h"
+# include "./errors.h"
 
 /*
  * operators are &&, ||, |
@@ -86,6 +86,7 @@ typedef struct s_data
 	t_token		**tokens_list;
 	t_com		*coms;
 	t_hdoc		**hds;
+	t_error		aux_error;
 	int			hd_counter;
 	int			std_in;
 	int			std_out;

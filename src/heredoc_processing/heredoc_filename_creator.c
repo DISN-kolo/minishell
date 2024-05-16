@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 13:27:50 by akozin            #+#    #+#             */
-/*   Updated: 2024/05/08 12:52:09 by molasz-a         ###   ########.fr       */
+/*   Updated: 2024/05/09 13:09:17 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ static void	on_error_free(char *c_num, char *h_num)
 		free(h_num);
 }
 
-static char	*ft_strjoin_free(char *s1, char *s2)
+char	*ft_strjoin_free(char *s1, char *s2)
 {
 	char	*str;
 

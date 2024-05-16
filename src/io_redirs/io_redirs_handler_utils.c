@@ -1,29 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_heredocs_utils.c                               :+:      :+:    :+:   */
+/*   io_redirs_handler_utils.c                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/01 14:45:13 by akozin            #+#    #+#             */
-/*   Updated: 2024/05/08 16:59:41 by akozin           ###   ########.fr       */
+/*   Created: 2024/05/13 13:41:03 by akozin            #+#    #+#             */
+/*   Updated: 2024/05/13 15:15:43 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 
-int	is_latest_hd(t_token *ts)
+void	set_or_close_fds(t_data *data, int *i, int *fio)
 {
-	int	i;
-
-	i = 0;
-	while (ts[i].token)
+	if (i[1] && !data->coms[i[0]].ios[i[1] - 1].amb
+		&& i[1] != data->coms[i[0]].amb_redir_ind)
 	{
-		if (ts[i].type == PIPE || ts[i].type == OR || ts[i].type == AND)
-			return (1);
-		else if (ts[i].type == HDOC)
-			return (0);
-		i++;
+		data->coms[i[0]].infd = fio[0];
+		data->coms[i[0]].outfd = fio[1];
 	}
-	return (1);
+	else
+	{
+		if (fio[0] != -42)
+			close(fio[0]);
+		if (fio[1] != -42)
+			close(fio[1]);
+	}
 }

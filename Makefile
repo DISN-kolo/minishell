@@ -6,7 +6,7 @@
 #    By: akozin <akozin@student.42barcelona.com>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/18 16:38:42 by akozin            #+#    #+#              #
-#    Updated: 2024/05/16 12:11:43 by molasz-a         ###   ########.fr        #
+#    Updated: 2024/05/16 13:04:33 by akozin           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -39,6 +39,7 @@ SRCNAMES = main.c \
 			get_heredocs/get_heredocs.c \
 			get_heredocs/get_heredocs_utils.c \
 			heredoc_processing/heredoc_rl.c \
+			heredoc_processing/heredoc_rl_utils.c \
 			heredoc_processing/heredoc_filename_creator.c \
 			token_loop/token_loop.c \
 			token_loop/token_loop_utils.c \
@@ -53,6 +54,7 @@ SRCNAMES = main.c \
 			token_expander/new_token_splitter.c \
 			token_expander/new_token_splitter_utils.c \
 			io_redirs/io_redirs_handler.c \
+			io_redirs/io_redirs_handler_utils.c \
 			io_redirs/heredoc_read_expand.c \
 			io_redirs/heredoc_line_dollar_subst.c \
 			runner/run_cmds.c \
@@ -81,7 +83,7 @@ all:		folders make_libs $(NAME)
 
 folders:
 	mkdir -p obj/tokenize obj/builtins obj/token_expander obj/runner obj/token_loop \
-		obj/heredoc_processing obj/io_redirs obj/get_heredocs obj/operators obj/signals
+		obj/heredoc_processing obj/io_redirs obj/get_heredocs obj/signals
 
 
 make_libs: $(RL)

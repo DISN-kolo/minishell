@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 16:20:41 by akozin            #+#    #+#             */
-/*   Updated: 2024/05/16 12:11:13 by molasz-a         ###   ########.fr       */
+/*   Updated: 2024/05/16 13:03:56 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,8 +54,9 @@ t_token		**create_tokens_list(t_token *tokens);
 // TOKEN LOOP UTILS
 int			io_coms_alloc(t_com *coms, t_token *tokens, int u);
 int			open_everything(t_data *data);
+void		set_or_close_fds(t_data *data, int *i, int *fio);
 
-//+CMD LOOP
+// CMD LOOP
 int			cmd_loop(t_data *data, t_token *tokens);
 //+CMD FILLER
 int			cmd_filler(t_data *data, int *i, t_token *ts);
@@ -80,6 +81,7 @@ char		*strchars_lit(t_token *t, int k, char *sep);
 int			process_heredocs(t_data *data);
 char		*gen_h_fname(int *i);
 int			heredoc_read_expand(t_data *data);
+int			fake_heredoc(char *eof);
 void		hd_coords(int *hdi, int n, t_data *data);
 char		*hd_dollar_expander(char *l, t_data *data);
 
@@ -123,5 +125,9 @@ void		free_env(t_env *env);
 void		print_error(char *cmd, char *var, char *error);
 void		print_perror(char *msg, int error);
 void		tokenize_error(char *token);
+
+// MISC
+char		*ft_strjoin_free(char *s1, char *s2);
+void		exit_handler(t_data *data, int exit_code);
 
 #endif

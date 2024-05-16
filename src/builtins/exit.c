@@ -6,13 +6,13 @@
 /*   By: molasz-a <molasz-a@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 14:40:31 by molasz-a          #+#    #+#             */
-/*   Updated: 2024/05/01 12:42:48 by molasz-a         ###   ########.fr       */
+/*   Updated: 2024/05/16 12:32:17 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 
-static void	exit_handler(t_data *data, int exit_code)
+void	exit_handler(t_data *data, int exit_code)
 {
 	data_cleaner(data);
 	free_env(data->env);
