@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 16:20:41 by akozin            #+#    #+#             */
-/*   Updated: 2024/05/15 15:57:05 by akozin           ###   ########.fr       */
+/*   Updated: 2024/05/16 12:32:42 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,5 +126,6 @@ void		tokenize_error(char *token);
 
 // MISC
 char		*ft_strjoin_free(char *s1, char *s2);
+void		exit_handler(t_data *data, int exit_code);
 
 #endif

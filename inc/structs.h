@@ -6,7 +6,7 @@
 /*   By: molasz-a <molasz-a@student.42barcelona.co  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 19:37:44 by molasz-a          #+#    #+#             */
-/*   Updated: 2024/05/15 16:34:17 by akozin           ###   ########.fr       */
+/*   Updated: 2024/05/16 12:16:08 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,6 +94,7 @@ typedef struct s_data
 	t_cmdtree	*cmdtree;
 	t_com		*coms;
 	t_hdoc		**hds;
+	t_error		aux_error;
 	int			hd_counter;
 	int			std_in;
 	int			std_out;
@@ -102,7 +103,6 @@ typedef struct s_data
 	int			skip_brackets;
 	int			amb_tok_ind;
 	int			stop_hdoc;
-	int			left_in_q;
 	char		*amb_tok_name;
 	t_env		*env;
 }	t_data;
