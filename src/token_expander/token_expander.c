@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 16:41:25 by akozin            #+#    #+#             */
-/*   Updated: 2024/05/07 17:23:11 by molasz-a         ###   ########.fr       */
+/*   Updated: 2024/05/16 14:08:03 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,8 +101,8 @@ t_token	*token_expander(t_data *data, t_token *c_toks)
 	{
 		if (exp_t_init(&exp_t, data, c_toks[i].token, nt_prev(new_tokens)))
 			return (NULL);
-		if (dollar_exp_helper(&exp_t, data, c_toks, i) == 2)
-			printf("deh returned 2\n");
+		if (dollar_exp_helper(&exp_t, data, c_toks, i) == 1)
+			return (NULL);
 		local_n_t = new_t_split(exp_t);
 		if (!local_n_t)
 			return (NULL);

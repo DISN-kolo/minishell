@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/23 13:58:31 by akozin            #+#    #+#             */
-/*   Updated: 2024/05/13 15:44:49 by akozin           ###   ########.fr       */
+/*   Updated: 2024/05/16 14:20:18 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,9 +98,8 @@ int	open_everything(t_data *data)
 	int	retcode;
 
 	i[0] = 0;
-	if (!data->coms)
-		return (-3); // 0 coms in a comm, like '< asd'
 	while (data->coms[i[0]].com)
+		//TODO phantom commands
 	{
 		open_everything_init(data, i, fio);
 		while (data->coms[i[0]].ios[i[1]].fname)

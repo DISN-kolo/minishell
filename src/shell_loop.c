@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 16:15:48 by akozin            #+#    #+#             */
-/*   Updated: 2024/05/16 13:05:05 by akozin           ###   ########.fr       */
+/*   Updated: 2024/05/16 14:08:24 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ static void	handle_errors(t_data *data, t_error error)
 		write(2, "minishell: maximum here-document count exceeded\n", 48);
 		exit_handler(data, 2);
 	}
-	else if (error == MALLOC_ERR)
+	else if (data->aux_error == MALLOC_ERR || error == MALLOC_ERR)
 		print_perror("MALLOC error", -1);
 	else if (error == FORK_ERR)
 		print_perror("FORK error", -1);
