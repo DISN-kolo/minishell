@@ -6,7 +6,7 @@
 /*   By: molasz-a <molasz-a@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/28 13:10:50 by molasz-a          #+#    #+#             */
-/*   Updated: 2024/05/08 16:23:37 by akozin           ###   ########.fr       */
+/*   Updated: 2024/05/16 12:50:05 by molasz-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,18 @@ void	free_tokens(t_token *tokens)
 	free(tokens);
 }
 
+void	free_token_list(t_token **token_list)
+{
+	int	i;
+
+	if (!token_list)
+		return ;
+	i = 0;
+	while (token_list[i])
+		free(token_list[i++]);
+	free(token_list);
+}
+
 void	free_coms(t_com *coms)
 {
 	int	i;
@@ -61,16 +73,6 @@ void	free_coms(t_com *coms)
 		free_double(coms[i++].com);
 	}
 	free(coms);
-}
-
-void	free_tree(t_cmdtree *tree)
-{
-	if (tree)
-	{
-		free_tree(tree->right);
-		free_tree(tree->left);
-		free(tree);
-	}
 }
 
 void	free_heredocs(t_hdoc **heredocs)
@@ -95,16 +97,11 @@ void	data_cleaner(t_data *data)
 {
 	free_tokens(data->tokens);
 	data->tokens = NULL;
+	free_token_list(data->tokens_list);
+	data->tokens_list = NULL;
 	free_heredocs(data->hds);
 	data->hds = NULL;
-	free_tree(data->cmdtree);
-	data->cmdtree = NULL;
-	free_coms(data->coms);
-	data->coms = NULL;
 	data->hd_counter = 0;
-	data->status_code = 0;
-	data->skip_cmd = 0;
-	data->skip_brackets = 0;
 }
 
 void	free_env(t_env *env)

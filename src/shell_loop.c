@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 16:15:48 by akozin            #+#    #+#             */
-/*   Updated: 2024/05/09 15:24:04 by molasz-a         ###   ########.fr       */
+/*   Updated: 2024/05/16 11:55:47 by molasz-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,9 +41,6 @@ static t_error	loop_calls(t_data *data, char *s)
 		return (error);
 	if (data->stop_hdoc != -1)
 		return (NULL_ERR);
-	error = operators_tree(data);
-	if (error >= MALLOC_ERR)
-		return (error);
 	error = token_loop(data);
 	if (error >= MALLOC_ERR)
 		return (error);

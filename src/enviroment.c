@@ -6,7 +6,7 @@
 /*   By: molasz-a <molasz-a@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/25 13:23:31 by molasz-a          #+#    #+#             */
-/*   Updated: 2024/04/23 12:51:11 by molasz-a         ###   ########.fr       */
+/*   Updated: 2024/05/16 12:49:49 by molasz-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ char	*read_env(t_data *data, char *key)
 
 	i = 0;
 	if (key[0] == '?')
-		return (ft_itoa(data->status_code));
+		return (ft_itoa(g_err));
 	while (data->env[i].key)
 	{
 		if (!ft_strncmp(key, data->env[i].key, ft_strlen(key) + 1))

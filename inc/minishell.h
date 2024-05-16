@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 16:20:41 by akozin            #+#    #+#             */
-/*   Updated: 2024/05/09 13:07:35 by molasz-a         ###   ########.fr       */
+/*   Updated: 2024/05/16 12:11:13 by molasz-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,6 @@ extern int	g_err;
 
 // GENERAL
 void		shell_loop(t_data *data);
-int			token_loop(t_data *data);
 
 // SIGNALS
 void		handle_s_normal(int sig);
@@ -48,13 +47,14 @@ char		*strchars(char *s, char *sep);
 t_error		get_heredocs(t_data *data);
 int			is_latest_hd(t_token *ts);
 
-// OPERATORS
-int			operators_tree(t_data *data);
-t_cmdtree	*cmdtree_create(t_token *tokens);
+// TOKEN LOOP
+int			token_loop(t_data *data);
+t_token		**create_tokens_list(t_token *tokens);
 
 // TOKEN LOOP UTILS
 int			io_coms_alloc(t_com *coms, t_token *tokens, int u);
 int			open_everything(t_data *data);
+
 //+CMD LOOP
 int			cmd_loop(t_data *data, t_token *tokens);
 //+CMD FILLER
@@ -111,10 +111,12 @@ void		benv(t_data *data);
 void		bexit(t_data *data, char **args);
 
 // FREE UTILS
-void		data_cleaner(t_data *data);
 void		free_double(char **p);
 void		free_tokens(t_token *tokens);
+void		free_token_list(t_token **token_list);
 void		free_coms(t_com *coms);
+void		free_heredocs(t_hdoc **heredocs);
+void		data_cleaner(t_data *data);
 void		free_env(t_env *env);
 
 // ERROR UTILS
