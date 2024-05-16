@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/30 14:49:51 by akozin            #+#    #+#             */
-/*   Updated: 2024/05/02 11:57:28 by molasz-a         ###   ########.fr       */
+/*   Updated: 2024/05/13 16:13:33 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ static int	hd_expansion_counter(t_data *data, char *t)
 	while (t[i])
 	{
 		if (t[i] == '$' && (t[i + 1] == '_' || t[i + 1] == '?'
-					|| ft_isalpha(t[i + 1])))
+				|| ft_isalpha(t[i + 1])))
 			ret += hd_inside_dollar_counter(data, t, i) - 1;
 		i++;
 	}
@@ -94,7 +94,7 @@ char	*hd_dollar_expander(char *l, t_data *data)
 	while (l[i])
 	{
 		if (l[i] == '$' && (l[i + 1] == '_' || l[i + 1] == '?'
-						|| ft_isalpha(l[i + 1])))
+				|| ft_isalpha(l[i + 1])))
 		{
 			fill_hd_l(nl, &l[i + 1], data, &j);
 			i += var_end(&l[i + 1]) - &l[i + 1];

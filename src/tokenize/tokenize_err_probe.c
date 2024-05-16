@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   token_error_probe.c                                :+:      :+:    :+:   */
+/*   tokenize_err_probe.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/25 15:50:11 by akozin            #+#    #+#             */
-/*   Updated: 2024/05/09 14:14:03 by molasz-a         ###   ########.fr       */
+/*   Updated: 2024/05/16 12:44:02 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,8 @@ int	tokenize_err_probe(t_data *data, t_token *tokens)
 {
 	int	i;
 
+	if (!tokens || !tokens[0].token)
+		return (0);
 	if (probe_brackets_level(data, tokens))
 		return (1);
 	if (probe_ops(tokens[0].type))

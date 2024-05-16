@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 14:13:57 by akozin            #+#    #+#             */
-/*   Updated: 2024/05/09 14:33:48 by molasz-a         ###   ########.fr       */
+/*   Updated: 2024/05/16 15:48:50 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,39 +23,17 @@ static int	grab_and_write_hdoc(int fd, char *eof)
 	hline = NULL;
 	while (1)
 	{
+		if (hline && !ft_strncmp(hline, eof, eoflen + 1))
+			break ;
 		if (hline && write(fd, hline, ft_strlen(hline)) == -1)
 			return (1);
 		if (hline && write(fd, "\n", 1) == -1)
 			return (1);
-		if (hline && !ft_strncmp(hline, eof, eoflen + 1))
-			break ;
 		if (hline)
 			free(hline);
 		hline = readline("> ");
 		if (!hline)
-			return (1);
-	}
-	if (hline)
-		free(hline);
-	return (0);
-}
-
-static int	fake_heredoc(char *eof)
-{
-	int		eoflen;
-	char	*hline;
-
-	eoflen = ft_strlen(eof);
-	hline = NULL;
-	while (1)
-	{
-		if (hline && !ft_strncmp(hline, eof, eoflen + 1))
-			break ;
-		if (hline)
-			free(hline);
-		hline = readline("> ");
-		if (!hline)
-			return (1);
+			return (0);
 	}
 	if (hline)
 		free(hline);
@@ -69,31 +47,21 @@ static int	process_heredoc(t_data *data, int *i)
 
 	if (data->hds[i[0]][i[1]].latest)
 	{
-		printf("data->hds[%2d][%2d].str = '%s', exp: %d\n", i[0], i[1], data->hds[i[0]][i[1]].str, data->hds[i[0]][i[1]].expand);
 		fname = gen_h_fname(i);
-		if (access(fname, F_OK) == 0)
-			printf("why do we have the %s file already?\n", fname);
-		fd = open(fname, O_WRONLY | O_CREAT | O_TRUNC);
+		fd = open(fname, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 		if (fd == -1)
-		{
-			printf("open errorred on %s\n", fname);
 			exit(1);
-		}
 		if (grab_and_write_hdoc(fd, data->hds[i[0]][i[1]].str))
 		{
 			close(fd);
-			printf("write failed\n");
 			exit(1);
 		}
 		close(fd);
 		free(fname);
 	}
 	else if (fake_heredoc(data->hds[i[0]][i[1]].str))
-	{
-		printf("fake heredoc failed\n");
 		exit(1);
-	}
-	exit(0);
+	return (0);
 }
 
 static int	hd_fork(t_data *data, int *i)
@@ -110,10 +78,29 @@ static int	hd_fork(t_data *data, int *i)
 				exit(1);
 			i[1]++;
 		}
-		printf("== one heredoc processed...\n");
 		i[0]++;
 	}
 	exit(0);
+}
+
+//static int	wifstuff(int status)
+static void	wifstuff(t_data *data, int status)
+{
+	if (WIFEXITED(status))
+	{
+		if (status == 256)
+		{
+			g_err = 1;
+			data->local_status = 1;
+		}
+	//	return (WEXITSTATUS(status));
+	}
+	else if (WIFSIGNALED(status) && (WTERMSIG(status) == SIGINT))
+	{
+		g_err = 1;
+		data->local_status = 1;
+	}
+//	return (0);
 }
 
 /*
@@ -123,23 +110,23 @@ static int	hd_fork(t_data *data, int *i)
  * actually we'd only need the last heredoc. so.... an if which avoids
  *+creating files if we don't use them.
  */
-int	process_heredocs(t_data *data)
+t_error	process_heredocs(t_data *data)
 {
 	int		i[2];
 	pid_t	pid;
 	int		status;
 
+	if (data->hds_total_n == 0)
+		return (NULL_ERR);
 	pid = fork();
 	if (pid == -1)
-		return(print_perror("Fork heredocs", 1), 1);
+		return (FORK_ERR);
 	if (pid == 0)
 		hd_fork(data, i);
 	else
 		signal(SIGINT, SIG_IGN);
 	wait(&status);
-	if (WIFEXITED(status))
-		return (WEXITSTATUS(status));
-	else if (WIFSIGNALED(status) && (WTERMSIG(status) == SIGINT))
-		return (1);
-	return (0);
+	printf("\n\n%d\n\n", status);
+	wifstuff(data, status);
+	return (NULL_ERR);
 }

@@ -1,29 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_heredocs_utils.c                               :+:      :+:    :+:   */
+/*   heredoc_rl_utils.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/01 14:45:13 by akozin            #+#    #+#             */
-/*   Updated: 2024/05/08 16:59:41 by akozin           ###   ########.fr       */
+/*   Created: 2024/05/13 12:10:18 by akozin            #+#    #+#             */
+/*   Updated: 2024/05/13 12:10:37 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
+#include "../../libs/readline/readline.h"
+#include "../../libs/readline/history.h"
 
-int	is_latest_hd(t_token *ts)
+int	fake_heredoc(char *eof)
 {
-	int	i;
+	int		eoflen;
+	char	*hline;
 
-	i = 0;
-	while (ts[i].token)
+	eoflen = ft_strlen(eof);
+	hline = NULL;
+	while (1)
 	{
-		if (ts[i].type == PIPE || ts[i].type == OR || ts[i].type == AND)
+		if (hline && !ft_strncmp(hline, eof, eoflen + 1))
+			break ;
+		if (hline)
+			free(hline);
+		hline = readline("> ");
+		if (!hline)
 			return (1);
-		else if (ts[i].type == HDOC)
-			return (0);
-		i++;
 	}
-	return (1);
+	if (hline)
+		free(hline);
+	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/02 15:42:07 by akozin            #+#    #+#             */
-/*   Updated: 2024/05/07 16:49:15 by akozin           ###   ########.fr       */
+/*   Updated: 2024/05/08 17:21:40 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ void	handle_s_hered(int sig)
 		rl_redisplay();
 		printf("\n");
 		g_err = 1;// TODO global error status here
-		exit(0);
+		exit(1);
 		// what do we do with it tho lol
 		// like the normal data.errored? data.status_code?
 	}

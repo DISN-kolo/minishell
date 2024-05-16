@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 16:26:06 by akozin            #+#    #+#             */
-/*   Updated: 2024/04/30 15:10:18 by akozin           ###   ########.fr       */
+/*   Updated: 2024/05/16 14:08:24 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,8 @@ static int	fill_token(t_token *f_me, char *t, t_data *data, int *j)
 		env_v_name = ft_strdup("HOME");
 	else
 		env_v_name = ft_substr(t, 0, var_end(t) - t);
+	if (!env_v_name)
+		return (-1);
 	env_v_val = read_env(data, env_v_name);
 	if (!env_v_val)
 		return (free(env_v_name), (*j)--, 0);
@@ -47,13 +49,16 @@ void	determine_q(int *in_q, char c)
 		*in_q = (c == '"') + 1;
 }
 
-static void	fill_lit_exp(int k, t_token *f_me, int in_q, int j)
+static int	f_l_exp(int k, t_token *f_me, int in_q, int j)
 {
+	if (k < 0)
+		return (1);
 	while (k-- > 0)
 	{
-		f_me->literal[j + k] = in_q
-			|| !ft_strchr(" \t\f\v", f_me->token[j + k]);
+		f_me->literal[j - k] = in_q
+			|| !ft_strchr(" \t\f\v", f_me->token[j - k]);
 	}
+	return (0);
 }
 
 static char	literal_filler(int in_q, char c, t_token *f_me, int j)
@@ -76,24 +81,24 @@ int	dollar_expander(t_token *f_me, t_data *data, char *t, t_tok_s prev)
 	int		j;
 	int		in_q;
 
-	i = 0;
+	i = -1;
 	j = 0;
 	in_q = 0;
 	f_me->type = determine_type(t);
-	while (t[i])
+	while (t[++i])
 	{
 		determine_q(&in_q, t[i]);
 		if (((in_q != 1 && t[i] == '$' && (t[i + 1] == '_' || t[i + 1] == '?'
 						|| ft_isalpha(t[i + 1]))) || (t[i] == '~' && !i
 					&& ft_strchr(" \t\f\v/", t[1]))) && prev != HDOC)
 		{
-			fill_lit_exp(fill_token(f_me, &t[i + 1], data, &j), f_me, in_q, j);
+			if (f_l_exp(fill_token(f_me, &t[i + 1], data, &j), f_me, in_q, j))
+				return (1);
 			i += var_end(&t[i + 1]) - &t[i + 1];
 		}
 		else
 			f_me->token[j] = literal_filler(in_q, t[i], f_me, j);
 		j++;
-		i++;
 	}
 	f_me->token[j] = 0;
 	return ((prev == REDIR) * unlit_spaces_probe(f_me));

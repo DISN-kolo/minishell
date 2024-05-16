@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 13:12:42 by akozin            #+#    #+#             */
-/*   Updated: 2024/05/09 12:42:13 by molasz-a         ###   ########.fr       */
+/*   Updated: 2024/05/16 15:19:21 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,16 +59,15 @@ static int	hd_str_count(char *s)
 	return (c);
 }
 
-static char	*get_hd_str(t_token t)
+static int	get_hd_str(char **s, t_token t)
 {
-	char	*ret;
 	int		i;
 	int		j;
 	int		in_q;
 
-	ret = malloc(hd_str_count(t.token));
-	if (!ret)
-		return (NULL);
+	(*s) = malloc(hd_str_count(t.token) + 1);
+	if (!(*s))
+		return (1);
 	i = -1;
 	j = 0;
 	in_q = 0;
@@ -78,10 +77,10 @@ static char	*get_hd_str(t_token t)
 		if (!((in_q == 1 && t.token[i] == '\'')
 				|| (in_q == 2 && t.token[i] == '"')
 				|| (!in_q && ft_strchr("'\"", t.token[i]))))
-			ret[j++] = t.token[i];
+			(*s)[j++] = t.token[i];
 	}
-	ret[j] = 0;
-	return (ret);
+	(*s)[j] = 0;
+	return (0);
 }
 
 static int	fill_heredocs(t_data *data)
@@ -97,8 +96,7 @@ static int	fill_heredocs(t_data *data)
 	{
 		if (data->tokens[i].type == HDOC)
 		{
-			data->hds[j][hd_c].str = get_hd_str(data->tokens[i + 1]);
-			if (!data->hds[j][hd_c].str)
+			if (get_hd_str(&(data->hds[j][hd_c].str), data->tokens[i + 1]))
 				return (1);
 			data->hds[j][hd_c].latest = is_latest_hd(&data->tokens[i + 1]);
 			data->hds[j][hd_c++].expand = strchars(data->tokens[i + 1].token,
