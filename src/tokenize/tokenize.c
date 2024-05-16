@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 17:16:20 by akozin            #+#    #+#             */
-/*   Updated: 2024/05/16 15:28:03 by akozin           ###   ########.fr       */
+/*   Updated: 2024/05/16 19:00:46 by molasz-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,7 +106,6 @@ t_error	tokenize(char *s, t_data *data)
 	data->hds_total_n = hdoc_token_count(data->tokens);
 	if (data->hds_total_n > 16)
 		return (HDOC_LIMIT_ERR);
-	if (tokenize_err_probe(data, data->tokens))
-		return (SYNTAX_ERR);
+	tokenize_err_probe(data, data->tokens);
 	return (NULL_ERR);
 }

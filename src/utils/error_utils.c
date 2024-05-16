@@ -6,11 +6,11 @@
 /*   By: molasz-a <molasz-a@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/29 12:12:58 by molasz-a          #+#    #+#             */
-/*   Updated: 2024/05/15 15:59:57 by akozin           ###   ########.fr       */
+/*   Updated: 2024/05/16 19:18:26 by molasz-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../inc/minishell.h"
+#include "../../inc/minishell.h"
 
 void	print_error(char *cmd, char *var, char *error)
 {

@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 16:20:41 by akozin            #+#    #+#             */
-/*   Updated: 2024/05/16 17:06:57 by molasz-a         ###   ########.fr       */
+/*   Updated: 2024/05/16 19:21:57 by molasz-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,10 +90,11 @@ void		parse_exec(t_data *data);
 int			io_coms_alloc(t_com *coms, t_token *tokens, int u);
 void		expand_vars(char *s, t_data *data);
 
-// EXECUTION
+// RUNNER
 int			run_cmds(t_data *data);
 void		find_cmd(t_data *data, int i);
 int			is_path(char *str);
+int			run_builtin(t_data *data, int i, int ex);
 
 // ENVIROMENT
 t_env		*alloc_env(char **envp);

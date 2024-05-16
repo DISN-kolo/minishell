@@ -6,7 +6,7 @@
 /*   By: molasz-a <molasz-a@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 15:29:33 by molasz-a          #+#    #+#             */
-/*   Updated: 2024/05/16 16:21:38 by molasz-a         ###   ########.fr       */
+/*   Updated: 2024/05/16 19:13:27 by molasz-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ static int	update_path(t_data *data, char *path)
 		if (!pwd)
 			return (1);
 		if (export_pwd(data, "OLDPWD", pwd))
-			return  (free(pwd), 1);
+			return (free(pwd), 1);
 		free(pwd);
 		pwd = getcwd(NULL, 0);
 		if (!pwd)

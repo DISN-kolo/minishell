@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 16:15:48 by akozin            #+#    #+#             */
-/*   Updated: 2024/05/16 15:48:35 by akozin           ###   ########.fr       */
+/*   Updated: 2024/05/16 19:07:06 by molasz-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,9 @@
 
 static void	handle_errors(t_data *data, t_error error)
 {
-	if (data->aux_error == LEFT_Q_ERR)
+	if (error == SYNTAX_ERR)
+		tokenize_error(data->tokens[data->sp_hdoc].token);
+	else if (data->aux_error == LEFT_Q_ERR)
 		write(2, "minishell: un-closed quotations left\n", 37);
 	else if (error == HDOC_LIMIT_ERR)
 	{
@@ -31,7 +33,6 @@ static void	handle_errors(t_data *data, t_error error)
 
 static void	small_lcs_init(t_data *data, char *s)
 {
-	data->stop_hdoc = -1;
 	data->aux_error = NULL_ERR;
 	if (s && s[0])
 		add_history(s);
@@ -53,7 +54,9 @@ static int	loop_calls(t_data *data, char *s)
 	error = process_heredocs(data);
 	if (error >= MALLOC_ERR)
 		return (error);
-	if (data->stop_hdoc != -1 || data->local_status)
+	if (data->sp_hdoc > 0)
+		return (SYNTAX_ERR);
+	if (data->local_status)
 		return (NULL_ERR);
 	error = token_loop(data);
 	if (error >= MALLOC_ERR)

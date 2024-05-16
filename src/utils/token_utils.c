@@ -6,11 +6,11 @@
 /*   By: molasz-a <molasz-a@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 11:59:08 by molasz-a          #+#    #+#             */
-/*   Updated: 2024/05/08 12:34:16 by molasz-a         ###   ########.fr       */
+/*   Updated: 2024/05/16 19:19:13 by molasz-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../inc/minishell.h"
+#include "../../inc/minishell.h"
 
 char	*strchars(char *s, char *sep)
 {

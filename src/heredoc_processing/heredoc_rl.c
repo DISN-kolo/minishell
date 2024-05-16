@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 14:13:57 by akozin            #+#    #+#             */
-/*   Updated: 2024/05/16 15:48:50 by akozin           ###   ########.fr       */
+/*   Updated: 2024/05/16 18:35:05 by molasz-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,7 +126,6 @@ t_error	process_heredocs(t_data *data)
 	else
 		signal(SIGINT, SIG_IGN);
 	wait(&status);
-	printf("\n\n%d\n\n", status);
 	wifstuff(data, status);
 	return (NULL_ERR);
 }

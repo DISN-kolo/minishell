@@ -6,7 +6,7 @@
 #    By: akozin <akozin@student.42barcelona.com>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/18 16:38:42 by akozin            #+#    #+#              #
-#    Updated: 2024/05/16 13:43:06 by akozin           ###   ########.fr        #
+#    Updated: 2024/05/16 19:19:41 by molasz-a         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -68,10 +68,11 @@ SRCNAMES = main.c \
 			builtins/unset.c \
 			builtins/env.c \
 			builtins/exit.c \
+			utils/free_utils.c \
+			utils/clean_utils.c \
+			utils/error_utils.c \
+			utils/token_utils.c \
 			enviroment.c \
-			token_utils.c \
-			free_utils.c \
-			error_utils.c
 
 SRCS = $(SRCNAMES)
 OBJS = $(addprefix obj/, $(SRCS:.c=.o))
@@ -83,7 +84,7 @@ all:		folders make_libs $(NAME)
 
 folders:
 	mkdir -p obj/tokenize obj/builtins obj/token_expander obj/runner obj/token_loop \
-		obj/heredoc_processing obj/io_redirs obj/get_heredocs obj/signals
+		obj/heredoc_processing obj/io_redirs obj/get_heredocs obj/signals obj/utils
 
 
 make_libs: $(RL)

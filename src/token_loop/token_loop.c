@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 14:59:19 by akozin            #+#    #+#             */
-/*   Updated: 2024/05/16 14:11:39 by akozin           ###   ########.fr       */
+/*   Updated: 2024/05/16 19:15:11 by molasz-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,9 +48,11 @@ int	token_loop(t_data *data)
 	i = 0;
 	while (data->tokens_list[i])
 	{
-		if ((data->tokens_list[i][0].type == AND && g_err) || (data->tokens_list[i][0].type == OR && !g_err))
+		if ((data->tokens_list[i][0].type == AND && g_err)
+			|| (data->tokens_list[i][0].type == OR && !g_err))
 			i++;
-		else if (data->tokens_list[i][0].type != AND && data->tokens_list[i][0].type != OR)
+		else if (data->tokens_list[i][0].type != AND
+			&& data->tokens_list[i][0].type != OR)
 			run_cmd(data, data->tokens_list[i]);
 		i++;
 	}

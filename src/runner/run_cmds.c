@@ -6,38 +6,11 @@
 /*   By: molasz-a <molasz-a@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 13:34:21 by molasz-a          #+#    #+#             */
-/*   Updated: 2024/05/16 17:46:12 by molasz-a         ###   ########.fr       */
+/*   Updated: 2024/05/16 19:24:04 by molasz-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
-
-static int	run_builtin(t_data *data, int i, int ex)
-{
-	int	error;
-
-	if (!ft_strncmp_case(data->coms[i].com[0], "cd", 3))
-		error = bcd(data, data->coms[i].com + 1);
-	else if (!ft_strncmp_case(data->coms[i].com[0], "echo", 5))
-		error = becho(data->coms[i].com + 1);
-	else if (!ft_strncmp_case(data->coms[i].com[0], "env", 4))
-		error = benv(data);
-	else if (!ft_strncmp_case(data->coms[i].com[0], "exit", 5))
-		error = bexit(data, data->coms[i].com + 1);
-	else if (!ft_strncmp_case(data->coms[i].com[0], "export", 7))
-		error = bexport(data, data->coms[i].com + 1);
-	else if (!ft_strncmp_case(data->coms[i].com[0], "pwd", 4))
-		error = bpwd(data);
-	else if (!ft_strncmp_case(data->coms[i].com[0], "unset", 6))
-		error = bunset(data, data->coms[i].com + 1);
-	else
-		return (0);
-	if (ex)
-		exit(error);
-	g_err = error;
-	printf("ERROR: %d, g_err: %d\n", error, g_err);
-	return (1);
-}
 
 static pid_t	one_cmd(t_data *data)
 {
@@ -103,11 +76,25 @@ static pid_t	last_pipe(t_data *data, int i)
 	else if (!pid)
 	{
 		default_sigs();
-	   	if (!run_builtin(data, i, 1))
+		if (!run_builtin(data, i, 1))
 			find_cmd(data, i);
 	}
 	close(0);
 	return (pid);
+}
+
+static void	handle_signals(int status)
+{
+	if (WIFEXITED(status))
+		g_err = WEXITSTATUS(status);
+	else if (WIFSIGNALED(status))
+	{
+		if (WTERMSIG(status) == SIGQUIT)
+			ft_putstr_fd("Quit: 3\n", 2);
+		else if (WTERMSIG(status) == SIGINT)
+			ft_putstr_fd("\n", 2);
+		g_err = WTERMSIG(status) + 128;
+	}
 }
 
 int	run_cmds(t_data *data)
@@ -133,15 +120,7 @@ int	run_cmds(t_data *data)
 		if (waitpid(-1, &status, 0) == pid)
 			g_err = status;
 	}
-	if (pid > 0 && WIFEXITED(status))
-		g_err = WEXITSTATUS(status);
-	else if (pid > 0 && WIFSIGNALED(status))
-	{
-		if (WTERMSIG(status) == SIGQUIT)
-			ft_putstr_fd("Quit: 3\n", 2);
-		else if (WTERMSIG(status) == SIGINT)
-			ft_putstr_fd("\n", 2);
-		g_err = WTERMSIG(status) + 128;
-	}
+	if (pid != -1)
+		handle_signals(status);
 	return (free_coms(data->coms), data->coms = NULL, g_err);
 }
