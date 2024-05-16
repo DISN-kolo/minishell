@@ -6,13 +6,13 @@
 /*   By: molasz-a <molasz-a@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 13:43:45 by molasz-a          #+#    #+#             */
-/*   Updated: 2024/04/09 15:44:04 by akozin           ###   ########.fr       */
+/*   Updated: 2024/05/16 16:23:36 by molasz-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 
-void	benv(t_data *data)
+int	benv(t_data *data)
 {
 	int	i;
 
@@ -23,4 +23,5 @@ void	benv(t_data *data)
 			printf("%s=%s\n", data->env[i].key, data->env[i].value);
 		i++;
 	}
+	return (0);
 }

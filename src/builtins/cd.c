@@ -6,7 +6,7 @@
 /*   By: molasz-a <molasz-a@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 15:29:33 by molasz-a          #+#    #+#             */
-/*   Updated: 2024/04/29 13:51:33 by molasz-a         ###   ########.fr       */
+/*   Updated: 2024/05/16 16:21:38 by molasz-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,12 +19,13 @@ static int	export_pwd(t_data *data, char *key, char *value)
 	export = ft_strjoin3(key, "=", value);
 	if (!export)
 		return (1);
-	export_env(data, export);
+	if (export_env(data, export))
+		return (free(export), 1);
 	free(export);
 	return (0);
 }
 
-static void	update_path(t_data *data, char *path)
+static int	update_path(t_data *data, char *path)
 {
 	char	*pwd;
 
@@ -32,56 +33,64 @@ static void	update_path(t_data *data, char *path)
 	{
 		ft_putstr_fd("cd: no such file or directory: ", 2);
 		ft_putendl_fd(path, 2);
+		return (1);
 	}
 	else
 	{
 		pwd = read_env(data, "PWD");
 		if (!pwd)
-			return ;
-		export_pwd(data, "OLDPWD", pwd);
+			return (1);
+		if (export_pwd(data, "OLDPWD", pwd))
+			return  (free(pwd), 1);
 		free(pwd);
 		pwd = getcwd(NULL, 0);
 		if (!pwd)
-			return ;
-		export_pwd(data, "PWD", pwd);
+			return (1);
+		if (export_pwd(data, "PWD", pwd))
+			return (free(pwd), 1);
 		free(pwd);
+		return (0);
 	}
 }
 
-static void	cd_home(t_data *data)
+static int	cd_home(t_data *data)
 {
 	char	*home;
 
 	home = read_env(data, "HOME");
 	if (home)
 	{
-		update_path(data, home);
+		if (update_path(data, home))
+			return (free(home), 1);
 		free(home);
 	}
 	else
-		print_error(NULL, "cd", "HOME not set");
+		return (print_error(NULL, "cd", "HOME not set"), 1);
+	return (0);
 }
 
-static void	cd_oldpwd(t_data *data)
+static int	cd_oldpwd(t_data *data)
 {
 	char	*pwd;
 
 	pwd = read_env(data, "OLDPWD");
 	if (pwd)
 	{
-		update_path(data, pwd);
+		if (update_path(data, pwd))
+			return (free(pwd), 1);
 		free(pwd);
 	}
 	else
-		print_error(NULL, "cd", "OLDPWD not set");
+		return (print_error(NULL, "cd", "OLDPWD not set"), 1);
+	return (0);
 }
 
-void	bcd(t_data *data, char **args)
+int	bcd(t_data *data, char **args)
 {
 	if (!args[0])
-		cd_home(data);
+		return (cd_home(data));
 	else if (!ft_strncmp(args[0], "-", 2))
-		cd_oldpwd(data);
+		return (cd_oldpwd(data));
 	else
-		update_path(data, args[0]);
+		return (update_path(data, args[0]));
 }

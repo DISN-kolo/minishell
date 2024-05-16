@@ -6,7 +6,7 @@
 /*   By: molasz-a <molasz-a@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 14:40:31 by molasz-a          #+#    #+#             */
-/*   Updated: 2024/05/16 12:32:17 by akozin           ###   ########.fr       */
+/*   Updated: 2024/05/16 17:06:41 by molasz-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ static int	numeric_str(char *s)
 	return (0);
 }
 
-void	bexit(t_data *data, char **args)
+int	bexit(t_data *data, char **args)
 {
 	if (!args || !args[0])
 	{
@@ -47,10 +47,11 @@ void	bexit(t_data *data, char **args)
 		exit_handler(data, 255);
 	}
 	else if (ft_strslen(args) > 1)
-		print_error(NULL, "exit", "too many arguments");
+		return (print_error(NULL, "exit", "too many arguments"), 1);
 	else
 	{
 		ft_putendl_fd("exit", 1);
 		exit_handler(data, ft_atoi(args[0]));
 	}
+	return (0);
 }
