@@ -6,7 +6,7 @@
 /*   By: molasz-a <molasz-a@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 13:34:21 by molasz-a          #+#    #+#             */
-/*   Updated: 2024/05/16 12:49:22 by molasz-a         ###   ########.fr       */
+/*   Updated: 2024/05/16 17:02:30 by molasz-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ static int	run_builtin(t_data *data, int i, int ex)
 	else if (!ft_strncmp_case(data->coms[i].com[0], "export", 7))
 		bexport(data, data->coms[i].com + 1);
 	else if (!ft_strncmp_case(data->coms[i].com[0], "pwd", 4))
-		bpwd(data, data->coms[i].com + 1);
+		bpwd(data);
 	else if (!ft_strncmp_case(data->coms[i].com[0], "unset", 6))
 		bunset(data, data->coms[i].com + 1);
 	else

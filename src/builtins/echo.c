@@ -6,7 +6,7 @@
 /*   By: molasz-a <molasz-a@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 13:44:48 by molasz-a          #+#    #+#             */
-/*   Updated: 2024/04/29 14:03:09 by molasz-a         ###   ########.fr       */
+/*   Updated: 2024/05/16 16:22:52 by molasz-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ static int	is_nflag(char *arg)
 	return (1);
 }
 
-void	becho(char **args)
+int	becho(char **args)
 {
 	int	i;
 	int	n;
@@ -48,4 +48,5 @@ void	becho(char **args)
 	}
 	if (!n)
 		ft_putendl_fd("", 1);
+	return (0);
 }
