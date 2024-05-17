@@ -35,6 +35,7 @@ int	cmd_filler(t_data *data, int *i, t_token *ts)
 		if (i[2] + i[3] == data->amb_tok_ind - 1)
 		{
 			printf("that's a good place to stop\n");
+			g_err = 1;
 			break ;
 		}
 		if (ts[i[2] + i[3]].type == REDIR || ts[i[2] + i[3]].type == HDOC)

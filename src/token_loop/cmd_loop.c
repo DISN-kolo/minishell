@@ -41,7 +41,12 @@ static int	cmd_len(t_token *tokens, int *i)
 	count = 0;
 	while (tokens[j].token && tokens[j].type != PIPE)
 	{
-		count += (tokens[j].type == TOKEN);
+		if (tokens[j].type == TOKEN)
+		{
+			if (!j || (j > 0 && tokens[j - 1].type != REDIR
+					&& tokens[j - 1].type != HDOC))
+				count++;
+		}
 		j += (tokens[j].type == REDIR || tokens[j].type == HDOC);
 		if (!tokens[j].token)
 			break ;
