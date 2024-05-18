@@ -6,19 +6,11 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 14:55:17 by akozin            #+#    #+#             */
-/*   Updated: 2024/05/18 12:27:58 by molasz-a         ###   ########.fr       */
+/*   Updated: 2024/05/18 14:34:40 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
-
-static int	is_str_redir(char *s)
-{
-	if (!ft_strncmp(s, "<", 2) || !ft_strncmp(s, "<<", 3)
-		|| !ft_strncmp(s, ">", 2) || !ft_strncmp(s, ">>", 3))
-		return (1);
-	return (0);
-}
 
 /*
  * is_in ==> we count the <, <<
@@ -29,27 +21,22 @@ static int	ioredirs_counter(t_com *coms, t_token *tokens, int u)
 {
 	int		i;
 	int		c;
-	t_tok_s	prev;
 	int		finished;
 
 	i = 0;
 	c = 0;
 	finished = 0;
-	prev = TOKEN;
 	while (tokens[i].token && i < u)
 	{
-		c += is_str_redir(tokens[i].token);
-		if (!finished && (tokens[i].type == REDIR || tokens[i].type == HDOC)
-			&& (prev == REDIR || prev == HDOC))
+		c += tokens[i].type == HDOC || tokens[i].type == REDIR
+			|| tokens[i].type == REDIR_AMB;
+		if (!finished && (tokens[i].type == REDIR_AMB))
 		{
 			finished = 1;
-			coms->amb_redir_ind = c - 2;
+			coms->amb_redir_ind = c - 1;
 		}
-		prev = tokens[i].type;
 		i++;
 	}
-	if (!finished && (prev == REDIR || prev == HDOC))
-		coms->amb_redir_ind = c - 2;
 	return (c);
 }
 

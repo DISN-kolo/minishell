@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 16:41:25 by akozin            #+#    #+#             */
-/*   Updated: 2024/05/18 13:17:11 by molasz-a         ###   ########.fr       */
+/*   Updated: 2024/05/18 14:26:13 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,6 +96,7 @@ t_token	*token_expander(t_data *data, t_token *c_toks)
 	t_token	*new_tokens;
 	t_token	*local_n_t;
 	t_token	exp_t;
+	int		retval;
 
 	if (init_te_data_linesave(&i, &new_tokens, data))
 		return (NULL);
@@ -103,8 +104,11 @@ t_token	*token_expander(t_data *data, t_token *c_toks)
 	{
 		if (exp_t_init(&exp_t, data, c_toks[i].token, nt_prev(new_tokens)))
 			return (NULL);
-		if (dollar_exp_helper(&exp_t, data, c_toks, i) == 1)
+		retval = dollar_exp_helper(&exp_t, data, c_toks, i);
+		if (retval == 1)
 			return (NULL);
+		else if (retval == 2)
+			new_tokens[tokenslen(new_tokens) - 1].type = REDIR_AMB;
 		local_n_t = new_t_split(exp_t);
 		if (!local_n_t)
 			return (NULL);

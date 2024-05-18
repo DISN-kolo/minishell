@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 16:17:06 by akozin            #+#    #+#             */
-/*   Updated: 2024/05/18 13:43:33 by molasz-a         ###   ########.fr       */
+/*   Updated: 2024/05/18 14:36:05 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ int	cmd_filler(t_data *data, int *i, t_token *ts)
 	j = 0;
 	while (++i[2] < i[4])
 	{
-		if (i[2] + i[3] == data->amb_tok_ind - 1)
+		if (ts[i[2] + i[3]].type == REDIR_AMB)
 		{
 			g_err = 1;
 			break ;

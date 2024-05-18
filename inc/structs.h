@@ -6,7 +6,7 @@
 /*   By: molasz-a <molasz-a@student.42barcelona.co  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 19:37:44 by molasz-a          #+#    #+#             */
-/*   Updated: 2024/05/16 18:28:25 by molasz-a         ###   ########.fr       */
+/*   Updated: 2024/05/18 14:39:49 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ typedef enum e_tok_s
 	TOKEN,
 	HDOC,
 	REDIR,
+	REDIR_AMB,
 	PIPE,
 	AND,
 	OR,
@@ -41,7 +42,6 @@ typedef struct s_inout
 	int		dub;
 	char	*fname;
 	int		expand;
-	int		amb;
 }	t_inout;
 
 typedef struct s_com
