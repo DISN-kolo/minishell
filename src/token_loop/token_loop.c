@@ -35,10 +35,10 @@ t_error	run_cmd(t_data *data, t_token *tokens)
 		printf("in token loop, open error = %d\n", open_error);
 	free_coms(data->coms);
 	free_tokens(new_tokens);
-	return (0);
+	return (NULL_ERR);
 }
 
-int	token_loop(t_data *data)
+t_error	token_loop(t_data *data)
 {
 	int	i;
 
@@ -56,5 +56,5 @@ int	token_loop(t_data *data)
 			run_cmd(data, data->tokens_list[i]);
 		i++;
 	}
-	return (0);
+	return (NULL_ERR);
 }

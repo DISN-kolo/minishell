@@ -14,7 +14,7 @@
 
 void	set_or_close_fds(t_data *data, int *i, int *fio)
 {
-	if (i[1] && !data->coms[i[0]].ios[i[1] - 1].amb
+	if (i[1] && !data->coms[i[0]].ios[i[1]].amb
 		&& i[1] != data->coms[i[0]].amb_redir_ind)
 	{
 		data->coms[i[0]].infd = fio[0];

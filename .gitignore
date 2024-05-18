@@ -64,6 +64,7 @@ libs/readline/
 # tests
 out*
 infile
+filebanned
 
 # oh my god.
 .DS_Store

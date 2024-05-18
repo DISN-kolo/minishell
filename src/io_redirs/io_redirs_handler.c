@@ -28,9 +28,9 @@ static int	infile_handling(t_data *data, int *i, int *fio)
 	else
 		fio[0] = open(data->coms[i[0]].ios[i[1]].fname, O_RDONLY);
 	if (fio[0] == -1)
-		return (-2); // TODO non-fatal error, such as "no such file or directory"
+		return (g_err = 1, -2); // TODO non-fatal error, such as "no such file or directory"
 	else if (fio[0] == -2)
-		return (-1); // TODO fatal error(?). someone screwed our heredoc tmp file!
+		return (g_err = 1, -1); // TODO fatal error(?). someone screwed our heredoc tmp file!
 	return (0);
 }
 
@@ -46,7 +46,7 @@ static int	outfile_handling(t_data *data, int *i, int *fio)
 		flags = O_WRONLY | O_CREAT | O_TRUNC;
 	fio[1] = open(data->coms[i[0]].ios[i[1]].fname, flags, 0644);
 	if (fio[1] == -1)
-		return (-2); // TODO non-fatal error. move on to the next command
+		return (g_err = 1, -2); // TODO non-fatal error. move on to the next command
 	return (0);
 }
 
@@ -104,6 +104,7 @@ int	open_everything(t_data *data)
 		open_everything_init(data, i, fio);
 		while (data->coms[i[0]].ios[i[1]].fname)
 		{
+			printf("data com sequence %2d fname %2d = '%s'\n", i[0], i[1], data->coms[i[0]].ios[i[1]].fname);
 			if (data->coms[i[0]].ios[i[1]].amb
 				|| i[1] == data->coms[i[0]].amb_redir_ind)
 				break ;

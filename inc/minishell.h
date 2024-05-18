@@ -48,7 +48,7 @@ t_error		get_heredocs(t_data *data);
 int			is_latest_hd(t_token *ts);
 
 // TOKEN LOOP
-int			token_loop(t_data *data);
+t_error		token_loop(t_data *data);
 t_token		**create_tokens_list(t_token *tokens);
 
 // TOKEN LOOP UTILS
