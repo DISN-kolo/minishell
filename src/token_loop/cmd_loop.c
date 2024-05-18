@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 16:14:33 by akozin            #+#    #+#             */
-/*   Updated: 2024/05/18 13:05:58 by molasz-a         ###   ########.fr       */
+/*   Updated: 2024/05/18 15:14:19 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,8 +52,6 @@ static int	cmd_len(t_token *tokens, int *i)
 			break ;
 		j++;
 	}
-	if (count == 0)
-		return (1);
 	i[1] = count;
 	i[4] = j;
 	return (0);
@@ -96,7 +94,7 @@ int	cmd_loop(t_data *data, t_token *tokens)
 	while (++i[0] < cmd_c)
 	{
 		if (cmd_len(tokens + i[3], i))
-			return (free(data->coms), data->coms = NULL, -1);
+			return (free(data->coms), 0);
 		if (com_malloc_safe(data, i))
 			return (1);
 		if (io_coms_alloc(&(data->coms[i[0]]), tokens + i[3], i[4]))

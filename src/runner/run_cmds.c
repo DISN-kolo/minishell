@@ -6,7 +6,7 @@
 /*   By: molasz-a <molasz-a@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 13:34:21 by molasz-a          #+#    #+#             */
-/*   Updated: 2024/05/16 19:24:04 by molasz-a         ###   ########.fr       */
+/*   Updated: 2024/05/18 15:25:20 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@ static pid_t	one_cmd(t_data *data)
 {
 	pid_t	pid;
 
+	if (!data->coms[0].com[0])
+		return (-1);
 	if (data->coms[0].infd != -42 && dup2(data->coms[0].infd, 0) < 0)
 		return (print_perror("Dup in one cmd redirect", -1), -1);
 	if (data->coms[0].outfd != -42 && dup2(data->coms[0].outfd, 1) < 0)
@@ -44,6 +46,8 @@ static int	normal_pipe(t_data *data, int *end, int i, pid_t *pid)
 		return (print_perror("Fork normal", -1), 1);
 	else if (!*pid)
 	{
+		if (!data->coms[i].com[0])
+			exit(0);
 		default_sigs();
 		if (data->coms[i].outfd != -42 && dup2(data->coms[i].outfd, 1) < 0)
 			print_perror("Dup out on child redirect", 1);
@@ -75,6 +79,8 @@ static pid_t	last_pipe(t_data *data, int i)
 		return (print_perror("Fork last", -1), -1);
 	else if (!pid)
 	{
+		if (!data->coms[i].com[0])
+			exit (0);
 		default_sigs();
 		if (!run_builtin(data, i, 1))
 			find_cmd(data, i);
