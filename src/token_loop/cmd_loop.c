@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 16:14:33 by akozin            #+#    #+#             */
-/*   Updated: 2024/05/18 15:14:19 by akozin           ###   ########.fr       */
+/*   Updated: 2024/05/18 18:05:11 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,25 +85,26 @@ int	cmd_loop(t_data *data, t_token *tokens)
 	int	i[5];
 
 	cmd_c = cmd_count(tokens);
+	printf("cmd_c = %d\n", cmd_c);
 	data->coms = malloc((cmd_c + 1) * sizeof (t_com));
 	if (!data->coms)
-		return (1);
+		return (printf("malloc error in cmd loop??????\n"), 1);
 	data->coms[cmd_c].com = NULL;
 	i[0] = -1;
 	i[3] = 0;
 	while (++i[0] < cmd_c)
 	{
 		if (cmd_len(tokens + i[3], i))
-			return (free(data->coms), 0);
+			return (printf("cmdlen if\n"), free(data->coms), 0);
 		if (com_malloc_safe(data, i))
-			return (1);
+			return (printf("cmdmalloc if\n"), 1);
 		if (io_coms_alloc(&(data->coms[i[0]]), tokens + i[3], i[4]))
-			return (free_coms(data->coms), 1);
+			return (printf("io comms alloc if\n"), free_coms(data->coms), 1);
 		data->coms[i[0]].com[i[1]] = NULL;
 		i[2] = -1;
 		if (cmd_filler(data, i, tokens))
-			return (free_coms(data->coms), 1);
+			return printf("cmdfill if\n"), (free_coms(data->coms), 1);
 		i[3] += i[2] + 1;
 	}
-	return (0);
+	return (printf("wooo exit 0 cmd loop\n"), 0);
 }
