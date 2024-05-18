@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/23 13:58:31 by akozin            #+#    #+#             */
-/*   Updated: 2024/05/18 15:09:26 by akozin           ###   ########.fr       */
+/*   Updated: 2024/05/18 17:54:34 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,5 +113,7 @@ int	open_everything(t_data *data)
 		set_or_close_fds(data, i, fio);
 		i[0]++;
 	}
-	return (data->amb_tok_ind != -42);
+	if (data->amb_tok_ind != -42)
+		return (1);
+	return (0);
 }

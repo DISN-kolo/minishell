@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 14:59:19 by akozin            #+#    #+#             */
-/*   Updated: 2024/05/18 14:51:38 by akozin           ###   ########.fr       */
+/*   Updated: 2024/05/18 17:54:30 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,10 @@ static t_error	run_cmd(t_data *data, t_token *tokens)
 			if (dup2(data->std_out, 1) < 0 || dup2(data->std_in, 0) < 0)
 				return (free(new_tokens), DUP2_ERR);
 		}
-		else
+		else if (open_error == -2 || open_error == -1)
 			return (free(new_tokens), OPEN_ERR);
+		else
+			return (free_tokens(new_tokens), NULL_ERR);
 	}
 	free_tokens(new_tokens);
 	if (open_error == 1)

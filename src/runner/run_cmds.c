@@ -6,7 +6,7 @@
 /*   By: molasz-a <molasz-a@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 13:34:21 by molasz-a          #+#    #+#             */
-/*   Updated: 2024/05/18 15:25:20 by akozin           ###   ########.fr       */
+/*   Updated: 2024/05/18 17:56:35 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,6 +116,8 @@ int	run_cmds(t_data *data)
 	else
 	{
 		i = 0;
+		if (data->coms[i].infd != -42 && dup2(data->coms[i].infd, 0) < 0)
+			return (print_perror("Dup in on first pipe redir", -1), -1);
 		while (data->coms[i].com && data->coms[i + 1].com)
 			normal_pipe(data, end, i++, &pid);
 		pid = last_pipe(data, i);
