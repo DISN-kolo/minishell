@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 12:11:35 by akozin            #+#    #+#             */
-/*   Updated: 2024/05/18 12:57:26 by molasz-a         ###   ########.fr       */
+/*   Updated: 2024/05/18 13:40:01 by molasz-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,8 @@ static int	out_filler(t_data *d, int *i, t_token *ts, int *k)
 	d->coms[i[0]].ios[*k].in = 0;
 	io_dub_determinator(d, i, ts, *k);
 	d->coms[i[0]].ios[*k].fname = ft_strdup(ts[i[2] + i[3] + 1].token);
+	if (!d->coms[i[0]].ios[*k].fname)
+		return (1);
 	d->coms[i[0]].ios[*k].amb = 0;
 	(*k)++;
 	i[2]++;
