@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 16:17:06 by akozin            #+#    #+#             */
-/*   Updated: 2024/05/07 17:35:23 by molasz-a         ###   ########.fr       */
+/*   Updated: 2024/05/18 13:06:42 by molasz-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,11 +30,8 @@ int	cmd_filler(t_data *data, int *i, t_token *ts)
 	j = 0;
 	while (++i[2] < i[4])
 	{
-		printf("i[2] = %d, i[2] + i[3] = %d, amb redir token index = %d\n",
-			i[2], i[2] + i[3], data->amb_tok_ind);
 		if (i[2] + i[3] == data->amb_tok_ind - 1)
 		{
-			printf("that's a good place to stop\n");
 			g_err = 1;
 			break ;
 		}
@@ -44,7 +41,9 @@ int	cmd_filler(t_data *data, int *i, t_token *ts)
 				return (1);
 		}
 		else
-			data->coms[i[0]].com[j++] = ft_strdup(ts[i[2] + i[3]].token);
+			data->coms[i[0]].com[j] = ft_strdup(ts[i[2] + i[3]].token);
+		if (!data->coms[i[0]].com[j++])
+			return (1);
 	}
 	data->coms[i[0]].ios[k].fname = NULL;
 	return (0);

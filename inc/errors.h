@@ -6,7 +6,7 @@
 /*   By: molasz-a <molasz-a@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 11:58:17 by molasz-a          #+#    #+#             */
-/*   Updated: 2024/05/16 19:04:53 by molasz-a         ###   ########.fr       */
+/*   Updated: 2024/05/18 13:21:16 by molasz-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ typedef enum e_error
 	DUP2_ERR,
 	FORK_ERR,
 	HDOC_LIMIT_ERR,
+	OPEN_ERR,
 }	t_error;
 
 #endif

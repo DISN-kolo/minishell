@@ -6,14 +6,14 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 14:59:19 by akozin            #+#    #+#             */
-/*   Updated: 2024/05/16 19:15:11 by molasz-a         ###   ########.fr       */
+/*   Updated: 2024/05/18 13:22:22 by molasz-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 #include "../../inc/errors.h"
 
-t_error	run_cmd(t_data *data, t_token *tokens)
+static t_error	run_cmd(t_data *data, t_token *tokens)
 {
 	t_token	*new_tokens;
 	int		open_error;
@@ -21,20 +21,22 @@ t_error	run_cmd(t_data *data, t_token *tokens)
 	new_tokens = token_expander(data, tokens);
 	if (!new_tokens)
 		return (MALLOC_ERR);
-	cmd_loop(data, new_tokens);
-	open_error = open_everything(data);
+	open_error = cmd_loop(data, new_tokens);
 	if (!open_error)
 	{
-		run_cmds(data);
-		if (dup2(data->std_out, 1) < 0 || dup2(data->std_in, 0) < 0)
-			return (DUP2_ERR);
+		open_error = open_everything(data);
+		if (!open_error)
+		{
+			run_cmds(data);
+			if (dup2(data->std_out, 1) < 0 || dup2(data->std_in, 0) < 0)
+				return (free(new_tokens), DUP2_ERR);
+		}
+		else
+			return (free(new_tokens), OPEN_ERR);
 	}
-	else if (open_error == -3)
-		return (NULL_ERR); // no command entered but there are redirs or something
-	else
-		printf("in token loop, open error = %d\n", open_error);
-	free_coms(data->coms);
 	free_tokens(new_tokens);
+	if (open_error == 1)
+		return (MALLOC_ERR);
 	return (NULL_ERR);
 }
 

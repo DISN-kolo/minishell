@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 16:41:25 by akozin            #+#    #+#             */
-/*   Updated: 2024/05/16 14:08:03 by akozin           ###   ########.fr       */
+/*   Updated: 2024/05/18 13:17:11 by molasz-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ static int	inside_dollar_counter(t_data *data, char *t, int i)
 		ret = ft_strlen(env_v_val);
 	else
 		ret = ft_strlen(env_v_val) - ft_strlen(env_v_name);
-	// free(env_v_val); // TODO check if it double frees
+	free(env_v_val);
 	free(env_v_name);
 	return (ret);
 }
@@ -71,9 +71,11 @@ static int	exp_t_init(t_token *exp_t, t_data *data, char *c_t, t_tok_s prev)
 	else
 		exp_len = expansion_counter(data, c_t);
 	exp_t->token = malloc(exp_len + 1);
-	exp_t->literal = malloc(sizeof (int) * exp_len);
-	if (!exp_t->token || !exp_t->literal)
+	if (!exp_t->token)
 		return (1);
+	exp_t->literal = malloc(sizeof (int) * exp_len);
+	if (!exp_t->literal)
+		return (free(exp_t->token), exp_t->token = NULL, 1);
 	return (0);
 }
 
@@ -97,7 +99,7 @@ t_token	*token_expander(t_data *data, t_token *c_toks)
 
 	if (init_te_data_linesave(&i, &new_tokens, data))
 		return (NULL);
-	while (c_toks[i].token) // TODO error returns
+	while (c_toks[i].token)
 	{
 		if (exp_t_init(&exp_t, data, c_toks[i].token, nt_prev(new_tokens)))
 			return (NULL);

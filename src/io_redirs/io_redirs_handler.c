@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/23 13:58:31 by akozin            #+#    #+#             */
-/*   Updated: 2024/05/16 14:20:18 by akozin           ###   ########.fr       */
+/*   Updated: 2024/05/18 13:20:31 by molasz-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,13 +98,13 @@ int	open_everything(t_data *data)
 	int	retcode;
 
 	i[0] = 0;
+	if (!data->coms)
+		return (0);
 	while (data->coms[i[0]].com)
-		//TODO phantom commands
 	{
 		open_everything_init(data, i, fio);
 		while (data->coms[i[0]].ios[i[1]].fname)
 		{
-			printf("data com sequence %2d fname %2d = '%s'\n", i[0], i[1], data->coms[i[0]].ios[i[1]].fname);
 			if (data->coms[i[0]].ios[i[1]].amb
 				|| i[1] == data->coms[i[0]].amb_redir_ind)
 				break ;

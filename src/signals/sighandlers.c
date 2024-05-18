@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/02 15:42:07 by akozin            #+#    #+#             */
-/*   Updated: 2024/05/08 17:21:40 by akozin           ###   ########.fr       */
+/*   Updated: 2024/05/18 13:23:08 by molasz-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,11 +18,11 @@ void	handle_s_normal(int sig)
 {
 	if (sig == SIGINT)
 	{
-		printf("\n");
+		ft_putendl_fd("\n", 1);
 		rl_replace_line("", 1);
 		rl_on_new_line();
 		rl_redisplay();
-		g_err = 1;// TODO global error status here
+		g_err = 1;
 	}
 }
 
@@ -33,17 +33,12 @@ void	handle_s_hered(int sig)
 		rl_replace_line("", 1);
 		rl_on_new_line();
 		rl_redisplay();
-		printf("\n");
-		g_err = 1;// TODO global error status here
+		ft_putendl_fd("\n", 1);
+		g_err = 1;
 		exit(1);
-		// what do we do with it tho lol
-		// like the normal data.errored? data.status_code?
 	}
 }
 
-/*
- * we're using it in the "other" modes like cat handling or whatever
- */
 void	default_sigs(void)
 {
 	signal(SIGINT, SIG_DFL);
