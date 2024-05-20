@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 16:15:48 by akozin            #+#    #+#             */
-/*   Updated: 2024/05/20 16:40:49 by akozin           ###   ########.fr       */
+/*   Updated: 2024/05/20 17:06:03 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,10 @@ static void	handle_errors(t_data *data, t_error error)
 	if (error == SYNTAX_ERR)
 		tokenize_error(data->tokens[data->sp_hdoc].token);
 	else if (data->aux_error == LEFT_Q_ERR)
-		write(2, "minishell: un-closed quotations left\n", 37);
+		ft_putstr_fd("minishell: un-closed quotations left\n", 2);
 	else if (error == HDOC_LIMIT_ERR)
 	{
-		write(2, "minishell: maximum here-document count exceeded\n", 48);
+		ft_putstr_fd("minishell: maximum here-document count exceeded\n", 2);
 		exit_handler(data, 2);
 	}
 	else if (data->aux_error == MALLOC_ERR || error == MALLOC_ERR)

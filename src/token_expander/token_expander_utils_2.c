@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/17 13:52:11 by akozin            #+#    #+#             */
-/*   Updated: 2024/05/20 13:33:54 by molasz-a         ###   ########.fr       */
+/*   Updated: 2024/05/20 17:03:40 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,7 @@ int	dollar_exp_helper(t_token *exp_t, t_data *data, t_token *c_toks, int i)
 	{
 		data->amb_tok_name = c_toks[i].token;
 		data->amb_tok_ind = i;
-		printf("set ambiguity on token '%s' with index %2d\n",
-			data->amb_tok_name, data->amb_tok_ind);
+		print_error(NULL, data->amb_tok_name, "ambiguous redirect");
 	}
 	return (r);
 }
