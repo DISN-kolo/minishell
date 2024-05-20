@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 16:41:25 by akozin            #+#    #+#             */
-/*   Updated: 2024/05/20 12:33:02 by molasz-a         ###   ########.fr       */
+/*   Updated: 2024/05/20 14:46:24 by molasz-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,7 @@ t_token	*token_expander(t_data *data, t_token *c_toks)
 	t_token	exp_t;
 	int		retval;
 
-	if (init_te_data_linesave(&i, &new_tokens, data))
+	if (init_te_data_linesave(&i, &new_tokens, data, &exp_t))
 		return (NULL);
 	while (c_toks[++i].token)
 	{

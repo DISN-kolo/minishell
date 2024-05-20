@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 16:20:41 by akozin            #+#    #+#             */
-/*   Updated: 2024/05/20 12:15:23 by molasz-a         ###   ########.fr       */
+/*   Updated: 2024/05/20 13:34:31 by molasz-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,8 @@ int			cmd_filler_internal(t_data *data, int *i, t_token *ts, int *k);
 
 // TOKEN EXPANSION
 t_token		*token_expander(t_data *data, t_token *current_tokens);
-int			init_te_data_linesave(int *i, t_token **new_tokens, t_data *data);
+int			init_te_data_linesave(int *i, t_token **new_tokens, t_data *data, 
+			t_token *exp_t);
 int			dollar_exp_helper(t_token *exp_t, t_data *data,
 				t_token *c_toks, int i);
 int			dollar_expander(t_token *f_me, t_data *data, char *t, t_tok_s prev);

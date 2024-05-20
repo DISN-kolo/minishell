@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 16:26:06 by akozin            #+#    #+#             */
-/*   Updated: 2024/05/16 14:08:24 by akozin           ###   ########.fr       */
+/*   Updated: 2024/05/20 14:54:20 by molasz-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ static int	fill_token(t_token *f_me, char *t, t_data *data, int *j)
 		k++;
 		(*j)++;
 	}
+	f_me->token[*j] = '\0';
 	(*j)--;
 	free(env_v_name);
 	return (k);
@@ -55,6 +56,7 @@ static int	f_l_exp(int k, t_token *f_me, int in_q, int j)
 		return (1);
 	while (k-- > 0)
 	{
+		printf("DOLLAR: %d %d %s\n", j, k, f_me->token);
 		f_me->literal[j - k] = in_q
 			|| !ft_strchr(" \t\f\v", f_me->token[j - k]);
 	}
