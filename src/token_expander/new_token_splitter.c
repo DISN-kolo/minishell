@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 16:33:07 by akozin            #+#    #+#             */
-/*   Updated: 2024/05/20 14:52:21 by molasz-a         ###   ########.fr       */
+/*   Updated: 2024/05/20 15:11:08 by molasz-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,5 +128,8 @@ t_token	*new_t_split(t_token *t)
 	}
 	ret[i].token = NULL;
 	free(t->token);
+	if (t->literal)
+		free(t->literal);
+	t->literal = NULL;
 	return (ret);
 }

@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 16:26:06 by akozin            #+#    #+#             */
-/*   Updated: 2024/05/20 15:00:39 by akozin           ###   ########.fr       */
+/*   Updated: 2024/05/20 15:08:36 by molasz-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ static int	fill_token(t_token *f_me, char *t, t_data *data, int *j)
 	f_me->token[*j] = '\0';
 	(*j)--;
 	free(env_v_name);
+	free(env_v_val);
 	return (k);
 }
 /* ^ use k to know how many ints to fill in the literals arr

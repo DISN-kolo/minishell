@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 16:14:33 by akozin            #+#    #+#             */
-/*   Updated: 2024/05/20 13:59:02 by akozin           ###   ########.fr       */
+/*   Updated: 2024/05/20 15:06:45 by molasz-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,8 +59,8 @@ static int	cmd_len(t_token *tokens, int *i)
 		j += (tokens[j].type == REDIR || tokens[j].type == HDOC);
 		j++;
 	}
-	printf("total counted: %2d\n", i[1]);
 	i[1] = count;
+	printf("total counted: %2d\n", i[1]);
 	return (0);
 }
 
