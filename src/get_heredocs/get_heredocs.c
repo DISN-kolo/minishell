@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 13:12:42 by akozin            #+#    #+#             */
-/*   Updated: 2024/05/16 15:19:21 by akozin           ###   ########.fr       */
+/*   Updated: 2024/05/20 14:46:32 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,10 +117,14 @@ t_error	get_heredocs(t_data *data)
 	int	i;
 	int	cmd_c;
 
-	i = -1;
+	i = 0;
 	cmd_c = 0;
-	while (data->tokens[++i].token)
+	while (data->tokens[i].token && i != data->sp_hdoc)
+	{
 		cmd_c += data->tokens[i].type == OR || data->tokens[i].type == AND;
+		i++;
+	}
+	printf("data->sp_hdoc was %i\n", data->sp_hdoc);
 	cmd_c++;
 	data->hds = malloc(sizeof (t_hdoc *) * (cmd_c + 1));
 	if (!data->hds || alloc_heredocs(data) || fill_heredocs(data))
