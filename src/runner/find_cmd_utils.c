@@ -6,7 +6,7 @@
 /*   By: molasz-a <molasz-a@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 16:44:13 by molasz-a          #+#    #+#             */
-/*   Updated: 2024/05/20 17:20:45 by akozin           ###   ########.fr       */
+/*   Updated: 2024/05/20 17:51:45 by molasz-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,16 +107,16 @@ pid_t	run_cmd_multiple(t_data *data, int *end)
 	i = 0;
 	while (data->coms[i].com && data->coms[i + 1].com)
 	{
-		err = normal_pipe(data, end, i++, &pid);
+		err = normal_pipe(data, end, i, &pid);
 		if (err != NULL_ERR)
 			return (data->aux_error = err, -1);
-		printf("%d\n", data->coms[i + 1].infd);
 		if (data->coms[i + 1].infd != -42 && dup2(data->coms[i + 1].infd, 0) < 0)
-			return (printf("B\n"), data->aux_error = DUP2_ERR, -1);
+			return (data->aux_error = DUP2_ERR, -1);
 		else if (data->coms[i + 1].infd == -42 && dup2(end[0], 0) < 0)
 			return (data->aux_error = DUP2_ERR, 1);
 		if (close(end[0]) < 0 || close(end[1]) < 0)
 			return (data->aux_error = CLOSE_ERR, 1);
+		i++;
 	}
 	pid = last_pipe(data, i);
 	return (pid);
