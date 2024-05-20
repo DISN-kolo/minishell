@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 16:15:48 by akozin            #+#    #+#             */
-/*   Updated: 2024/05/18 13:13:12 by molasz-a         ###   ########.fr       */
+/*   Updated: 2024/05/20 15:46:46 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,12 @@ static void	handle_errors(t_data *data, t_error error)
 	}
 	else if (data->aux_error == MALLOC_ERR || error == MALLOC_ERR)
 		print_perror("MALLOC error", -1);
-	else if (error == FORK_ERR)
+	else if (data->aux_error == PIPE_ERR || error == PIPE_ERR)
+		print_perror("PIPE error", -1);
+	else if (data->aux_error == FORK_ERR || error == FORK_ERR)
 		print_perror("FORK error", -1);
+	else if (data->aux_error == DUP2_ERR || error == DUP2_ERR)
+		print_perror("DUP2 error", -1);
 }
 
 static void	small_lcs_init(t_data *data, char *s)

@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 16:20:41 by akozin            #+#    #+#             */
-/*   Updated: 2024/05/20 13:34:31 by molasz-a         ###   ########.fr       */
+/*   Updated: 2024/05/20 15:26:46 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,6 +93,7 @@ void		expand_vars(char *s, t_data *data);
 
 // RUNNER
 int			run_cmds(t_data *data);
+pid_t		run_cmd_multiple(t_data *data, int *end);
 void		find_cmd(t_data *data, int i);
 int			is_path(char *str);
 int			run_builtin(t_data *data, int i, int ex);

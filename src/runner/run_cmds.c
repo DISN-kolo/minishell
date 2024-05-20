@@ -6,7 +6,7 @@
 /*   By: molasz-a <molasz-a@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 13:34:21 by molasz-a          #+#    #+#             */
-/*   Updated: 2024/05/18 18:41:47 by akozin           ###   ########.fr       */
+/*   Updated: 2024/05/20 15:42:45 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,14 +19,14 @@ static pid_t	one_cmd(t_data *data)
 	if (!data->coms[0].com[0] || data->coms[0].amb_redir_ind >= 0)
 		return (-1);
 	if (data->coms[0].infd != -42 && dup2(data->coms[0].infd, 0) < 0)
-		return (print_perror("Dup in one cmd redirect", -1), -1);
+		return (data->aux_error = DUP2_ERR, -1);
 	if (data->coms[0].outfd != -42 && dup2(data->coms[0].outfd, 1) < 0)
-		return (print_perror("Dup out one cmd redirect", -1), -1);
+		return (data->aux_error = DUP2_ERR, -1);
 	if (!run_builtin(data, 0, 0))
 	{
 		pid = fork();
 		if (pid < 0)
-			return (print_perror("Fork one", -1), -1);
+			return (data->aux_error = FORK_ERR, -1);
 		else if (!pid)
 		{
 			default_sigs();
@@ -35,65 +35,6 @@ static pid_t	one_cmd(t_data *data)
 		return (pid);
 	}
 	return (-1);
-}
-
-static int	normal_pipe(t_data *data, int *end, int i, pid_t *pid)
-{
-	if (pipe(end) < 0)
-		return (print_perror("Pipe", -1), 1);
-	*pid = fork();
-	if (*pid < 0)
-		return (print_perror("Fork normal", -1), 1);
-	else if (!*pid)
-	{
-		printf("data->coms[%2d].amb_redir_ind = %d\n", i, data->coms[i].amb_redir_ind);
-		default_sigs();
-		if (data->coms[i].outfd != -42 && dup2(data->coms[i].outfd, 1) < 0)
-			print_perror("Dup out on child redirect", 1);
-		else if (data->coms[i].outfd == -42 && dup2(end[1], 1) < 0)
-			print_perror("Dup out on child pipe", 1);
-		if (close(end[0]) < 0 || close(end[1]) < 0)
-			print_perror("Close end on child", 1);
-		if (!data->coms[i].com[0] || data->coms[i].amb_redir_ind >= 0)
-			exit(0);
-		if (!run_builtin(data, i, 1))
-			find_cmd(data, i);
-	}
-	close(0);
-	if (data->coms[i + 1].infd != -42 && dup2(data->coms[i + 1].infd, 0) < 0)
-		return (print_perror("Dup in on parent redirect", -1), -1);
-	else if (data->coms[i + 1].infd == -42 && dup2(end[0], 0) < 0)
-		return (print_perror("Dup in on parent pipe", -1), 1);
-	if (close(end[0]) < 0 || close(end[1]) < 0)
-		return (print_perror("Close end on parent", -1), 1);
-	return (0);
-}
-
-static pid_t	last_pipe(t_data *data, int i)
-{
-	pid_t	pid;
-
-	if (data->coms[i].outfd != -42 && dup2(data->coms[i].outfd, 1) < 0)
-		return (print_perror("Dup out last cmd redirect", -1), -1);
-	pid = fork();
-	if (pid < 0)
-		return (print_perror("Fork last", -1), -1);
-	else if (!pid)
-	{
-		printf("LAST!!!! data->coms[%2d].amb_redir_ind = %d\n", i, data->coms[i].amb_redir_ind);
-		default_sigs();
-		if (!data->coms[i].com[0] || data->coms[i].amb_redir_ind >= 0)
-			exit (0);
-		printf("wow! you've reached the run builtin if in last command. great job!\n");
-		printf("the command is '%s'\n", data->coms[i].com[0]);
-		if (!run_builtin(data, i, 1))
-		{
-			printf("\tnot-a-builtin\n");
-			find_cmd(data, i);
-		}
-	}
-	close(0);
-	return (pid);
 }
 
 static void	handle_signals(int status)
@@ -117,25 +58,14 @@ int	run_cmds(t_data *data)
 	int		status;
 	pid_t	pid;
 
-	printf("hello, run cmds!!\n");
 	signal(SIGINT, SIG_IGN);
 	if (!data->coms[1].com)
 		pid = one_cmd(data);
 	else
 	{
-		i = 0;
-		if (data->coms[i].infd != -42 && dup2(data->coms[i].infd, 0) < 0)
-			return (print_perror("Dup in on first pipe redir", -1), -1);
-		printf("you've reached the multiple-pipes-exec else.\n");
-		for (int k = 0; data->coms[k].com; k++)
-			printf("the com %2d is: '%s'\n", k, data->coms[k].com[0]);
-		while (data->coms[i].com && data->coms[i + 1].com)
-		{
-			printf("entered normal command number %d\n", i);
-			normal_pipe(data, end, i++, &pid);
-		}
-		printf("entered last command number %d\n", i);
-		pid = last_pipe(data, i);
+		if (data->coms[0].infd != -42 && dup2(data->coms[0].infd, 0) < 0)
+			return (data->aux_error = DUP2_ERR, 1);
+		pid = run_cmd_multiple(data, end);
 	}
 	i = -1;
 	while (data->coms[++i].com && pid > 0)
@@ -145,5 +75,5 @@ int	run_cmds(t_data *data)
 	}
 	if (pid != -1)
 		handle_signals(status);
-	return (free_coms(data->coms), data->coms = NULL, g_err);
+	return (free_coms(data->coms), data->coms = NULL, 0);
 }

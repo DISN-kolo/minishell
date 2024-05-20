@@ -6,7 +6,7 @@
 /*   By: molasz-a <molasz-a@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 16:44:13 by molasz-a          #+#    #+#             */
-/*   Updated: 2024/05/16 19:21:31 by molasz-a         ###   ########.fr       */
+/*   Updated: 2024/05/20 15:45:06 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,4 +50,73 @@ int	run_builtin(t_data *data, int i, int ex)
 		exit(error);
 	g_err = error;
 	return (1);
+}
+
+static t_error	normal_pipe(t_data *data, int *end, int i, pid_t *pid)
+{
+	if (pipe(end) < 0)
+		return (PIPE_ERR);
+	*pid = fork();
+	if (*pid < 0)
+		return (FORK_ERR);
+	else if (!*pid)
+	{
+		default_sigs();
+		if (data->coms[i].outfd != -42 && dup2(data->coms[i].outfd, 1) < 0)
+			print_perror("Dup out on child redirect", 1);
+		else if (data->coms[i].outfd == -42 && dup2(end[1], 1) < 0)
+			print_perror("Dup out on child pipe", 1);
+		if (close(end[0]) < 0 || close(end[1]) < 0)
+			print_perror("Close end on child", 1);
+		if (!data->coms[i].com[0] || data->coms[i].amb_redir_ind >= 0)
+			exit(0);
+		if (!run_builtin(data, i, 1))
+			find_cmd(data, i);
+	}
+	close(0);
+	return (NULL_ERR);
+}
+
+static pid_t	last_pipe(t_data *data, int i)
+{
+	pid_t	pid;
+
+	if (data->coms[i].outfd != -42 && dup2(data->coms[i].outfd, 1) < 0)
+		return (print_perror("Dup out last cmd redirect", -1), -1);
+	pid = fork();
+	if (pid < 0)
+		return (print_perror("Fork last", -1), -1);
+	else if (!pid)
+	{
+		default_sigs();
+		if (!data->coms[i].com[0] || data->coms[i].amb_redir_ind >= 0)
+			exit (0);
+		if (!run_builtin(data, i, 1))
+			find_cmd(data, i);
+	}
+	close(0);
+	return (pid);
+}
+
+pid_t	run_cmd_multiple(t_data *data, int *end)
+{
+	int		i;
+	pid_t	pid;
+	t_error	err;
+
+	i = 0;
+	while (data->coms[i].com && data->coms[i + 1].com)
+	{
+		err = normal_pipe(data, end, i++, &pid);
+		if (err != NULL_ERR)
+			return (data->aux_error = err, -1);
+		if (data->coms[i + 1].infd != -42 && dup2(data->coms[i + 1].infd, 0) < 0)
+			return (data->aux_error = DUP2_ERR, -1);
+		else if (data->coms[i + 1].infd == -42 && dup2(end[0], 0) < 0)
+			return (data->aux_error = DUP2_ERR, 1);
+		if (close(end[0]) < 0 || close(end[1]) < 0)
+			return (data->aux_error = CLOSE_ERR, 1);
+	}
+	pid = last_pipe(data, i);
+	return (pid);
 }
