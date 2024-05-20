@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 16:26:06 by akozin            #+#    #+#             */
-/*   Updated: 2024/05/20 14:54:20 by molasz-a         ###   ########.fr       */
+/*   Updated: 2024/05/20 15:00:39 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,15 +50,15 @@ void	determine_q(int *in_q, char c)
 		*in_q = (c == '"') + 1;
 }
 
-static int	f_l_exp(int k, t_token *f_me, int in_q, int j)
+static int	f_l_exp(int k, t_token *f_me, int in_q, int *j)
 {
 	if (k < 0)
 		return (1);
 	while (k-- > 0)
 	{
-		printf("DOLLAR: %d %d %s\n", j, k, f_me->token);
-		f_me->literal[j - k] = in_q
-			|| !ft_strchr(" \t\f\v", f_me->token[j - k]);
+		printf("DOLLAR: %d %d %s\n", *j, k, f_me->token);
+		f_me->literal[*j - k] = in_q
+			|| !ft_strchr(" \t\f\v", f_me->token[*j - k]);
 	}
 	return (0);
 }
@@ -94,7 +94,7 @@ int	dollar_expander(t_token *f_me, t_data *data, char *t, t_tok_s prev)
 						|| ft_isalpha(t[i + 1]))) || (t[i] == '~' && !i
 					&& ft_strchr(" \t\f\v/", t[1]))) && prev != HDOC)
 		{
-			if (f_l_exp(fill_token(f_me, &t[i + 1], data, &j), f_me, in_q, j))
+			if (f_l_exp(fill_token(f_me, &t[i + 1], data, &j), f_me, in_q, &j))
 				return (1);
 			i += var_end(&t[i + 1]) - &t[i + 1];
 		}
