@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/30 14:49:51 by akozin            #+#    #+#             */
-/*   Updated: 2024/05/13 16:13:33 by akozin           ###   ########.fr       */
+/*   Updated: 2024/05/20 18:02:19 by molasz-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ static void	fill_hd_l(char *nl, char *l, t_data *data, int *j)
 	}
 	(*j)--;
 	free(env_v_name);
+	free(env_v_val);
 }
 
 static int	hd_inside_dollar_counter(t_data *data, char *t, int i)
@@ -49,7 +50,7 @@ static int	hd_inside_dollar_counter(t_data *data, char *t, int i)
 		return (free(env_v_name), -ret);
 	}
 	ret = ft_strlen(env_v_val) - ft_strlen(env_v_name);
-	// free(env_v_val); // TODO check if it double frees
+	free(env_v_val);
 	free(env_v_name);
 	return (ret);
 }
