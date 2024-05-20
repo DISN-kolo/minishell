@@ -6,7 +6,7 @@
 /*   By: molasz-a <molasz-a@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/05 14:02:16 by molasz-a          #+#    #+#             */
-/*   Updated: 2024/05/20 16:06:52 by akozin           ###   ########.fr       */
+/*   Updated: 2024/05/20 16:55:25 by molasz-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,7 @@ static char	*value_update_env(t_data *data, char *export, char *key)
 {
 	char	*app;
 	char	*value;
+	char	*env_val;
 	int		i;
 
 	i = 0;
@@ -68,8 +69,12 @@ static char	*value_update_env(t_data *data, char *export, char *key)
 		app = ft_substr(export, ft_strlen(key) + 2, ft_strlen(export));
 		if (!app)
 			return (NULL);
-		value = ft_strjoin(read_env(data, key), app);
+		env_val = read_env(data, key);
+		if (!env_val)
+			return (free(app), NULL);
+		value = ft_strjoin(env_val, app);
 		free(app);
+		free(env_val);
 		return (value);
 	}
 	else
@@ -97,20 +102,21 @@ static int	update_env(t_data *data, char *export, char	*key)
 int	export_env(t_data *data, char *export)
 {
 	char	*key;
+	char	*env_val;
 	int		key_len;
 
-	if (!(ft_isalpha(export[0]) || export[0] == '_'))
-		return (1);
 	key_len = 0;
 	while (export[key_len] && export[key_len] != '=' && export[key_len] != '+')
 		key_len++;
 	key = ft_substr(export, 0, key_len);
 	if (!key)
 		return (1);
-	if (read_env(data, key))
+	env_val = read_env(data, key);
+	if (env_val)
 	{
 		if (update_env(data, export, key))
-			return (free(key), 1);
+			return (free(key), free(env_val), 1);
+		free(env_val);
 		free(key);
 	}
 	else
