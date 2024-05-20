@@ -6,7 +6,7 @@
 /*   By: molasz-a <molasz-a@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 16:44:13 by molasz-a          #+#    #+#             */
-/*   Updated: 2024/05/20 15:45:06 by akozin           ###   ########.fr       */
+/*   Updated: 2024/05/20 17:20:45 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ static pid_t	last_pipe(t_data *data, int i)
 	pid_t	pid;
 
 	if (data->coms[i].outfd != -42 && dup2(data->coms[i].outfd, 1) < 0)
-		return (print_perror("Dup out last cmd redirect", -1), -1);
+		return (data->aux_error = DUP2_ERR, -1);
 	pid = fork();
 	if (pid < 0)
 		return (print_perror("Fork last", -1), -1);
@@ -110,8 +110,9 @@ pid_t	run_cmd_multiple(t_data *data, int *end)
 		err = normal_pipe(data, end, i++, &pid);
 		if (err != NULL_ERR)
 			return (data->aux_error = err, -1);
+		printf("%d\n", data->coms[i + 1].infd);
 		if (data->coms[i + 1].infd != -42 && dup2(data->coms[i + 1].infd, 0) < 0)
-			return (data->aux_error = DUP2_ERR, -1);
+			return (printf("B\n"), data->aux_error = DUP2_ERR, -1);
 		else if (data->coms[i + 1].infd == -42 && dup2(end[0], 0) < 0)
 			return (data->aux_error = DUP2_ERR, 1);
 		if (close(end[0]) < 0 || close(end[1]) < 0)
