@@ -6,7 +6,7 @@
 /*   By: molasz-a <molasz-a@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 16:44:13 by molasz-a          #+#    #+#             */
-/*   Updated: 2024/05/20 17:51:45 by molasz-a         ###   ########.fr       */
+/*   Updated: 2024/05/20 17:54:45 by molasz-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,7 +110,8 @@ pid_t	run_cmd_multiple(t_data *data, int *end)
 		err = normal_pipe(data, end, i, &pid);
 		if (err != NULL_ERR)
 			return (data->aux_error = err, -1);
-		if (data->coms[i + 1].infd != -42 && dup2(data->coms[i + 1].infd, 0) < 0)
+		if (data->coms[i + 1].infd != -42
+			&& dup2(data->coms[i + 1].infd, 0) < 0)
 			return (data->aux_error = DUP2_ERR, -1);
 		else if (data->coms[i + 1].infd == -42 && dup2(end[0], 0) < 0)
 			return (data->aux_error = DUP2_ERR, 1);
