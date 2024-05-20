@@ -6,7 +6,7 @@
 /*   By: molasz-a <molasz-a@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/28 13:10:50 by molasz-a          #+#    #+#             */
-/*   Updated: 2024/05/20 12:22:20 by molasz-a         ###   ########.fr       */
+/*   Updated: 2024/05/20 15:55:17 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,7 @@ void	free_token_list(t_token **token_list)
 void	free_coms(t_com *coms)
 {
 	int	i;
+	int	j;
 
 	if (!coms)
 		return ;
@@ -70,6 +71,9 @@ void	free_coms(t_com *coms)
 			print_perror("Close infd data cleaner", -1);
 		if (coms[i].outfd != -42 && close(coms[i].outfd) < 0)
 			print_perror("Close outfd data cleaner", -1);
+		j = 0;
+		while (coms[i].ios[j].fname)
+			free(coms[i].ios[j++].fname);
 		free(coms[i].ios);
 		free_double(coms[i++].com);
 	}
