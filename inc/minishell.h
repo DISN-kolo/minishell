@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 16:20:41 by akozin            #+#    #+#             */
-/*   Updated: 2024/05/16 19:21:57 by molasz-a         ###   ########.fr       */
+/*   Updated: 2024/05/20 12:15:23 by molasz-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ void		determine_q(int *in_q, char c);
 t_tok_s		nt_prev(t_token *new_tokens);
 int			unlit_spaces_probe(t_token *f_me);
 char		*var_end(char *s);
-t_token		*new_t_split(t_token t);
+t_token		*new_t_split(t_token *t);
 t_token		*tokens_join_free(t_token *t1, t_token *t2);
 int			tokenslen(t_token *t);
 char		*strchars_lit(t_token *t, int k, char *sep);

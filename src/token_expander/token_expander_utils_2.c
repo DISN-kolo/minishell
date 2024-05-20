@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/17 13:52:11 by akozin            #+#    #+#             */
-/*   Updated: 2024/05/18 14:27:09 by akozin           ###   ########.fr       */
+/*   Updated: 2024/05/20 12:19:44 by molasz-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,10 +22,10 @@ int	dollar_exp_helper(t_token *exp_t, t_data *data, t_token *c_toks, int i)
 		r = dollar_expander(exp_t, data, c_toks[i].token, TOKEN);
 	if (c_toks[i].type == TOKEN && i > 0 && r == 2 && data->amb_tok_ind == -42)
 	{
-	//	c_toks[i - 1].type = REDIR_AMB;
 		data->amb_tok_name = c_toks[i].token;
 		data->amb_tok_ind = i;
-		printf("set ambiguity on token '%s' with index %2d\n", data->amb_tok_name, data->amb_tok_ind);
+		printf("set ambiguity on token '%s' with index %2d\n",
+			data->amb_tok_name, data->amb_tok_ind);
 	}
 	return (r);
 }
@@ -75,7 +75,7 @@ int	init_te_data_linesave(int *i, t_token **new_tokens, t_data *data)
 {
 	data->amb_tok_ind = -42;
 	data->amb_tok_name = NULL;
-	*i = 0;
+	*i = -1;
 	*new_tokens = NULL;
 	return (0);
 }

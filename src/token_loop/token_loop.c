@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 14:59:19 by akozin            #+#    #+#             */
-/*   Updated: 2024/05/18 18:10:31 by akozin           ###   ########.fr       */
+/*   Updated: 2024/05/20 12:53:45 by molasz-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,10 +31,10 @@ static t_error	run_cmd(t_data *data, t_token *tokens)
 		{
 			run_cmds(data);
 			if (dup2(data->std_out, 1) < 0 || dup2(data->std_in, 0) < 0)
-				return (printf("EPIC FAIL ON DUP2!!!\n"), free(new_tokens), DUP2_ERR);
+				return (printf("EPIC FAIL ON DUP2!!!\n"), free_tokens(new_tokens), DUP2_ERR);
 		}
 		else if (open_error == -2 || open_error == -1)
-			return (printf("EPIC FAIL ON OPEN ERROR: %d\n", open_error), free(new_tokens), OPEN_ERR);
+			return (printf("EPIC FAIL ON OPEN ERROR: %d\n", open_error), free_tokens(new_tokens), OPEN_ERR);
 		else if (open_error == 1)
 			return (printf("ERROR 1\n"), free_tokens(new_tokens), NULL_ERR);
 	}

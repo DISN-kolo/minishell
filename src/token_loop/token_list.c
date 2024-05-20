@@ -6,7 +6,7 @@
 /*   By: molasz-a <molasz-a@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/16 12:00:46 by molasz-a          #+#    #+#             */
-/*   Updated: 2024/05/16 19:14:35 by molasz-a         ###   ########.fr       */
+/*   Updated: 2024/05/20 12:02:33 by molasz-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ static int	tokens_list_len(t_token *tokens)
 	while (tokens[i].token)
 	{
 		i += tokens_len(tokens + i);
-		if (tokens[i].type == AND || tokens[i].type == OR)
+		if (tokens[i].token && (tokens[i].type == AND || tokens[i].type == OR))
 			i++;
 		count++;
 	}
@@ -87,7 +87,8 @@ t_token	**create_tokens_list(t_token *tokens)
 		if (!token_list[i[0]])
 			return (free_token_list(token_list), NULL);
 		i[1] += i[2];
-		if (tokens[i[1]].type == AND || tokens[i[1]].type == OR)
+		if (tokens[i[1]].token
+			&& (tokens[i[1]].type == AND || tokens[i[1]].type == OR))
 			token_list[++i[0]] = tokens_list(tokens + i[1]++, 1);
 		if (!token_list[i[0]])
 			return (free_token_list(token_list), NULL);
