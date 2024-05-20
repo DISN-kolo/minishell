@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 16:15:48 by akozin            #+#    #+#             */
-/*   Updated: 2024/05/20 15:46:46 by akozin           ###   ########.fr       */
+/*   Updated: 2024/05/20 16:40:49 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,8 +46,8 @@ static int	loop_calls(t_data *data, char *s)
 {
 	t_error	error;
 
-	error = tokenize(s, data);
 	small_lcs_init(data, s);
+	error = tokenize(s, data);
 	if (error >= MALLOC_ERR)
 		return (error);
 	if (!data->tokens[0].token)
