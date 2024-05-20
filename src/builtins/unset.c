@@ -6,7 +6,7 @@
 /*   By: molasz-a <molasz-a@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 14:13:41 by molasz-a          #+#    #+#             */
-/*   Updated: 2024/05/16 16:36:44 by molasz-a         ###   ########.fr       */
+/*   Updated: 2024/05/20 15:59:35 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,14 +56,17 @@ static int	remove_env(t_data *data, char *key)
 
 static int	unset_env(t_data *data, char *key)
 {
+	char	*str;
+
 	if (!(ft_isalpha(key[0]) || key[0] == '_') || (ft_strchr(key, '=')))
 		return (1);
-	if (read_env(data, key))
+	str = read_env(data, key);
+	if (str)
 	{
 		if (remove_env(data, key))
-			return (1);
+			return (free(str), 1);
 	}
-	return (0);
+	return (free(str), 0);
 }
 
 int	bunset(t_data *data, char **keys)
