@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 13:12:42 by akozin            #+#    #+#             */
-/*   Updated: 2024/05/20 14:46:32 by akozin           ###   ########.fr       */
+/*   Updated: 2024/05/20 16:36:57 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,7 +124,12 @@ t_error	get_heredocs(t_data *data)
 		cmd_c += data->tokens[i].type == OR || data->tokens[i].type == AND;
 		i++;
 	}
-	printf("data->sp_hdoc was %i\n", data->sp_hdoc);
+	//if (data->sp_hdoc >= 0)
+	//{
+	//	ft_putstr_fd("minishell: syntax error near unexpected token `", 2);
+	//	ft_putstr_fd(data->tokens[data->sp_hdoc].token, 2);
+	//	ft_putstr_fd("'\n", 2);
+	//}
 	cmd_c++;
 	data->hds = malloc(sizeof (t_hdoc *) * (cmd_c + 1));
 	if (!data->hds || alloc_heredocs(data) || fill_heredocs(data))

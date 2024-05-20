@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 16:26:06 by akozin            #+#    #+#             */
-/*   Updated: 2024/05/20 15:08:36 by molasz-a         ###   ########.fr       */
+/*   Updated: 2024/05/20 16:31:11 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,6 @@ static int	f_l_exp(int k, t_token *f_me, int in_q, int *j)
 		return (1);
 	while (k-- > 0)
 	{
-		printf("DOLLAR: %d %d %s\n", *j, k, f_me->token);
 		f_me->literal[*j - k] = in_q
 			|| !ft_strchr(" \t\f\v", f_me->token[*j - k]);
 	}
