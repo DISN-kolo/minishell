@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 14:59:19 by akozin            #+#    #+#             */
-/*   Updated: 2024/05/18 18:10:31 by akozin           ###   ########.fr       */
+/*   Updated: 2024/05/20 12:53:35 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,12 @@ t_error	token_loop(t_data *data)
 	if (!data->tokens_list)
 		return (MALLOC_ERR);
 	i = 0;
+	for (int x = 0; data->tokens_list[x]; x++)
+	{
+		for (int y = 0; data->tokens_list[x][y].token; y++)
+			printf("[%2d][%2d] '%s'\n", x, y, data->tokens_list[x][y].token);
+		printf("\n");
+	}
 	while (data->tokens_list[i])
 	{
 		if ((data->tokens_list[i][0].type == AND && g_err)

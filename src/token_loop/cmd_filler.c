@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 16:17:06 by akozin            #+#    #+#             */
-/*   Updated: 2024/05/18 14:36:05 by akozin           ###   ########.fr       */
+/*   Updated: 2024/05/20 12:57:17 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,8 @@ int	cmd_filler(t_data *data, int *i, t_token *ts)
 	j = 0;
 	while (++i[2] < i[4])
 	{
+		printf("i = { %2d, %2d, %2d, %2d, %2d}\n", i[0], i[1], i[2], i[3], i[4]);
+		printf("ts[%2d].token: '%s'\n", i[2] + i[3], ts[i[2] + i[3]].token);
 		if (ts[i[2] + i[3]].type == REDIR_AMB)
 		{
 			g_err = 1;

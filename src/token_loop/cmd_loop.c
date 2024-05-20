@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 16:14:33 by akozin            #+#    #+#             */
-/*   Updated: 2024/05/18 18:05:11 by akozin           ###   ########.fr       */
+/*   Updated: 2024/05/20 13:09:26 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,11 @@ static int	cmd_len(t_token *tokens, int *i)
 
 	j = 0;
 	count = 0;
+	printf("inside cmd len\n");
+	for (int x = 0; tokens[x].token; x++)
+		printf("\t'%s'\n", tokens[x].token);
+	j += tokens[0].type == PIPE;
+	i[2] += tokens[0].type == PIPE;
 	while (tokens[j].token && tokens[j].type != PIPE)
 	{
 		if (tokens[j].type == TOKEN)
@@ -94,6 +99,7 @@ int	cmd_loop(t_data *data, t_token *tokens)
 	i[3] = 0;
 	while (++i[0] < cmd_c)
 	{
+		printf("inside cmd loop i[0] is %2d\n", i[0]);
 		if (cmd_len(tokens + i[3], i))
 			return (printf("cmdlen if\n"), free(data->coms), 0);
 		if (com_malloc_safe(data, i))
