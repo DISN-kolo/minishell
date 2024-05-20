@@ -6,7 +6,7 @@
 /*   By: molasz-a <molasz-a@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 13:34:21 by molasz-a          #+#    #+#             */
-/*   Updated: 2024/05/20 17:18:33 by akozin           ###   ########.fr       */
+/*   Updated: 2024/05/20 17:32:27 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,5 +75,5 @@ int	run_cmds(t_data *data)
 	}
 	if (pid != -1)
 		handle_signals(status);
-	return (free_coms(data->coms), data->coms = NULL, 0);
+	return (free_coms(data->coms), data->coms = NULL, g_err);
 }

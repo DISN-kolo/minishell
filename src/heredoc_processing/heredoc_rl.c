@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 14:13:57 by akozin            #+#    #+#             */
-/*   Updated: 2024/05/16 18:35:05 by molasz-a         ###   ########.fr       */
+/*   Updated: 2024/05/20 17:57:18 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,9 +26,9 @@ static int	grab_and_write_hdoc(int fd, char *eof)
 		if (hline && !ft_strncmp(hline, eof, eoflen + 1))
 			break ;
 		if (hline && write(fd, hline, ft_strlen(hline)) == -1)
-			return (1);
+			return (free(hline), 1);
 		if (hline && write(fd, "\n", 1) == -1)
-			return (1);
+			return (free(hline), 1);
 		if (hline)
 			free(hline);
 		hline = readline("> ");
@@ -83,7 +83,6 @@ static int	hd_fork(t_data *data, int *i)
 	exit(0);
 }
 
-//static int	wifstuff(int status)
 static void	wifstuff(t_data *data, int status)
 {
 	if (WIFEXITED(status))
@@ -93,14 +92,12 @@ static void	wifstuff(t_data *data, int status)
 			g_err = 1;
 			data->local_status = 1;
 		}
-	//	return (WEXITSTATUS(status));
 	}
 	else if (WIFSIGNALED(status) && (WTERMSIG(status) == SIGINT))
 	{
 		g_err = 1;
 		data->local_status = 1;
 	}
-//	return (0);
 }
 
 /*
