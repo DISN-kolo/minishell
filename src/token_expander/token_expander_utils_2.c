@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/17 13:52:11 by akozin            #+#    #+#             */
-/*   Updated: 2024/05/20 12:19:44 by molasz-a         ###   ########.fr       */
+/*   Updated: 2024/05/20 13:33:54 by molasz-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,11 +71,13 @@ t_tok_s	nt_prev(t_token *new_tokens)
 	return (ret);
 }
 
-int	init_te_data_linesave(int *i, t_token **new_tokens, t_data *data)
+int	init_te_data_linesave(int *i, t_token **new_tokens, t_data *data,
+	t_token *exp_t)
 {
 	data->amb_tok_ind = -42;
 	data->amb_tok_name = NULL;
 	*i = -1;
 	*new_tokens = NULL;
+	exp_t->literal = NULL;
 	return (0);
 }
