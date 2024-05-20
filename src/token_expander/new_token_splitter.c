@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 16:33:07 by akozin            #+#    #+#             */
-/*   Updated: 2024/05/07 17:29:03 by molasz-a         ###   ########.fr       */
+/*   Updated: 2024/05/20 12:20:13 by molasz-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,7 +107,7 @@ static int	new_t_split_internal(t_token *t, int *k, t_token *ret, int *i)
 	return (0);
 }
 
-t_token	*new_t_split(t_token t)
+t_token	*new_t_split(t_token *t)
 {
 	t_token	*ret;
 	int		i;
@@ -115,19 +115,19 @@ t_token	*new_t_split(t_token t)
 
 	i = 0;
 	k = 0;
-	ret = malloc(sizeof (t_token) * (new_t_c(t) + 1));
+	ret = malloc(sizeof (t_token) * (new_t_c(*t) + 1));
 	if (!ret)
 		return (NULL);
-	while (t.token[k])
+	while (t->token[k])
 	{
-		while (ft_strchr(" \t\f\v", t.token[k]) && t.token[k] && !t.literal[k])
+		while (ft_strchr(" \t\f\v", t->token[k])
+			&& t->token[k] && !t->literal[k])
 			k++;
-		if (t.token[k])
-		{
-			if (new_t_split_internal(&t, &k, ret, &i))
-				return (NULL);
-		}
+		if (t->token + k && new_t_split_internal(t, &k, ret, &i))
+			return (NULL);
 	}
 	ret[i].token = NULL;
+	free(t->token);
+	free(t->literal);
 	return (ret);
 }

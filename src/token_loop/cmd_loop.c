@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 16:14:33 by akozin            #+#    #+#             */
-/*   Updated: 2024/05/20 13:09:26 by akozin           ###   ########.fr       */
+/*   Updated: 2024/05/20 13:59:02 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,15 +37,19 @@ static int	cmd_len(t_token *tokens, int *i)
 	int	j;
 	int	count;
 
-	j = 0;
-	count = 0;
-	printf("inside cmd len\n");
+	printf("inside cmd len:\n");
 	for (int x = 0; tokens[x].token; x++)
 		printf("\t'%s'\n", tokens[x].token);
-	j += tokens[0].type == PIPE;
-	i[2] += tokens[0].type == PIPE;
+	i[4] = 0;
+	while (tokens[i[4]].token && tokens[i[4]].type != PIPE)
+		i[4]++;
+	j = 0;
+	count = 0;
 	while (tokens[j].token && tokens[j].type != PIPE)
 	{
+		if (tokens[j].type == REDIR_AMB)
+			break ;
+		printf("j is %d\n, token type is %s\n", j, tokens[j].type == PIPE ? "PIPE" : (tokens[j].type == REDIR || tokens[j].type == HDOC ? "HD/RD" : "'other token'"));
 		if (tokens[j].type == TOKEN)
 		{
 			if (!j || (j > 0 && tokens[j - 1].type != REDIR
@@ -53,17 +57,16 @@ static int	cmd_len(t_token *tokens, int *i)
 				count++;
 		}
 		j += (tokens[j].type == REDIR || tokens[j].type == HDOC);
-		if (!tokens[j].token)
-			break ;
 		j++;
 	}
+	printf("total counted: %2d\n", i[1]);
 	i[1] = count;
-	i[4] = j;
 	return (0);
 }
 
 static int	com_malloc_safe(t_data *data, int *i)
 {
+	printf("allocating with i[1] + 1 = %2d\n", i[1] + 1);
 	data->coms[i[0]].com = malloc((i[1] + 1) * sizeof (char *));
 	if (!data->coms[i[0]].com)
 	{
