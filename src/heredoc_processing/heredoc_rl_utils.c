@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/13 12:10:18 by akozin            #+#    #+#             */
-/*   Updated: 2024/05/13 12:10:37 by akozin           ###   ########.fr       */
+/*   Updated: 2024/05/21 13:57:01 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int	fake_heredoc(char *eof)
 			free(hline);
 		hline = readline("> ");
 		if (!hline)
-			return (1);
+			break ;
 	}
 	if (hline)
 		free(hline);

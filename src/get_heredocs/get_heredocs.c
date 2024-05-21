@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 13:12:42 by akozin            #+#    #+#             */
-/*   Updated: 2024/05/20 17:04:55 by akozin           ###   ########.fr       */
+/*   Updated: 2024/05/21 13:58:05 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,10 @@ static int	alloc_heredocs(t_data *data)
 	int	i;
 	int	heredocs_c;
 
-	i = -1;
+	i = 0;
 	j = 0;
 	heredocs_c = 0;
-	while (data->tokens[++i].token)
+	while (data->tokens[i].token && i != data->sp_hdoc)
 	{
 		if (data->tokens[i].type == HDOC)
 			heredocs_c++;
@@ -32,6 +32,7 @@ static int	alloc_heredocs(t_data *data)
 				return (1);
 			heredocs_c = 0;
 		}
+		i++;
 	}
 	data->hds[j] = malloc(sizeof (t_hdoc) * (heredocs_c + 1));
 	if (!data->hds[j])
@@ -59,7 +60,7 @@ static int	hd_str_count(char *s)
 	return (c);
 }
 
-static int	get_hd_str(char **s, t_token t)
+static int	get_hd_str(t_data *data, char **s, t_token t)
 {
 	int		i;
 	int		j;
@@ -68,47 +69,47 @@ static int	get_hd_str(char **s, t_token t)
 	(*s) = malloc(hd_str_count(t.token) + 1);
 	if (!(*s))
 		return (1);
-	i = -1;
+	i = 0;
 	j = 0;
 	in_q = 0;
-	while (t.token[++i])
+	while (t.token[i] && i != data->sp_hdoc)
 	{
 		determine_q(&in_q, t.token[i]);
 		if (!((in_q == 1 && t.token[i] == '\'')
 				|| (in_q == 2 && t.token[i] == '"')
 				|| (!in_q && ft_strchr("'\"", t.token[i]))))
 			(*s)[j++] = t.token[i];
+		i++;
 	}
 	(*s)[j] = 0;
 	return (0);
 }
 
-static int	fill_heredocs(t_data *data)
+static int	fill_heredocs(t_data *d)
 {
 	int	j;
 	int	i;
 	int	hd_c;
 
-	i = -1;
+	i = 0;
 	j = 0;
 	hd_c = 0;
-	while (data->tokens[++i].token)
+	while (d->tokens[i].token && i != d->sp_hdoc)
 	{
-		if (data->tokens[i].type == HDOC)
+		if (d->tokens[i].type == HDOC)
 		{
-			if (get_hd_str(&(data->hds[j][hd_c].str), data->tokens[i + 1]))
+			if (get_hd_str(d, &(d->hds[j][hd_c].str), d->tokens[i + 1]))
 				return (1);
-			data->hds[j][hd_c].latest = is_latest_hd(&data->tokens[i + 1]);
-			data->hds[j][hd_c++].expand = strchars(data->tokens[i + 1].token,
+			d->hds[j][hd_c].latest = is_latest_hd(&d->tokens[i + 1]);
+			d->hds[j][hd_c++].expand = strchars(d->tokens[i + 1].token,
 					"'\"") == NULL;
 		}
-		if (data->tokens[i].type == OR || data->tokens[i].type == AND)
-		{
-			data->hds[j++][hd_c].str = NULL;
-			hd_c = 0;
-		}
+		if (d->tokens[i].type == OR || d->tokens[i].type == AND)
+			d->hds[j++][hd_c].str = NULL;
+		hd_c -= hd_c * (d->tokens[i].type == OR || d->tokens[i].type == AND);
+		i++;
 	}
-	data->hds[j][hd_c].str = NULL;
+	d->hds[j][hd_c].str = NULL;
 	return (0);
 }
 
