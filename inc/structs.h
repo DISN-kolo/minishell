@@ -6,7 +6,7 @@
 /*   By: molasz-a <molasz-a@student.42barcelona.co  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 19:37:44 by molasz-a          #+#    #+#             */
-/*   Updated: 2024/05/21 13:23:32 by akozin           ###   ########.fr       */
+/*   Updated: 2024/05/21 15:22:28 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,6 @@ typedef struct s_com
 {
 	char		**com;
 	t_inout		*ios;
-	int			status;
 	int			infd;
 	int			outfd;
 	int			amb_redir_ind;
