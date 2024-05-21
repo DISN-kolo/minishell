@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/23 13:58:31 by akozin            #+#    #+#             */
-/*   Updated: 2024/05/21 13:36:18 by akozin           ###   ########.fr       */
+/*   Updated: 2024/05/21 14:20:51 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,15 +19,15 @@ static int	infile_handling(t_data *data, int *i, int *fio)
 	if (data->coms[i[0]].ios[i[1]].dub)
 	{
 		if (data->hds[data->coms_ind][data->hd_counter].latest)
-			fio[0] = heredoc_read_expand(data); // TODO can return -2
+			fio[0] = heredoc_read_expand(data);
 		data->hd_counter++;
 	}
 	else
 		fio[0] = open(data->coms[i[0]].ios[i[1]].fname, O_RDONLY);
 	if (fio[0] == -1)
-		return (g_err = 1, -2); // TODO non-fatal error, such as "no such file or directory"
+		return (g_err = 1, -2);
 	else if (fio[0] == -2)
-		return (g_err = 1, -1); // TODO fatal error(?). someone screwed our heredoc tmp file!
+		return (g_err = 1, -1);
 	return (0);
 }
 
@@ -43,7 +43,7 @@ static int	outfile_handling(t_data *data, int *i, int *fio)
 		flags = O_WRONLY | O_CREAT | O_TRUNC;
 	fio[1] = open(data->coms[i[0]].ios[i[1]].fname, flags, 0644);
 	if (fio[1] == -1)
-		return (g_err = 1, -2); // TODO non-fatal error. move on to the next command
+		return (g_err = 1, -2);
 	return (0);
 }
 

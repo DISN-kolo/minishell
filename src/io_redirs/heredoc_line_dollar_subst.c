@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/30 14:49:51 by akozin            #+#    #+#             */
-/*   Updated: 2024/05/20 18:02:19 by molasz-a         ###   ########.fr       */
+/*   Updated: 2024/05/21 14:24:38 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,7 @@ char	*hd_dollar_expander(char *l, t_data *data)
 	j = 0;
 	nl = malloc(hd_expansion_counter(data, l) + 1);
 	if (!nl)
-		return (NULL); // TODO ErrH
+		return (NULL);
 	while (l[i])
 	{
 		if (l[i] == '$' && (l[i + 1] == '_' || l[i + 1] == '?'

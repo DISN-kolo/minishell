@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 14:59:19 by akozin            #+#    #+#             */
-/*   Updated: 2024/05/21 13:36:53 by akozin           ###   ########.fr       */
+/*   Updated: 2024/05/21 14:20:48 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,6 @@ static t_error	run_cmd(t_data *data, t_token *tokens)
 		}
 		else if (open_error == -2 || open_error == -1)
 			return (free_tokens(new_tokens), OPEN_ERR);
-		else if (open_error == 1)
-			return (free_tokens(new_tokens), NULL_ERR);
 	}
 	free_tokens(new_tokens);
 	if (open_error == 1)
@@ -59,7 +57,7 @@ t_error	token_loop(t_data *data)
 		else if (data->tokens_list[i][0].type != AND
 			&& data->tokens_list[i][0].type != OR)
 		{
-			data->coms_ind = i/2;
+			data->coms_ind = i / 2;
 			run_cmd(data, data->tokens_list[i]);
 		}
 		i++;

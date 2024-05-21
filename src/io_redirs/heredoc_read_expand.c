@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/30 12:33:56 by akozin            #+#    #+#             */
-/*   Updated: 2024/05/21 13:35:20 by akozin           ###   ########.fr       */
+/*   Updated: 2024/05/21 14:17:54 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,15 +19,19 @@ static int	gnl_expand(t_data *data, char **fname, int hdfd)
 	char	*curline;
 
 	*fname = ft_strjoin_free(*fname, "_exp");
+	if (!*fname)
+		return (-1);
 	susfd = open(*fname, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	if (susfd == -1)
-		return (print_perror("Open failed in hdoc sust\n", -1), -2); // TODO think twice
+		return (-2);
 	curline = get_next_line(hdfd);
 	while (curline)
 	{
 		curline = hd_dollar_expander(curline, data);
+		if (!curline)
+			return (-1);
 		if (write(susfd, curline, ft_strlen(curline)) == -1)
-			return (print_perror("Write failed in hdoc sust\n", -1), -2); // TODO think twice
+			return (-2);
 		free(curline);
 		curline = get_next_line(hdfd);
 	}
@@ -42,21 +46,23 @@ int	heredoc_read_expand(t_data *data)
 	char	*fname;
 	int		hdfd;
 	int		hdi[2];
+	int		err;
 
 	hdi[0] = data->coms_ind;
 	hdi[1] = data->hd_counter;
 	fname = gen_h_fname(hdi);
 	hdfd = open(fname, O_RDONLY);
 	if (hdfd == -1)
-		return (print_perror("Open failed in hdoc\n", -1), -2); // TODO think twice abt the err code
+		return (-2);
 	if (data->hds[data->coms_ind][data->hd_counter].expand)
 	{
-		if (gnl_expand(data, &fname, hdfd) == -2)
-			return (-2);
+		err = gnl_expand(data, &fname, hdfd);
+		if (err)
+			return (err);
 		close(hdfd);
 		hdfd = open(fname, O_RDONLY);
 		if (hdfd == -1)
-			return (print_perror("Second open failed in hdoc\n", -1), -2); // TODO think twice
+			return (-2);
 	}
 	free(fname);
 	return (hdfd);
