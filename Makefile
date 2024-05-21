@@ -6,7 +6,7 @@
 #    By: akozin <akozin@student.42barcelona.com>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/18 16:38:42 by akozin            #+#    #+#              #
-#    Updated: 2024/05/21 15:18:17 by akozin           ###   ########.fr        #
+#    Updated: 2024/05/21 16:17:00 by akozin           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,7 +27,7 @@ NAME = minishell
 MAKE = make
 
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -g #-fsanitize=address
+CFLAGS = -Wall -Wextra -Werror #-g -fsanitize=address
 DEFS = -DREADLINE_LIBRARY
 
 SRCNAMES = main.c \

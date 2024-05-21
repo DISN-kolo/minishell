@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/23 13:58:31 by akozin            #+#    #+#             */
-/*   Updated: 2024/05/21 14:20:51 by akozin           ###   ########.fr       */
+/*   Updated: 2024/05/21 16:14:10 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,7 +105,7 @@ int	open_everything(t_data *data)
 		{
 			retcode = io_decide_handle(data, i, fio);
 			if (retcode)
-				return (retcode);
+				return (open_error(data->coms[i[0]].ios[i[1]].fname), retcode);
 			i[1]++;
 		}
 		set_or_close_fds(data, i, fio);

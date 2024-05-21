@@ -6,11 +6,17 @@
 /*   By: molasz-a <molasz-a@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/29 12:12:58 by molasz-a          #+#    #+#             */
-/*   Updated: 2024/05/16 19:18:26 by molasz-a         ###   ########.fr       */
+/*   Updated: 2024/05/21 16:12:28 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
+
+void	open_error(char *fname)
+{
+	ft_putstr_fd("minishell: ", 2);
+	perror(fname);
+}
 
 void	print_error(char *cmd, char *var, char *error)
 {
