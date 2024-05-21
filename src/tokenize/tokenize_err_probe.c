@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/25 15:50:11 by akozin            #+#    #+#             */
-/*   Updated: 2024/05/16 19:01:39 by molasz-a         ###   ########.fr       */
+/*   Updated: 2024/05/21 11:58:37 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,11 +30,7 @@ static int	probe_all(t_token *tokens, int i)
 {
 	if (((probe_redirs(tokens[i].type) || probe_ops(tokens[i].type))
 			&& probe_redirs(tokens[i - 1].type))
-		|| (probe_ops(tokens[i].type) && probe_ops(tokens[i - 1].type))
-		|| (tokens[i].type == O_BRACKET && !probe_ops(tokens[i - 1].type))
-		|| (tokens[i].type == C_BRACKET && (!probe_ops(tokens[i + 1].type)
-				&& tokens[i + 1].token))
-		|| (tokens[i].type == O_BRACKET && tokens[i + 1].type == C_BRACKET))
+		|| (probe_ops(tokens[i].type) && probe_ops(tokens[i - 1].type)))
 		return (1);
 	return (0);
 }

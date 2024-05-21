@@ -6,7 +6,7 @@
 /*   By: molasz-a <molasz-a@student.42barcelona.co  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 19:37:44 by molasz-a          #+#    #+#             */
-/*   Updated: 2024/05/18 14:39:49 by akozin           ###   ########.fr       */
+/*   Updated: 2024/05/21 11:59:41 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,6 @@ typedef enum e_tok_s
 	PIPE,
 	AND,
 	OR,
-	O_BRACKET,
-	C_BRACKET
 }	t_tok_s;
 
 /*

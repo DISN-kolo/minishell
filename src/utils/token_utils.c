@@ -6,7 +6,7 @@
 /*   By: molasz-a <molasz-a@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 11:59:08 by molasz-a          #+#    #+#             */
-/*   Updated: 2024/05/16 19:19:13 by molasz-a         ###   ########.fr       */
+/*   Updated: 2024/05/21 11:57:35 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,9 +43,5 @@ t_tok_s	determine_type(char *t)
 		return (AND);
 	if (!ft_strncmp(t, "||", 3))
 		return (OR);
-	if (!ft_strncmp(t, "(", 2))
-		return (O_BRACKET);
-	if (!ft_strncmp(t, ")", 2))
-		return (C_BRACKET);
 	return (TOKEN);
 }

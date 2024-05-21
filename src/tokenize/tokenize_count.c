@@ -6,7 +6,7 @@
 /*   By: molasz-a <molasz-a@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/28 16:48:08 by molasz-a          #+#    #+#             */
-/*   Updated: 2024/05/07 16:06:30 by molasz-a         ###   ########.fr       */
+/*   Updated: 2024/05/21 12:01:33 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,6 @@ static int	valid_operator(char *s, int *i)
 {
 	char	remember_me;
 
-	if (s[*i] == '(' || s[*i] == ')')
-		return (*i += 1, 1);
 	if (s[*i] == '&')
 	{
 		(*i)++;
@@ -48,14 +46,14 @@ static int	tokenize_count_loop_else(char *s, char *sep, int *in_q, int i)
 		if (i >= 2)
 		{
 			if (ft_strchr(sep, s[i - 1])
-				|| (ft_strchr("|<>()", s[i - 1]) || (s[i - 2] == '&'
+				|| (ft_strchr("|<>", s[i - 1]) || (s[i - 2] == '&'
 						&& s[i - 1] == '&')))
 				count++;
 		}
 		else
 		{
 			if (ft_strchr(sep, s[i - 1])
-				|| ft_strchr("|<>()", s[i - 1]))
+				|| ft_strchr("|<>", s[i - 1]))
 				count++;
 		}
 	}
@@ -73,7 +71,7 @@ static int	tokenize_count_loop(char *s, char *sep, int *in_q, int i)
 			*in_q = 0;
 		else if (!*in_q && (s[i] == '\'' || s[i] == '"'))
 			*in_q = (s[i] == '"') + 1;
-		if (!*in_q && (ft_strchr("|<>()", s[i]) || (s[i] == '&'
+		if (!*in_q && (ft_strchr("|<>", s[i]) || (s[i] == '&'
 					&& s[i + 1] == '&')) && valid_operator(s, &i))
 			count++;
 		else
@@ -110,7 +108,7 @@ int	tokenize_count(char *s, char *sep)
 		count++;
 		in_q = 1 + (s[i - 1] == '"');
 	}
-	else if (ft_strchr("|&<>()", s[i]) && valid_operator(s, &i))
+	else if (ft_strchr("|&<>", s[i]) && valid_operator(s, &i))
 		count++;
 	else if (!ft_strchr(sep, s[i++]))
 		count++;

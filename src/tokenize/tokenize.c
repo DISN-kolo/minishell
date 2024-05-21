@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 17:16:20 by akozin            #+#    #+#             */
-/*   Updated: 2024/05/16 19:00:46 by molasz-a         ###   ########.fr       */
+/*   Updated: 2024/05/21 12:00:44 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,19 +16,19 @@ static int	tokenize_split_strs(char **str, t_token *tokens, int *i)
 {
 	size_t	wlen;
 
-	if (ft_strchr("<>|()", **str) || (**str == '&' && *(*str + 1) == '&'))
+	if (ft_strchr("<>|", **str) || (**str == '&' && *(*str + 1) == '&'))
 	{
-		if (**str != *(*str + 1) || **str == '(' || **str == ')')
+		if (**str != *(*str + 1))
 			wlen = 1;
 		else
 			wlen = 2;
 	}
 	else
 	{
-		if (!strchars(*str, " \t\f\v<>|()"))
+		if (!strchars(*str, " \t\f\v<>|"))
 			wlen = ft_strlen(*str);
 		else
-			wlen = strchars(*str, " \t\f\v<>|()") - *str;
+			wlen = strchars(*str, " \t\f\v<>|") - *str;
 	}
 	tokens[*i].token = ft_substr(*str, 0, wlen);
 	if (!tokens[*i].token)

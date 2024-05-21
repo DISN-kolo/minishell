@@ -6,7 +6,7 @@
 /*   By: molasz-a <molasz-a@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/16 12:00:46 by molasz-a          #+#    #+#             */
-/*   Updated: 2024/05/20 12:02:33 by molasz-a         ###   ########.fr       */
+/*   Updated: 2024/05/21 11:57:14 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,18 +15,12 @@
 int	tokens_len(t_token *tokens)
 {
 	int	i;
-	int	brackets;
 
 	i = 0;
-	brackets = 0;
 	while (tokens[i].token)
 	{
-		if (!brackets && (tokens[i].type == AND || tokens[i].type == OR))
+		if (tokens[i].type == AND || tokens[i].type == OR)
 			break ;
-		if (tokens[i].type == O_BRACKET)
-			brackets++;
-		if (tokens[i].type == C_BRACKET)
-			brackets--;
 		i++;
 	}
 	return (i);
