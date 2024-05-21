@@ -6,7 +6,7 @@
 /*   By: molasz-a <molasz-a@student.42barcelona.co  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 19:37:44 by molasz-a          #+#    #+#             */
-/*   Updated: 2024/05/21 11:59:41 by akozin           ###   ########.fr       */
+/*   Updated: 2024/05/21 13:23:32 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,7 @@ typedef struct s_data
 	t_hdoc		**hds;
 	t_error		aux_error;
 	int			local_status;
+	int			coms_ind;
 	int			hd_counter;
 	int			hds_total_n;
 	int			sp_hdoc;

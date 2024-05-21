@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 16:20:41 by akozin            #+#    #+#             */
-/*   Updated: 2024/05/20 17:55:39 by molasz-a         ###   ########.fr       */
+/*   Updated: 2024/05/21 13:34:43 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,6 @@ t_error		process_heredocs(t_data *data);
 char		*gen_h_fname(int *i);
 int			heredoc_read_expand(t_data *data);
 int			fake_heredoc(char *eof);
-void		hd_coords(int *hdi, int n, t_data *data);
 char		*hd_dollar_expander(char *l, t_data *data);
 
 // EXPAND & PARSE

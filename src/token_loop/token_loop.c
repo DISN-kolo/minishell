@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 14:59:19 by akozin            #+#    #+#             */
-/*   Updated: 2024/05/20 15:18:09 by akozin           ###   ########.fr       */
+/*   Updated: 2024/05/21 13:36:53 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ t_error	token_loop(t_data *data)
 	if (!data->tokens_list)
 		return (MALLOC_ERR);
 	i = 0;
+	data->coms_ind = 0;
 	while (data->tokens_list[i])
 	{
 		if ((data->tokens_list[i][0].type == AND && g_err)
@@ -57,7 +58,10 @@ t_error	token_loop(t_data *data)
 			i++;
 		else if (data->tokens_list[i][0].type != AND
 			&& data->tokens_list[i][0].type != OR)
+		{
+			data->coms_ind = i/2;
 			run_cmd(data, data->tokens_list[i]);
+		}
 		i++;
 	}
 	return (NULL_ERR);

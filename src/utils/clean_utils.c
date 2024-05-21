@@ -6,11 +6,53 @@
 /*   By: molasz-a <molasz-a@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/16 19:16:17 by molasz-a          #+#    #+#             */
-/*   Updated: 2024/05/16 19:16:38 by molasz-a         ###   ########.fr       */
+/*   Updated: 2024/05/21 12:19:31 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
+
+static int	delete_if_latest_hd(t_data *data, int *i)
+{
+	char	*fname;
+
+	if (data->hds[i[0]][i[1]].latest)
+	{
+		fname = gen_h_fname(i);
+		if (!fname)
+			return (1);
+		unlink(fname);
+		if (data->hds[i[0]][i[1]].expand)
+		{
+			fname = ft_strjoin_free(fname, "_exp");
+			if (!fname)
+				return (1);
+			unlink(fname);
+		}
+		free(fname);
+	}
+	return (0);
+}
+
+static void	unlink_hds(t_data *data)
+{
+	int		i[2];
+
+	if (!data->hds)
+		return ;
+	i[0] = 0;
+	while (data->hds[i[0]])
+	{
+		i[1] = 0;
+		while (data->hds[i[0]][i[1]].str)
+		{
+			if (delete_if_latest_hd(data, i))
+				return ;
+			i[1]++;
+		}
+		i[0]++;
+	}
+}
 
 void	data_cleaner(t_data *data)
 {
@@ -18,6 +60,7 @@ void	data_cleaner(t_data *data)
 	data->tokens = NULL;
 	free_token_list(data->tokens_list);
 	data->tokens_list = NULL;
+	unlink_hds(data);
 	free_heredocs(data->hds);
 	data->hds = NULL;
 	data->hd_counter = 0;

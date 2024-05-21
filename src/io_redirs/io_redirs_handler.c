@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/23 13:58:31 by akozin            #+#    #+#             */
-/*   Updated: 2024/05/18 18:11:22 by akozin           ###   ########.fr       */
+/*   Updated: 2024/05/21 13:36:18 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,11 @@
 
 static int	infile_handling(t_data *data, int *i, int *fio)
 {
-	int	j[2];
-
 	if (fio[0] != -42)
 		close(fio[0]);
 	if (data->coms[i[0]].ios[i[1]].dub)
 	{
-		hd_coords(j, data->hd_counter, data);
-		if (data->hds[j[0]][j[1]].latest)
+		if (data->hds[data->coms_ind][data->hd_counter].latest)
 			fio[0] = heredoc_read_expand(data); // TODO can return -2
 		data->hd_counter++;
 	}
@@ -100,6 +97,7 @@ int	open_everything(t_data *data)
 	i[0] = 0;
 	if (!data->coms)
 		return (0);
+	data->hd_counter = 0;
 	while (data->coms[i[0]].com)
 	{
 		open_everything_init(data, i, fio);
@@ -113,7 +111,5 @@ int	open_everything(t_data *data)
 		set_or_close_fds(data, i, fio);
 		i[0]++;
 	}
-//	if (data->amb_tok_ind != -42)
-//		return (1);
 	return (0);
 }
