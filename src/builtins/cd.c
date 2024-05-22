@@ -6,7 +6,7 @@
 /*   By: molasz-a <molasz-a@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 15:29:33 by molasz-a          #+#    #+#             */
-/*   Updated: 2024/05/16 19:13:27 by molasz-a         ###   ########.fr       */
+/*   Updated: 2024/05/22 11:43:55 by molasz-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,7 @@ static int	cd_oldpwd(t_data *data)
 	}
 	else
 		return (print_error(NULL, "cd", "OLDPWD not set"), 1);
+	bpwd(data);
 	return (0);
 }
 

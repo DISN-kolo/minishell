@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 16:15:48 by akozin            #+#    #+#             */
-/*   Updated: 2024/05/21 16:02:35 by akozin           ###   ########.fr       */
+/*   Updated: 2024/05/22 11:52:49 by molasz-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,13 +26,16 @@ static void	handle_errors(t_data *data, t_error error)
 		exit_handler(data, 2);
 	}
 	else if (data->aux_error == MALLOC_ERR || error == MALLOC_ERR)
-		print_perror("MALLOC error", -1);
+		print_perror("minishell: malloc error", -1);
 	else if (data->aux_error == PIPE_ERR || error == PIPE_ERR)
-		print_perror("PIPE error", -1);
+		print_perror("minishell: pipe error", -1);
 	else if (data->aux_error == FORK_ERR || error == FORK_ERR)
-		print_perror("FORK error", -1);
+		print_perror("minishell: fork error", -1);
 	else if (data->aux_error == DUP2_ERR || error == DUP2_ERR)
-		print_perror("DUP2 error", -1);
+		print_perror("minishell: dup2 error", -1);
+	else
+		return ;
+	g_err = 1;
 }
 
 static void	small_lcs_init(t_data *data, char *s)
