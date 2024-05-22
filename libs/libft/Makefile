@@ -6,7 +6,7 @@
 #    By: akozin <akozin@student.42barcelona.com>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/01/10 11:52:48 by akozin            #+#    #+#              #
-#    Updated: 2024/04/16 12:28:31 by molasz-a         ###   ########.fr        #
+#    Updated: 2024/05/22 11:36:02 by molasz-a         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,7 +24,7 @@ CFILES = ft_atoi.c ft_bzero.c ft_calloc.c ft_isalnum.c ft_isalpha.c \
 		 ft_lstadd_back_bonus.c ft_lstadd_front_bonus.c ft_lstclear_bonus.c \
 		 ft_lstdelone_bonus.c ft_lstiter_bonus.c ft_lstlast_bonus.c \
 		 ft_lstmap_bonus.c ft_lstnew_bonus.c ft_lstsize_bonus.c \
-		 ft_strncmp_case.c ft_strjoin3.c
+		 ft_strjoin3.c
 
 OFILES = $(CFILES:.c=.o)
 DFILES = $(CFILES:.c=.d)
