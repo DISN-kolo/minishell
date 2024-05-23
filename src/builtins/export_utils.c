@@ -6,7 +6,7 @@
 /*   By: molasz-a <molasz-a@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/05 14:02:16 by molasz-a          #+#    #+#             */
-/*   Updated: 2024/05/20 16:55:25 by molasz-a         ###   ########.fr       */
+/*   Updated: 2024/05/23 10:53:44 by molasz-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,6 +96,8 @@ static int	update_env(t_data *data, char *export, char	*key)
 	data->env[i].value = value_update_env(data, export, key);
 	if (!data->env[i].value)
 		return (1);
+	data->env[i].exp = export[ft_strlen(key)] == '='; 
+	//data->env[i].exp = !!data->env[i].value[0];
 	return (0);
 }
 
@@ -112,14 +114,14 @@ int	export_env(t_data *data, char *export)
 	if (!key)
 		return (1);
 	env_val = read_env(data, key);
-	if (env_val)
+	if (env_val && export[ft_strlen(key)] == '=')
 	{
 		if (update_env(data, export, key))
 			return (free(key), free(env_val), 1);
 		free(env_val);
 		free(key);
 	}
-	else
+	else if (!env_val)
 	{
 		data->env = add_env(data, export, key);
 		if (!data->env)
