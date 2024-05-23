@@ -6,7 +6,7 @@
 /*   By: molasz-a <molasz-a@student.42barcelona.co  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 19:37:44 by molasz-a          #+#    #+#             */
-/*   Updated: 2024/05/21 15:22:28 by akozin           ###   ########.fr       */
+/*   Updated: 2024/05/23 11:20:29 by molasz-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,6 +92,7 @@ typedef struct s_data
 	int			std_in;
 	int			std_out;
 	int			amb_tok_ind;
+	char		*hdoc_id;
 	char		*amb_tok_name;
 	t_env		*env;
 }	t_data;
