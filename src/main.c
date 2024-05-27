@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 12:06:29 by akozin            #+#    #+#             */
-/*   Updated: 2024/05/16 18:29:45 by molasz-a         ###   ########.fr       */
+/*   Updated: 2024/05/27 11:30:35 by molasz-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,16 +23,19 @@ static int	init_data(t_data *data, char **envp)
 	data->hd_counter = 0;
 	data->local_status = 0;
 	data->sp_hdoc = -1;
+	data->hdoc_id = ft_itoa((long) envp);
+	if (!data->hdoc_id)
+		return (1);
 	data->std_in = dup(0);
 	data->std_out = dup(1);
 	if (data->std_in < 0 || data->std_out < 0)
-		return (1);
+		return (free(data->hdoc_id), 1);
 	data->env = alloc_env(envp);
 	if (!data->env)
 	{
 		close(data->std_in);
 		close(data->std_out);
-		return (1);
+		return (free(data->hdoc_id), 1);
 	}
 	return (0);
 }

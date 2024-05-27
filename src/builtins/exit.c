@@ -6,7 +6,7 @@
 /*   By: molasz-a <molasz-a@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 14:40:31 by molasz-a          #+#    #+#             */
-/*   Updated: 2024/05/21 15:35:02 by akozin           ###   ########.fr       */
+/*   Updated: 2024/05/23 11:40:05 by molasz-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ void	exit_handler(t_data *data, int exit_code)
 {
 	data_cleaner(data);
 	free_env(data->env);
+	free(data->hdoc_id);
 	exit(exit_code);
 }
 
@@ -23,6 +24,7 @@ void	exit_handler_null(t_data *data)
 {
 	data_cleaner(data);
 	free_env(data->env);
+	free(data->hdoc_id);
 	exit(g_err);
 }
 

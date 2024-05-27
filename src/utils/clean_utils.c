@@ -6,7 +6,7 @@
 /*   By: molasz-a <molasz-a@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/16 19:16:17 by molasz-a          #+#    #+#             */
-/*   Updated: 2024/05/21 12:19:31 by akozin           ###   ########.fr       */
+/*   Updated: 2024/05/23 11:37:57 by molasz-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ static int	delete_if_latest_hd(t_data *data, int *i)
 
 	if (data->hds[i[0]][i[1]].latest)
 	{
-		fname = gen_h_fname(i);
+		fname = gen_h_fname(data, i);
 		if (!fname)
 			return (1);
 		unlink(fname);

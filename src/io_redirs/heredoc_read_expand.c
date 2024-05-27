@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/30 12:33:56 by akozin            #+#    #+#             */
-/*   Updated: 2024/05/21 14:17:54 by akozin           ###   ########.fr       */
+/*   Updated: 2024/05/23 11:39:12 by molasz-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ int	heredoc_read_expand(t_data *data)
 
 	hdi[0] = data->coms_ind;
 	hdi[1] = data->hd_counter;
-	fname = gen_h_fname(hdi);
+	fname = gen_h_fname(data, hdi);
 	hdfd = open(fname, O_RDONLY);
 	if (hdfd == -1)
 		return (-2);

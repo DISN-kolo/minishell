@@ -6,7 +6,7 @@
 /*   By: molasz-a <molasz-a@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 14:09:48 by molasz-a          #+#    #+#             */
-/*   Updated: 2024/05/20 16:19:15 by molasz-a         ###   ########.fr       */
+/*   Updated: 2024/05/23 10:59:14 by molasz-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,15 +16,16 @@ static void	print_export(t_data *data)
 {
 	int	i;
 
-	i = 0;
-	while (data->env[i].key)
+	i = -1;
+	while (data->env[++i].key)
 	{
+		if (!ft_strncmp(data->env[i].key, "_", 2))
+			continue ;
 		if (data->env[i].exp)
 			printf("declare -x %s=\"%s\"\n",
 				data->env[i].key, data->env[i].value);
 		else
 			printf("declare -x %s\n", data->env[i].key);
-		i++;
 	}
 }
 
