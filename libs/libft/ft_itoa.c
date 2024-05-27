@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/11 15:46:13 by akozin            #+#    #+#             */
-/*   Updated: 2024/01/13 13:58:01 by akozin           ###   ########.fr       */
+/*   Updated: 2024/05/27 11:18:42 by molasz-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static int	ft_p(int i, int p)
 	return (i);
 }
 
-static int	ft_nbrlen(int x)
+static int	ft_nbrlen(long x)
 {
 	int	count;
 
@@ -49,7 +49,7 @@ static int	ft_nbrlen(int x)
  * the number's digits in reverse (from the biggest to the smallest)
  * because we're writing from left to right.
  */
-char	*ft_itoa(int n)
+char	*ft_itoa(long n)
 {
 	char	*r;
 	int		ds;
