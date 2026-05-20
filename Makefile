@@ -19,8 +19,8 @@ GNL_A = $(addprefix $(GNL), libgnl.a)
 RL = libs/readline/
 RL_A = $(addprefix $(RL), libreadline.a)
 RLHIST_A = $(addprefix $(RL), libhistory.a)
-RL_URL = http://git.savannah.gnu.org/cgit/readline.git/snapshot/readline-master.tar.gz
-RL_FILE = readline-master.tar.gz
+RL_URL = https://ftp.gnu.org/gnu/readline/readline-8.3.tar.gz
+RL_FILE = readline-8.3.tar.gz
 
 NAME = minishell
 
@@ -97,7 +97,7 @@ make_libs: $(RL)
 
 $(RL):
 	curl $(RL_URL) > $(RL_FILE)
-	tar -xf $(RL_FILE) && mv readline-master/ $(RL)
+	tar -xf $(RL_FILE) && mv readline-8.3/ $(RL)
 	rm -rf $(RL_FILE)
 
 $(NAME):	$(OBJS) $(LIBFT_A) $(GNL_A) $(RL_A) $(RLHIST_A)
